@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>What Project Axiom Actually Solves</title>
+<style>
+  :root{
+    --bronze:#b18d4e;
+    --cyan:#18a9b8;
+    --ink:#1a1c20;
+    --sub:#5b6470;
+    --line:#e4e0d6;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family: Helvetica, Arial, sans-serif;
+    margin:0; padding:0;
+    color:var(--ink);
+    -webkit-print-color-adjust: exact;
+  }
+  .page{
+    position:relative;
+    min-height: 372mm;
+    padding: 10px 20px 8px 20px;
+  }
+  .brand{
+    font-size:12px;
+    letter-spacing:3px;
+    font-weight:700;
+    color:var(--bronze);
+    text-transform:uppercase;
+    margin-bottom:4px;
+  }
+  h1{
+    font-size:23px;
+    margin:0 0 4px 0;
+    font-weight:800;
+    letter-spacing:-0.3px;
+  }
+  .subtitle{
+    font-size:12.5px;
+    color:var(--sub);
+    margin:0 0 8px 0;
+    max-width:640px;
+    line-height:1.4;
+  }
+  .divider{
+    border:none;
+    border-top:2px solid var(--ink);
+    margin: 0 0 8px 0;
+  }
+  .item{
+    margin-bottom:14px;
+    padding-bottom:14px;
+    border-bottom:1px solid var(--line);
+  }
+  .item:last-of-type{
+    border-bottom:none;
+  }
+  .item-num{
+    display:inline-block;
+    font-size:11px;
+    font-weight:800;
+    color:#fff;
+    background:var(--ink);
+    width:20px; height:20px;
+    line-height:20px;
+    text-align:center;
+    border-radius:3px;
+    margin-right:8px;
+    vertical-align:middle;
+  }
+  .item h2{
+    display:inline;
+    font-size:15.5px;
+    font-weight:800;
+    margin:0;
+    vertical-align:middle;
+  }
+  .row{
+    display:flex;
+    gap:20px;
+    margin-top:4px;
+    margin-left:28px;
+  }
+  .col{
+    flex:1;
+  }
+  .col .label{
+    font-size:9.5px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--sub);
+    margin-bottom:3px;
+  }
+  .col p{
+    font-size:11.5px;
+    line-height:1.35;
+    margin:0;
+    color:#333;
+  }
+  .solved{
+    margin-left:28px;
+    margin-top:12px;
+    font-size:10.5px;
+  }
+  .solved code{
+    background:#f2ede1;
+    color:var(--bronze);
+    padding:2px 7px;
+    border-radius:3px;
+    font-weight:700;
+    font-size:11px;
+  }
+  .footer{
+    position:absolute;
+    left:20px;
+    right:20px;
+    bottom:10px;
+    padding-top:16px;
+    border-top:2px solid var(--ink);
+    display:table;
+    width:calc(100% - 40px);
+  }
+  .footer .cta, .footer .contact{
+    display:table-cell;
+    vertical-align:bottom;
+  }
+  .footer .cta{ width:58%; }
+  .footer .contact{ width:42%; }
+  .footer .cta{
+    font-size:13px;
+    max-width:420px;
+    line-height:1.5;
+  }
+  .footer .cta strong{
+    display:block;
+    font-size:14px;
+    margin-bottom:4px;
+  }
+  .footer .contact{
+    text-align:left;
+    font-size:11px;
+    color:var(--sub);
+  }
+  .footer .contact .name{
+    font-size:12px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:5px;
+  }
+  .footer .contact .email{
+    margin-bottom:5px;
+  }
+  .footer .contact .links{
+    white-space:nowrap;
+  }
+  .footer .contact a{
+    color:var(--cyan);
+    text-decoration:none;
+    font-weight:700;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="brand">Ensemblu</div>
+  <h1>What Project Axiom Actually Solves</h1>
+  <p class="subtitle">
+    Seven concrete failure modes in enterprise Java infrastructure — and the specific,
+    zero-dependency module that removes each one at the root. Every module below is
+    published and installable today from Maven Central under <code>com.ensemblu</code>.
+  </p>
+  <hr class="divider" />
+
+  <div class="item">
+    <span class="item-num">1</span><h2>The ORM Trap</h2>
+    <div class="row">
+      <div class="col"><div class="label">Problem</div>
+        <p>Heavy ORMs map relational tables to mutable object graphs, causing N+1 query explosions, dirty-checking overhead, and total loss of control over generated SQL.</p></div>
+      <div class="col"><div class="label">Fix</div>
+        <p>Relational data is treated as raw streams and flat immutable maps — persistence mapped directly to data structures, no object virtualization layer.</p></div>
+    </div>
+    <div class="solved">Solved by <code>axiom-spec</code> and <code>axiom-warp-jdbc</code> and <code>axiom-warp-reactive</code> —  direct-to-PostgreSQL parameter binding, zero reflection.</div>
+  </div>
+
+  <div class="item">
+    <span class="item-num">2</span><h2>The Null Reference Trap</h2>
+    <div class="row">
+      <div class="col"><div class="label">Problem</div>
+        <p>Unchecked <code>null</code> as a default missing-value indicator leads to scattered defensive checks and production-crashing NullPointerExceptions.</p></div>
+      <div class="col"><div class="label">Fix</div>
+        <p>Absence becomes an explicit, typed data construct — algebraic types and sentinel structures instead of an implicit, uninitialized trap.</p></div>
+    </div>
+    <div class="solved">Solved by <code>axiom-sovereign</code> and <code>axiom-language</code> — — explicit Result and sum types at every boundary.</div>
+  </div>
+
+  <div class="item">
+    <span class="item-num">3</span><h2>The Annotation &amp; DI Container Magic</h2>
+    <div class="row">
+      <div class="col"><div class="label">Problem</div>
+        <p>Runtime classpath scanning and annotation-driven wiring hide object lifecycles, slow startup, and produce wiring failures only discoverable at runtime.</p></div>
+      <div class="col"><div class="label">Fix</div>
+        <p>Explicit, manual composition — every dependency passed as a plain parameter, fully visible, with instant startup.</p></div>
+    </div>
+    <div class="solved">Solved by default — the zero-reflection, zero-scanning core all other modules build on.</div>
+  </div>
+
+  <div class="item">
+    <span class="item-num">4</span><h2>The Custom Parser Void</h2>
+    <div class="row">
+      <div class="col"><div class="label">Problem</div>
+        <p>Reflection-based JSON parsers (Jackson, Gson) blindly slurp payloads into mutable object graphs, throwing cryptic runtime exceptions on schema drift.</p></div>
+      <div class="col"><div class="label">Fix</div>
+        <p>Hand-crafted parsers inspect raw byte streams directly, validating and transforming input into immutable maps and vectors — no reflection.</p></div>
+    </div>
+    <div class="solved">Solved by <code>axiom-spec</code> — explicit schema contracts validated at the perimeter, not inferred at runtime.</div>
+  </div>
+
+  <div class="item">
+    <span class="item-num">5</span><h2>The Java Collections Desert</h2>
+    <div class="row">
+      <div class="col"><div class="label">Problem</div>
+        <p>Default reliance on <code>HashMap</code>/<code>ArrayList</code> means suboptimal memory layout, synchronization bottlenecks, and no true structural sharing under concurrency.</p></div>
+      <div class="col"><div class="label">Fix</div>
+        <p>Persistent, immutable structures — Hash Array Mapped Tries and Vector Bitmapped Tries — for safe, thread-free, cache-friendly state.</p></div>
+    </div>
+    <div class="solved">Solved by <code>axiom</code> — HAMT/VBT core data structures.</div>
+  </div>
+
+  <div class="item">
+    <span class="item-num">6</span><h2>The Exception-Driven Control Flow</h2>
+    <div class="row">
+      <div class="col"><div class="label">Problem</div>
+        <p>Using exceptions for expected outcomes like "UserNotFound" costs stack-trace generation overhead and hides control flow inside try/catch jumps.</p></div>
+      <div class="col"><div class="label">Fix</div>
+        <p>Expected outcomes return explicit Result containers and sum types — exceptions reserved strictly for unrecoverable faults.</p></div>
+    </div>
+    <div class="solved">Solved by <code>axiom</code> — Result-pattern return types throughout.</div>
+  </div>
+
+  <div class="item">
+    <span class="item-num">7</span><h2>The Infinite Tooling Churn</h2>
+    <div class="row">
+      <div class="col"><div class="label">Problem</div>
+        <p>Constant upgrades to build plugins, annotation processors, and codegen tools that break compatibility on every minor release.</p></div>
+      <div class="col"><div class="label">Fix</div>
+        <p>Zero-dependency foundations on raw JDK primitives (Loom, Amber) and standard language features that don't break underneath you.</p></div>
+    </div>
+    <div class="solved">Solved by default — all 6 modules, zero external dependencies, published on Maven Central.</div>
+  </div>
+
+  <div class="footer">
+    <div class="cta">
+      <strong>Worth a 10-minute technical look?</strong>
+      Every module above is live and pullable today — no sales process, just <code>com.ensemblu</code> on Maven Central.
+    </div>
+    <div class="contact">
+      <div class="name">Ofek Malka — Founder, Ensemblu</div>
+      <div class="email"><a href="mailto:ofek@ensemblu.com">ofek@ensemblu.com</a></div>
+      <div class="links">github.com/ensemblu&nbsp;&nbsp;·&nbsp;&nbsp;central.sonatype.com/namespace/com.ensemblu</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

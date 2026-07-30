@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>What Project Axiom Actually Solves — Carousel</title>
+<style>
+  :root{
+    --bronze:#b18d4e;
+    --cyan:#18a9b8;
+    --ink:#1a1c20;
+    --sub:#5b6470;
+    --line:#e4e0d6;
+    --cream:#f7f4ec;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family: Helvetica, Arial, sans-serif;
+    margin:0; padding:0;
+    color:var(--ink);
+    -webkit-print-color-adjust: exact;
+  }
+  .slide{
+    aspect-ratio: 4 / 5;
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    position: relative;
+    padding: clamp(30px, 6vw, 70px) clamp(40px, 7vw, 80px);
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .slide:last-child{ page-break-after:avoid; }
+
+  .brand{
+    font-size: clamp(16px, 1.8vw, 22px);
+    letter-spacing: 4px;
+    font-weight: 800;
+    color: var(--bronze);
+    text-transform: uppercase;
+  }
+  .pageno{
+    position: absolute;
+    bottom: clamp(20px, 3.5vw, 40px);
+    right: clamp(30px, 6vw, 80px);
+    font-size: clamp(16px, 1.8vw, 20px);
+    color: var(--sub);
+    font-weight: 700;
+  }
+  .swipe{
+    position: absolute;
+    bottom: clamp(20px, 3.5vw, 40px);
+    left: clamp(30px, 6vw, 80px);
+    font-size: clamp(16px, 1.8vw, 20px);
+    color: var(--sub);
+    font-weight: 700;
+  }
+
+  /* Cover slide */
+  .cover{
+    background: var(--ink);
+    color: #fff;
+    justify-content: center;
+  }
+  .cover .brand{ color: var(--bronze); margin-bottom: clamp(16px, 2.5vw, 24px); }
+  .cover h1{
+    font-size: clamp(40px, 6.5vw, 72px);
+    line-height: 1.08;
+    font-weight: 800;
+    margin: 0 0 clamp(20px, 3vw, 30px) 0;
+    letter-spacing: -1px;
+  }
+  .cover .sub{
+    font-size: clamp(18px, 2.5vw, 28px);
+    line-height: 1.45;
+    color: #c8ccd2;
+    max-width: 850px;
+    margin-bottom: clamp(24px, 4vw, 40px);
+  }
+  .cover .tag{
+    display: inline-block;
+    font-size: clamp(16px, 2vw, 22px);
+    color: var(--cyan);
+    font-weight: 700;
+    border: 2px solid var(--cyan);
+    border-radius: 6px;
+    padding: clamp(10px, 1.5vw, 14px) clamp(16px, 2.5vw, 24px);
+    width: fit-content;
+  }
+
+  /* Item slides */
+  .item-num{
+    font-size: clamp(18px, 2.2vw, 24px);
+    font-weight: 800;
+    color: #fff;
+    background: var(--ink);
+    width: clamp(42px, 5vw, 56px); 
+    height: clamp(42px, 5vw, 56px);
+    line-height: clamp(42px, 5vw, 56px);
+    text-align: center;
+    border-radius: 10px;
+    margin-top: clamp(10px, 2vw, 20px);
+    margin-bottom: clamp(12px, 2vw, 20px);
+  }
+  .item h2{
+    font-size: clamp(28px, 3.8vw, 40px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin: 0 0 clamp(16px, 2.5vw, 24px) 0;
+    letter-spacing: -0.5px;
+  }
+  .block{
+    margin-bottom: clamp(16px, 2.5vw, 24px);
+  }
+  .block .label{
+    font-size: clamp(14px, 1.6vw, 18px);
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: clamp(6px, 1vw, 8px);
+  }
+  .block.fix .label{ color: var(--cyan); }
+  .block p{
+    font-size: clamp(18px, 2.3vw, 25px);
+    line-height: 1.4;
+    margin: 0;
+    color: #2b2f36;
+  }
+  .solved-tag{
+    margin-top: auto;
+    margin-bottom: clamp(50px, 7vw, 80px);
+    background: var(--cream);
+    border-left: 6px solid var(--bronze);
+    padding: clamp(14px, 2vw, 20px) clamp(18px, 2.5vw, 24px);
+    font-size: clamp(16px, 2vw, 22px);
+    line-height: 1.4;
+  }
+  .solved-tag code{
+    background: #fff;
+    color: var(--bronze);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: clamp(16px, 2vw, 22px);
+  }
+
+  /* Closing slide */
+  .closing{
+    background: var(--ink);
+    color: #fff;
+    justify-content: center;
+  }
+  .closing .brand{ color: var(--bronze); margin-bottom: clamp(16px, 2.5vw, 24px); }
+  .closing h2{
+    font-size: clamp(36px, 5.2vw, 56px);
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 clamp(20px, 3vw, 34px) 0;
+  }
+  .closing p{
+    font-size: clamp(20px, 2.6vw, 28px);
+    line-height: 1.55;
+    color: #c8ccd2;
+    max-width: 820px;
+    margin: 0 0 clamp(30px, 5vw, 60px) 0;
+  }
+  .closing .contact{
+    font-size: clamp(18px, 2.4vw, 26px);
+    line-height: 1.8;
+  }
+  .closing .contact .name{
+    font-weight: 800;
+    font-size: clamp(22px, 2.8vw, 30px);
+    margin-bottom: 6px;
+  }
+  .closing .contact .email{
+    color: var(--cyan);
+    font-weight: 700;
+  }
+  .closing .contact .links{
+    color: #9aa1ab;
+    font-size: clamp(16px, 2vw, 22px);
+  }
+</style>
+</head>
+<body>
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide cover">
+    <div class="brand">Ensemblu</div>
+    <h1>What Project Axiom<br/>Actually Solves</h1>
+    <p class="sub">Seven real failure modes in enterprise Java infrastructure —<br/>and the exact, zero-dependency module that removes each one at the root.</p>
+    <div class="tag">com.ensemblu — live on Maven Central →</div>
+    <div class="swipe">Swipe →</div>
+  </div>
+
+  <!-- SLIDE 2 -->
+  <div class="slide item">
+    <div class="brand">Ensemblu</div>
+    <div class="item-num">1</div>
+    <h2>The ORM Trap</h2>
+    <div class="block">
+      <div class="label">The Problem</div>
+      <p>Heavy ORMs map relational tables to mutable object graphs — causing N+1 query explosions, dirty-checking overhead, and total loss of control over generated SQL.</p>
+    </div>
+    <div class="block fix">
+      <div class="label">The Fix</div>
+      <p>Relational data treated as raw streams and flat immutable maps — persistence mapped directly to data structures, no object virtualization layer.</p>
+    </div>
+    <div class="solved-tag">Solved by <code>axiom-spec</code> and <code>axiom-warp-jdbc</code> and <code>axiom-warp-reactive</code> — direct-to-PostgreSQL parameter binding, zero reflection.</div>
+    <div class="pageno">2 / 9</div>
+  </div>
+
+  <!-- SLIDE 3 -->
+  <div class="slide item">
+    <div class="brand">Ensemblu</div>
+    <div class="item-num">2</div>
+    <h2>The Null Reference Trap</h2>
+    <div class="block">
+      <div class="label">The Problem</div>
+      <p>Unchecked <code>null</code> as a default missing-value indicator leads to scattered defensive checks and production-crashing NullPointerExceptions.</p>
+    </div>
+    <div class="block fix">
+      <div class="label">The Fix</div>
+      <p>Absence becomes an explicit, typed data construct — algebraic types and sentinel structures instead of an implicit, uninitialized trap.</p>
+    </div>
+    <div class="solved-tag">Solved by <code>axiom-sovereign</code> and <code>axiom-language</code> — explicit Result and sum types at every boundary.</div>
+    <div class="pageno">3 / 9</div>
+  </div>
+
+  <!-- SLIDE 4 -->
+  <div class="slide item">
+    <div class="brand">Ensemblu</div>
+    <div class="item-num">3</div>
+    <h2>The Annotation &amp; DI Container Magic</h2>
+    <div class="block">
+      <div class="label">The Problem</div>
+      <p>Runtime classpath scanning and annotation-driven wiring hide object lifecycles, slow startup, and produce wiring failures only discoverable at runtime.</p>
+    </div>
+    <div class="block fix">
+      <div class="label">The Fix</div>
+      <p>Explicit, manual composition — every dependency passed as a plain parameter, fully visible, with instant startup.</p>
+    </div>
+    <div class="solved-tag">Solved by default — the zero-reflection, zero-scanning core all other modules build on.</div>
+    <div class="pageno">4 / 9</div>
+  </div>
+
+  <!-- SLIDE 5 -->
+  <div class="slide item">
+    <div class="brand">Ensemblu</div>
+    <div class="item-num">4</div>
+    <h2>The Custom Parser Void</h2>
+    <div class="block">
+      <div class="label">The Problem</div>
+      <p>Reflection-based JSON parsers (Jackson, Gson) blindly slurp payloads into mutable object graphs, throwing cryptic runtime exceptions on schema drift.</p>
+    </div>
+    <div class="block fix">
+      <div class="label">The Fix</div>
+      <p>Hand-crafted parsers inspect raw byte streams directly, validating and transforming input into immutable maps and vectors — no reflection.</p>
+    </div>
+    <div class="solved-tag">Solved by <code>axiom-spec</code> — explicit schema contracts validated at the perimeter, not inferred at runtime.</div>
+    <div class="pageno">5 / 9</div>
+  </div>
+
+  <!-- SLIDE 6 -->
+  <div class="slide item">
+    <div class="brand">Ensemblu</div>
+    <div class="item-num">5</div>
+    <h2>The Java Collections Desert</h2>
+    <div class="block">
+      <div class="label">The Problem</div>
+      <p>Default reliance on <code>HashMap</code>/<code>ArrayList</code> means suboptimal memory layout, synchronization bottlenecks, and no true structural sharing under concurrency.</p>
+    </div>
+    <div class="block fix">
+      <div class="label">The Fix</div>
+      <p>Persistent, immutable structures — Hash Array Mapped Tries and Vector Bitmapped Tries — for safe, thread-free, cache-friendly state.</p>
+    </div>
+    <div class="solved-tag">Solved by <code>axiom</code> — HAMT / VBT core persistent data structures.</div>
+    <div class="pageno">6 / 9</div>
+  </div>
+
+  <!-- SLIDE 7 -->
+  <div class="slide item">
+    <div class="brand">Ensemblu</div>
+    <div class="item-num">6</div>
+    <h2>The Exception-Driven Control Flow</h2>
+    <div class="block">
+      <div class="label">The Problem</div>
+      <p>Using exceptions for expected outcomes like "UserNotFound" costs stack-trace generation overhead and hides control flow inside try/catch jumps.</p>
+    </div>
+    <div class="block fix">
+      <div class="label">The Fix</div>
+      <p>Expected outcomes return explicit Result containers and sum types — exceptions reserved strictly for unrecoverable faults.</p>
+    </div>
+    <div class="solved-tag">Solved by <code>axiom</code> — Result-pattern return types throughout.</div>
+    <div class="pageno">7 / 9</div>
+  </div>
+
+  <!-- SLIDE 8 -->
+  <div class="slide item">
+    <div class="brand">Ensemblu</div>
+    <div class="item-num">7</div>
+    <h2>The Infinite Tooling Churn</h2>
+    <div class="block">
+      <div class="label">The Problem</div>
+      <p>Constant upgrades to build plugins, annotation processors, and codegen tools that break compatibility on every minor release.</p>
+    </div>
+    <div class="block fix">
+      <div class="label">The Fix</div>
+      <p>Zero-dependency foundations on raw JDK primitives (Loom, Amber) and standard language features that don't break underneath you.</p>
+    </div>
+    <div class="solved-tag">Solved by default — all 6 modules, zero external dependencies, published on Maven Central.</div>
+    <div class="pageno">8 / 9</div>
+  </div>
+
+  <!-- SLIDE 9: CLOSING -->
+  <div class="slide closing">
+    <div class="brand">Ensemblu</div>
+    <h2>Worth a 10-minute technical look?</h2>
+    <p>Every module above is live and pullable today — no sales process, just <code>com.ensemblu</code> on Maven Central.</p>
+    <div class="contact">
+      <div class="name">Ofek Malka — Founder, Ensemblu</div>
+      <div class="email">ofek@ensemblu.com</div>
+      <div class="links">github.com/ensemblu &nbsp;·&nbsp; central.sonatype.com/namespace/com.ensemblu</div>
+    </div>
+    <div class="pageno">9 / 9</div>
+  </div>
+
+</body>
+</html>
