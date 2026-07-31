@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Axiom | Documentation & Fluent Examples</title>
+<script src="https://cdn.tailwindcss.com"></script>
+	<script>
+		tailwind.config = {
+			darkMode: 'class',
+			theme: {
+				extend: {
+					colors: {
+						darkbase: '#0f172a',
+						surface: '#1e293b',
+						bordercol: '#334155',
+						brand: '#38bdf8',
+						accentgreen: '#4ade80',
+						// Option 2 Theme Palette
+						slatebase: '#f8fafc',
+						slatesurface: '#ffffff',
+						slateborder: '#e2e8f0',
+					}
+				}
+			}
+		}
+		
+		// Simple theme switcher function
+		function setTheme(theme) {
+			if (theme === 'slate') {
+				document.documentElement.classList.add('theme-slate');
+				localStorage.setItem('theme', 'slate');
+			} else {
+				document.documentElement.classList.remove('theme-slate');
+				localStorage.setItem('theme', 'dark');
+			}
+		}
+	</script> 
+	<style>
+		/* Dark Mode: Bright syntax colors */
+		.text-green-300 { color: #4ade80 !important; }
+		.text-orange-400 { color: #fb923c !important; }
+		.text-purple-400 { color: #c084fc !important; }
+		.text-slate-500 { color: #64748b !important; }
+
+		/* Bright Mode: Same syntax colors but slightly brighter */
+		.theme-slate .text-green-300 { color: #22c55e !important; }
+		.theme-slate .text-orange-400 { color: #ea580c !important; }
+		.theme-slate .text-purple-400 { color: #a855f7 !important; }
+		.theme-slate .text-slate-500 { color: #475569 !important; }
+
+		/* Option 2 dynamic class overrides */
+		.theme-slate body { background-color: #f8fafc !important; color: #0f172a !important; }
+		.theme-slate header { background-color: rgba(255, 255, 255, 0.8) !important; border-color: #e2e8f0 !important; }
+		.theme-slate .bg-surface { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
+		.theme-slate .border-bordercol { border-color: #e2e8f0 !important; }
+		.theme-slate .bg-slate-950, .theme-slate .bg-slate-900 { background-color: #f1f5f9 !important; color: #1e293b !important; border-color: #cbd5e1 !important; }
+		.theme-slate .text-slate-400, .theme-slate .text-slate-300 { color: #475569 !important; }
+		.theme-slate .text-white { color: #0f172a !important; }
+		
+		/* Light blue / brand in bright mode */
+		.theme-slate .text-brand,
+		.theme-slate [class*="text-sky-"],
+		.theme-slate [class*="text-blue-"] { color: #0284c7 !important; }
+	</style>
+</head>
+<body class="bg-darkbase text-slate-100 font-sans antialiased selection:bg-brand selection:text-darkbase">
+
+    <!-- Header / Nav -->
+    <header class="border-b border-bordercol bg-surface/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+           <div class="flex items-center space-x-3">
+				<span class="font-bold tracking-wider text-xl text-brand">ENSEMBLU</span>
+				<span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20">Project Axiom v1.0.0</span>
+				<a href="https://www.javadoc.io/doc/com.ensemblu" target="_blank" class="text-xs text-slate-400 hover:text-brand transition underline ml-2">Javadocs &rarr;</a>
+			</div>
+				<nav class="flex items-center space-x-6 text-sm font-medium">
+					<a href="#solves" class="hover:text-brand transition">The 7 Fixes</a>
+					<a href="#examples" class="hover:text-brand transition">Fluent Examples</a>
+					<a href="https://central.sonatype.com/namespace/com.ensemblu" target="_blank" class="hover:text-brand transition">Maven Central</a>
+					<a href="https://www.javadoc.io/doc/com.ensemblu" target="_blank" class="hover:text-brand transition">Javadocs</a>
+					<!-- Theme Switcher Option -->
+					<button onclick="document.documentElement.classList.toggle('theme-slate')" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition" title="Toggle Theme Option">🎨 Theme</button>
+					<a href="https://github.com/ensemblu" target="_blank" class="bg-brand text-darkbase px-4 py-2 rounded font-semibold hover:bg-sky-300 transition">GitHub</a>
+				</nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="max-w-4xl mx-auto px-6 pt-16 pb-12 text-center">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+            <span class="block text-xs md:text-sm font-mono uppercase tracking-widest text-slate-400 mb-2">Project Axiom</span>
+            What It <br><span class="text-brand">Actually Solves</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-8">
+            Seven real failure modes in enterprise Java infrastructure—and the exact, zero-dependency module that removes each one at the root.
+        </p>
+    </section>
+
+    <!-- Main Container layout -->
+    <div class="max-w-7xl mx-auto px-6 pb-32 grid lg:grid-cols-4 gap-10">
+        
+        <!-- Sidebar Navigation -->
+<aside class="hidden lg:block lg:col-span-1 space-y-6 sticky top-24 h-[calc(100vh-7rem)] overflow-y-auto pr-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">            <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Core Philosophy</h4>
+                <ul class="space-y-2 text-sm text-slate-300">
+                    <li><a href="#solves" class="hover:text-brand transition block">The 7 Enterprise Failures</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Core Engine & Modules</h4>
+                <ul class="space-y-2 text-sm text-slate-300">
+                    <li><a href="#ex-result" class="hover:text-brand transition block">1. The Result Pipeline</a></li>
+                    <li><a href="#ex-check" class="hover:text-brand transition block">2. Guarding the Perimeter</a></li>
+                    <li><a href="#ex-data" class="hover:text-brand transition block">3. Persistent Structures (HAMT)</a></li>
+                    <li><a href="#ex-delta" class="hover:text-brand transition block">4. State Diffing (MapDelta)</a></li>
+                    <li><a href="#ex-source" class="hover:text-brand transition block">5. Nested Navigation (Source)</a></li>
+                    <li><a href="#ex-target" class="hover:text-brand transition block">6. Type-Safe Extraction</a></li>
+                    <li><a href="#ex-config" class="hover:text-brand transition block">7. Configuration Loading</a></li>
+                    <li><a href="#ex-io" class="hover:text-brand transition block">8. Side Effects & IO</a></li>
+                    <li><a href="#ex-sovereign" class="hover:text-brand transition block">axiom-sovereign Engine</a></li>
+                    <li><a href="#ex-language" class="hover:text-brand transition block">axiom-language</a></li>
+                    <li><a href="#ex-spec" class="hover:text-brand transition block">axiom-spec Protocols</a></li>
+                    <li><a href="#ex-jdbc" class="hover:text-brand transition block">axiom-warp-jdbc</a></li>
+                    <li><a href="#ex-reactive" class="hover:text-brand transition block">axiom-warp-reactive</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="lg:col-span-3 space-y-16">
+
+            <!-- The 7 Fixes Section -->
+            <section id="solves" class="space-y-8">
+                <div class="border-b border-bordercol pb-4">
+                    <h2 class="text-3xl font-bold tracking-tight text-white">The 7 Infrastructure Failures</h2>
+                    <p class="text-slate-400 text-sm mt-1">Deep breakdown of enterprise bloat eliminated by <code class="text-brand">com.ensemblu</code>.</p>
+                </div>
+
+                <!-- Item 1 -->
+                <div class="bg-surface border border-bordercol rounded-xl p-6 md:p-8 grid md:grid-cols-2 gap-6 items-start">
+                    <div>
+                        <span class="text-xs font-mono text-brand mb-2 block">01 / 07</span>
+                        <h3 class="text-xl font-bold mb-3">The ORM Trap</h3>
+                        <div class="space-y-3 text-sm text-slate-300">
+							<p><strong class="text-rose-400 font-mono tracking-wide uppercase text-xs">Problem:</strong> Heavy ORMs map relational tables to mutable object graphs causing N+1 query explosions and dirty-checking overhead.</p>
+                            <p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Relational data treated as raw streams and flat immutable maps—no object virtualization layer.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center">
+                        // Solved by axiom-spec and axiom-warp-jdbc <br>// and axiom-warp-reactive <br>// Direct-to-PostgreSQL parameter binding,<br>// zero reflection.
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="bg-surface border border-bordercol rounded-xl p-6 md:p-8 grid md:grid-cols-2 gap-6 items-start">
+                    <div>
+                        <span class="text-xs font-mono text-brand mb-2 block">02 / 07</span>
+                        <h3 class="text-xl font-bold mb-3">The Null Reference Trap</h3>
+                       <div class="space-y-3 text-sm text-slate-300">
+							<p><strong class="text-rose-400 font-mono tracking-wide uppercase text-xs">Problem:</strong> Unchecked null indicators lead to scattered checks and NullPointerExceptions.</p>
+							<p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Absence becomes an explicit, typed data construct via algebraic types.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center">
+                        // Solved by axiom-sovereign and axiom-language<br>// Explicit Result and sum types at every boundary.
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="bg-surface border border-bordercol rounded-xl p-6 md:p-8 grid md:grid-cols-2 gap-6 items-start">
+                    <div>
+                        <span class="text-xs font-mono text-brand mb-2 block">03 / 07</span>
+                        <h3 class="text-xl font-bold mb-3">The Annotation & DI Container Magic</h3>
+                       <div class="space-y-3 text-sm text-slate-300">
+							<p><strong class="text-rose-400 font-mono tracking-wide uppercase text-xs">Problem:</strong> Runtime classpath scanning hides lifecycles and slows startup.</p>
+                            <p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Explicit, manual composition with every dependency passed as a plain parameter.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center">
+                        // Solved by default — the zero-reflection,<br>// zero-scanning core all other modules build on.
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="bg-surface border border-bordercol rounded-xl p-6 md:p-8 grid md:grid-cols-2 gap-6 items-start">
+                    <div>
+                        <span class="text-xs font-mono text-brand mb-2 block">04 / 07</span>
+                        <h3 class="text-xl font-bold mb-3">The Custom Parser Void</h3>
+                       <div class="space-y-3 text-sm text-slate-300">
+							<p><strong class="text-rose-400 font-mono tracking-wide uppercase text-xs">Problem:</strong> Reflection-based JSON parsers slurp payloads into mutable object graphs.</p>
+							<p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Hand-crafted parsers inspect raw byte streams directly into immutable maps.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center">
+                        // Solved by axiom-spec<br>// Explicit schema contracts validated at perimeter,<br>// not inferred at runtime.
+                    </div>
+                </div>
+
+                <!-- Item 5 -->
+                <div class="bg-surface border border-bordercol rounded-xl p-8 grid md:grid-cols-2 gap-8 items-start">
+                    <div>
+                        <span class="text-xs font-mono text-brand mb-2 block">05 / 07</span>
+                        <h3 class="text-xl font-bold mb-3">The Java Collections Desert</h3>
+                        <div class="space-y-3 text-sm text-slate-300">
+						   <p><strong class="text-rose-400 font-mono tracking-wide uppercase text-xs">Problem:</strong> HashMap/ArrayList reliance creates synchronization bottlenecks.</p>
+                           <p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Hash Array Mapped Tries (HAMT) and Vector Bitmapped Tries for thread-free state.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center">
+                        // Solved by axiom<br>// HAMT / VBT core persistent data structures.
+                    </div>
+                </div>
+
+                <!-- Item 6 -->
+                <div class="bg-surface border border-bordercol rounded-xl p-8 grid md:grid-cols-2 gap-8 items-start">
+                    <div>
+                        <span class="text-xs font-mono text-brand mb-2 block">06 / 07</span>
+                        <h3 class="text-xl font-bold mb-3">The Exception-Driven Control Flow</h3>
+                        <div class="space-y-3 text-sm text-slate-300">
+							<p><strong class="text-rose-400 font-mono tracking-wide uppercase text-xs">Problem:</strong> Using exceptions for expected outcomes costs stack-trace generation overhead.</p>
+							<p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Expected outcomes return explicit Result containers and sum types.</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center">
+                        // Solved by axiom<br>// Result-pattern return types throughout.
+                    </div>
+                </div>
+
+                <!-- Item 7 -->
+                <div class="bg-surface border border-bordercol rounded-xl p-8 grid md:grid-cols-2 gap-8 items-start">
+                    <div>
+                        <span class="text-xs font-mono text-brand mb-2 block">07 / 07</span>
+                        <h3 class="text-xl font-bold mb-3">The Infinite Tooling Churn</h3>
+						<div class="space-y-3 text-sm text-slate-300">
+							<p><strong class="text-rose-400 font-mono tracking-wide uppercase text-xs">Problem:</strong> Constant upgrades to build plugins that break compatibility on minor releases.</p>
+                            <p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Zero-dependency foundations on raw JDK primitives (Loom, Amber).</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center">
+                        // Solved by default<br>// All modules, zero external dependencies<br>// on Maven Central.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Fluent Code Examples Section -->
+            <section id="examples" class="space-y-12 pt-10">
+                <div class="border-b border-bordercol pb-4">
+                    <h2 class="text-3xl font-bold tracking-tight text-white">Fluent Code Examples & Core API</h2>
+                    <p class="text-slate-400 text-sm mt-1">Deep dive into Axiom's fluent mechanisms, sealing boundaries, and infrastructure tooling.</p>
+                </div>
+
+                <!-- 1. The Result pipeline -->
+                <div id="ex-result" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>1. The Result Pipeline</span>
+                        <span class="text-brand">axiom</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-purple-400">Result&lt;Integer&gt;</span> parsed = Axiom.Check.attempt(() -&gt; Integer.parseInt(raw));
+parsed
+    .validate(n -&gt; n &gt; <span class="text-orange-400">0</span>, <span class="text-green-300">"must be positive"</span>)
+    .map(n -&gt; n * <span class="text-orange-400">2</span>)
+    .peekFailure(e -&gt; log.warn(e.getMessage()))
+    .getOrElse(<span class="text-orange-400">0</span>);
+
+<span class="text-slate-500">// Result has three states — Success, Failure, Empty — modeled as a sealed State&lt;T&gt;.</span></code></pre>
+                </div>
+
+                <!-- 2. Guarding the perimeter with If -->
+                <div id="ex-check" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>2. Guarding the Perimeter with If & Soft Validation</span>
+                        <span class="text-brand">axiom</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code>Axiom.Check.that(factory)
+        .is(Objects::nonNull, <span class="text-green-300">"RawProvisioner instance can't be null"</span>)
+        .will()
+        .thenApprovedOrElseThrowException();
+
+<span class="text-slate-500">// Soft validation — collecting every violation:</span>
+Axiom.Check.soft(order)
+        .is(o -&gt; o.qty() &gt; <span class="text-orange-400">0</span>, <span class="text-green-300">"qty must be positive"</span>)
+        .andIs(o -&gt; o.price() &gt;= <span class="text-orange-400">0</span>, <span class="text-green-300">"price must be non-negative"</span>)
+        .will()
+        .generateResultErrorIfExists();   <span class="text-slate-500">// Result&lt;String&gt; listing every breach</span></code></pre>
+                </div>
+
+                <!-- 3. Persistent data structures -->
+                <div id="ex-data" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>3. Persistent Data Structures (HAMT & VBT)</span>
+                        <span class="text-brand">axiom</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-purple-400">PersistentMap&lt;String, Object&gt;</span> user = Axiom.Data.&lt;String, Object&gt;emptyMap()
+        .put(<span class="text-green-300">"id"</span>, <span class="text-orange-400">1L</span>)
+        .put(<span class="text-green-300">"name"</span>, <span class="text-green-300">"Ofek"</span>);
+
+<span class="text-purple-400">PersistentMap&lt;String, Object&gt;</span> updated = user.put(<span class="text-green-300">"name"</span>, <span class="text-green-300">"Ofek Cohen"</span>); <span class="text-slate-500">// user is untouched</span>
+<span class="text-purple-400">PersistentList&lt;Integer&gt;</span> nums = Axiom.Data.range(<span class="text-orange-400">1</span>, <span class="text-orange-400">10</span>);</code></pre>
+                </div>
+
+                <!-- 4. Diffing state: MapDelta / ListDelta -->
+                <div id="ex-delta" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>4. Diffing State: MapDelta / ListDelta</span>
+                        <span class="text-brand">axiom</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-purple-400">MapDelta&lt;String, Object&gt;</span> delta = oldState.diff(newState);
+delta.added();    <span class="text-slate-500">// keys present only in new</span>
+delta.removed();  <span class="text-slate-500">// keys present only in old</span>
+delta.updated();  <span class="text-slate-500">// keys with a changed value</span>
+delta.invert();   <span class="text-slate-500">// flips added &lt;-&gt; removed, for undo/rollback logic</span></code></pre>
+                </div>
+
+                <!-- 5. Navigating nested structures with Source -->
+                <div id="ex-source" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>5. Navigating Nested Structures with Source</span>
+                        <span class="text-brand">axiom</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-purple-400">Source</span> root = Axiom.Forge.source(deeplyNestedMap);
+<span class="text-purple-400">Source</span> name = root.follow(<span class="text-green-300">"user"</span>).follow(<span class="text-green-300">"profile"</span>).follow(<span class="text-green-300">"name"</span>);
+
+<span class="text-keyword">if</span> (name.exists()) {
+    String value = (String) name.getValue();
+}
+
+<span class="text-slate-500">// Immutable, path-copying updates:</span>
+<span class="text-purple-400">Source</span> updatedRoot = name.update(<span class="text-green-300">"New Name"</span>);</code></pre>
+                </div>
+
+                <!-- 6. Type-safe extraction with TargetNavigator -->
+                <div id="ex-target" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>6. Type-Safe Extraction with TargetNavigator</span>
+                        <span class="text-brand">axiom</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-purple-400">Result&lt;Integer&gt;</span> age  = user.targetKey(<span class="text-green-300">"age"</span>).toIntResult();
+String         name = user.targetKey(<span class="text-green-300">"name"</span>).toStringVal();         <span class="text-slate-500">// throws on failure/missing</span>
+<span class="text-purple-400">PersistentList&lt;String&gt;</span> tags = user.targetKey(<span class="text-green-300">"tags"</span>).toStringListVal();</code></pre>
+                </div>
+
+                <!-- 7. Configuration -->
+                <div id="ex-config" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>7. Configuration Parsing & Mapping</span>
+                        <span class="text-brand">axiom</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-purple-400">ConfigSource</span> config = Axiom.Config.file(<span class="text-green-300">"app.properties"</span>);
+<span class="text-primitive">int</span> poolMax = config.targetField(<span class="text-green-300">"engine.pool.max"</span>).toIntVal();
+
+<span class="text-purple-400">Result&lt;PersistentList&lt;PersistentMap&lt;String,Object&gt;&gt;&gt;</span> users = config
+        .asMappedList(<span class="text-green-300">"users"</span>, sub -&gt; Axiom.Data.&lt;String,Object&gt;empty()
+                .put(<span class="text-green-300">"name"</span>, sub.targetField(<span class="text-green-300">"name"</span>).toStringVal())
+                .put(<span class="text-green-300">"role"</span>, sub.targetField(<span class="text-green-300">"role"</span>).toStringVal())
+        );</code></pre>
+                </div>
+
+                <!-- 8. Side effects, explicitly -->
+                <div id="ex-io" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>8. Side Effects & File Reading</span>
+                        <span class="text-brand">axiom</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-purple-400">Effect&lt;Nothing&gt;</span> log = Axiom.Io.log(<span class="text-green-300">"Warp initialized"</span>);
+log.run(); <span class="text-slate-500">// nothing happens until you call run()</span>
+
+<span class="text-purple-400">Result&lt;String&gt;</span> contents = Axiom.Io.read(<span class="text-green-300">"data/seed.properties"</span>);</code></pre>
+                </div>
+
+                <!-- axiom-sovereign Engine -->
+                <div id="ex-sovereign" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>axiom-sovereign: Operational Entry & Dop Normalization</span>
+                        <span class="text-brand">axiom-sovereign</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-keyword">import</span> com.ensemblu.axiom.sovereign.parser.AxiomDopParser;
+
+<span class="text-slate-500">// Direct execution</span>
+<span class="text-keyword">final var</span> result = AxiomDopParser.take(inputString).openBuffer().parse();
+
+<span class="text-slate-500">// Dop.normalize is the single canonicalization point before comparison/storage.</span></code></pre>
+                </div>
+                
+                <!-- axiom-language -->
+                <div id="ex-language" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>axiom-language: Validating Content</span>
+                        <span class="text-brand">axiom-language</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-keyword">import</span> com.ensemblu.axiom.schema.SchemaGuard;
+
+<span class="text-slate-500">// Executes validation handshake</span>
+<span class="text-keyword">final var</span> result = SchemaGuard.checkContent(rawJsonString)
+    .basedOnSchemaName(<span class="text-green-300">"user-profile"</span>)
+    .withAxiomParser();</code></pre>
+                </div>
+
+                <!-- axiom-spec Protocols -->
+                <div id="ex-spec" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>axiom-spec: Perimeter Handshakes, Parsing & Protocols</span>
+                        <span class="text-brand">axiom-spec</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-slate-500">// 1. Database Handshake</span>
+<span class="text-keyword">final var</span> plan = SqlParser.forge(<span class="text-green-300">"INSERT INTO users (name, age) VALUES (:java.name, :java.age)"</span>);
+IngressBinder.apply(binder, plan, myContractMap, myDataMap);
+
+<span class="text-slate-500">// 2. High-Precision Parsing</span>
+<span class="text-keyword">final var</span> data = JsonParser.take(jsonString).openBuffer().ensureRootIsObject().parseObject();
+<span class="text-keyword">final var</span> row = CsvRowParser.takeLine(<span class="text-green-300">"val1,val2"</span>).basedOnHeaders(<span class="text-green-300">"col1"</span>, <span class="text-green-300">"col2"</span>);
+
+<span class="text-slate-500">// 3. Structural Materialization</span>
+<span class="text-keyword">final var</span> materialized = RowMaterializer.materialize(row);
+
+<span class="text-slate-500">// 4. Defining the Protocol</span>
+AxiomProtocol.LONG.getSetter().set(binder, index, myLongValue);
+
+<span class="text-slate-500">// 5. Registry Management</span>
+<span class="text-keyword">final var</span> registry = <span class="text-keyword">new</span> AxiomRegistry&lt;&gt;(AxiomProtocol.<span class="text-keyword">class</span>);
+<span class="text-keyword">final var</span> protocol = registry.get(<span class="text-green-300">"LONG"</span>);</code></pre>
+                </div>
+
+                <!-- axiom-warp-jdbc -->
+                <div id="ex-jdbc" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>axiom-warp-jdbc: Connection Pooling & Transactional Strikes</span>
+                        <span class="text-brand">axiom-warp-jdbc</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-purple-400">RawProvisioner</span> provisioner = AxiomWarp.connect(configSource)
+        .withPoolProvider(config -&gt; MyPoolImplementation.from(config))
+        .validateRules()
+        .getOrThrow();
+<span class="text-purple-400">AxiomWarp</span> warp = <span class="text-keyword">new</span> AxiomWarp(provisioner);
+
+<span class="text-slate-500">// Transactional Write</span>
+<span class="text-purple-400">Result&lt;PersistentList&lt;PersistentMap&lt;String, Object&gt;&gt;&gt;</span> result =
+        warp.write(() -&gt;
+                warp.strike()
+                        .dynamic(<span class="text-green-300">"INSERT INTO users (id, name) VALUES (:java.id, :java.name)"</span>)
+                        .withContract(Axiom.Data.&lt;String,AxiomProtocol&gt;emptyMap()
+                                .put(<span class="text-green-300">"id"</span>, AxiomProtocol.LONG)
+                                .put(<span class="text-green-300">"name"</span>, AxiomProtocol.STRING))
+                        .withData(Axiom.Data.&lt;String,Object&gt;emptyMap()
+                                .put(<span class="text-green-300">"id"</span>, <span class="text-orange-400">1L</span>)
+                                .put(<span class="text-green-300">"name"</span>, <span class="text-green-300">"Ofek"</span>)));
+
+<span class="text-slate-500">// Bulk-ingest CSV & Delta Sync</span>
+warp.ingest()
+    .fromFile(<span class="text-green-300">"users.csv"</span>)
+    .usingFileHeaders().onTableName(<span class="text-green-300">"users"</span>)
+    .ingest();
+    
+warp.sync()
+    .tableName(<span class="text-green-300">"users"</span>)
+    .whereDelete(<span class="text-green-300">"id = :java.id"</span>)
+    .whereUpdate(<span class="text-green-300">"id = :java.id"</span>)
+    .withDelta(mapDelta);</code></pre>
+                </div>
+
+                <!-- axiom-warp-reactive -->
+                <div id="ex-reactive" class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                    <div class="bg-slate-900 px-6 py-3 border-b border-bordercol flex justify-between items-center text-xs font-mono text-slate-400">
+                        <span>axiom-warp-reactive: Vert.x Async Streams & Forensic History (AHE)</span>
+                        <span class="text-brand">axiom-warp-reactive</span>
+                    </div>
+                    <pre class="p-6 text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-purple-400">AxiomWarp</span> warp = AxiomWarp.protocol()
+        .withFactory(RawProvisioner.basedOnConfig(configSource)
+                .withPoolProvider(config -&gt; MyPool.from(config))
+                .validateRules()
+                .getOrThrow())
+        .withCache(TemporalStreamBuffer.ofWindowDuration(Duration.ofMinutes(<span class="text-orange-400">5</span>)))
+        .withDialect(Dialect.POSTGRES);
+
+<span class="text-slate-500">// Async Read & Write</span>
+<span class="text-purple-400">Future&lt;Result&lt;PersistentList&lt;PersistentMap&lt;String, Object&gt;&gt;&gt;&gt;</span> rows =
+        warp.strike().shot(<span class="text-green-300">"SELECT * FROM users"</span>).arm(client);
+
+<span class="text-slate-500">// Query with forensic history on failure (AHE Protocol)</span>
+<span class="text-purple-400">WarpStrike</span> withHistory = warp.withHistory(Duration.ofSeconds(<span class="text-orange-400">30</span>));
+withHistory.read(client -&gt; warp.strike().shot(<span class="text-green-300">"SELECT * FROM ledger"</span>).arm(client));</code></pre>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-bordercol bg-surface/30 py-12 text-center text-sm text-slate-400">
+        <p class="mb-2">Every module above is live and pullable today — no sales process, just <span class="text-brand font-mono">com.ensemblu</span> on Maven Central.</p>
+        <p class="text-xs text-slate-500">© 2026 Ofek Malka • Founder, Ensemblu</p>
+    </footer>
+
+</body>
+</html>
