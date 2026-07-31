@@ -64,8 +64,7 @@
 		.theme-slate [class*="text-blue-"] { color: #0284c7 !important; }
 
 		/* --- Responsive fixes --- */
-		html { overflow-x: hidden; }
-		body { overflow-x: hidden; }
+		html { overflow-x: clip; }
 		img, svg, pre, code { max-width: 100%; }
 	</style>
 </head>
@@ -152,7 +151,7 @@
                             <p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Relational data treated as raw streams and flat immutable maps—no object virtualization layer.</p>
                         </div>
                     </div>
-                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 break-words">
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 overflow-x-auto whitespace-nowrap">
                         // Solved by axiom-spec and axiom-warp-jdbc <br>// and axiom-warp-reactive <br>// Direct-to-PostgreSQL parameter binding,<br>// zero reflection.
                     </div>
                 </div>
@@ -167,7 +166,7 @@
 							<p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Absence becomes an explicit, typed data construct via algebraic types.</p>
                         </div>
                     </div>
-                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 break-words">
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 overflow-x-auto whitespace-nowrap">
                         // Solved by axiom-sovereign and axiom-language<br>// Explicit Result and sum types at every boundary.
                     </div>
                 </div>
@@ -182,7 +181,7 @@
                             <p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Explicit, manual composition with every dependency passed as a plain parameter.</p>
                         </div>
                     </div>
-                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 break-words">
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 overflow-x-auto whitespace-nowrap">
                         // Solved by default — the zero-reflection,<br>// zero-scanning core all other modules build on.
                     </div>
                 </div>
@@ -197,7 +196,7 @@
 							<p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Hand-crafted parsers inspect raw byte streams directly into immutable maps.</p>
                         </div>
                     </div>
-                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 break-words">
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 overflow-x-auto whitespace-nowrap">
                         // Solved by axiom-spec<br>// Explicit schema contracts validated at perimeter,<br>// not inferred at runtime.
                     </div>
                 </div>
@@ -212,7 +211,7 @@
                            <p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Hash Array Mapped Tries (HAMT) and Vector Bitmapped Tries for thread-free state.</p>
                         </div>
                     </div>
-                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 break-words">
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 overflow-x-auto whitespace-nowrap">
                         // Solved by axiom<br>// HAMT / VBT core persistent data structures.
                     </div>
                 </div>
@@ -227,7 +226,7 @@
 							<p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Expected outcomes return explicit Result containers and sum types.</p>
                         </div>
                     </div>
-                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 break-words">
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 overflow-x-auto whitespace-nowrap">
                         // Solved by axiom<br>// Result-pattern return types throughout.
                     </div>
                 </div>
@@ -242,7 +241,7 @@
                             <p><strong class="text-emerald-400 font-mono tracking-wide uppercase text-xs">The Fix:</strong> Zero-dependency foundations on raw JDK primitives (Loom, Amber).</p>
                         </div>
                     </div>
-                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 break-words">
+                    <div class="bg-slate-950 p-4 rounded-lg border border-bordercol font-mono text-xs text-accentgreen flex items-center min-w-0 overflow-x-auto whitespace-nowrap">
                         // Solved by default<br>// All modules, zero external dependencies<br>// on Maven Central.
                     </div>
                 </div>
