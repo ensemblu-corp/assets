@@ -60,7 +60,10 @@
 		/* Option 2 dynamic class overrides */
 		.theme-slate body { background-color: #f8fafc !important; color: #0f172a !important; }
 		.theme-slate header { background-color: rgba(255, 255, 255, 0.8) !important; border-color: #e2e8f0 !important; }
-		.theme-slate .bg-surface { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
+		.theme-slate footer { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
+		.theme-slate .bg-surface,
+		.theme-slate .bg-surface\/30,
+		.theme-slate .bg-surface\/50 { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
 		.theme-slate .border-bordercol { border-color: #e2e8f0 !important; }
 		.theme-slate .bg-slate-950, .theme-slate .bg-slate-900 { background-color: #f1f5f9 !important; color: #1e293b !important; border-color: #cbd5e1 !important; }
 		.theme-slate .text-slate-400, .theme-slate .text-slate-300 { color: #475569 !important; }
@@ -501,9 +504,8 @@ withHistory.read(client -&gt; warp.strike().shot(<span class="text-green-300">"S
 
     <!-- Footer -->
     <footer class="border-t border-bordercol bg-surface/30 py-10 sm:py-12 px-4 text-center text-sm text-slate-400">
-        <p class="mb-2">Every module is open, live, and pullable today  — just <span class="text-brand font-mono">com.ensemblu</span> on Maven Central.</p>
-        <p class="mb-2">The services on this page are for teams who want that same architecture built directly into their own systems.</p>
-		<p class="mb-2">Need a custom integration or an architecture audit? <a href="services.html" class="text-brand hover:underline">See Enterprise Services &rarr;</a></p>
+        <p class="mb-2">Every module above is live and pullable today — no sales process, just <span class="text-brand font-mono">com.ensemblu</span> on Maven Central.</p>
+        <p class="mb-2">Need a custom integration or an architecture audit? <a href="services.html" class="text-brand hover:underline">See Enterprise Services &rarr;</a></p>
         <p class="text-xs text-slate-500">© 2026 Ofek Malka • Founder, Ensemblu</p>
     </footer>
 
