@@ -35,6 +35,14 @@
 				localStorage.setItem('theme', 'dark');
 			}
 		}
+		function toggleTheme() {
+			const isSlate = document.documentElement.classList.contains('theme-slate');
+			setTheme(isSlate ? 'dark' : 'slate');
+		}
+		// Restore saved theme immediately (before paint) so it's consistent across pages
+		if (localStorage.getItem('theme') === 'slate') {
+			document.documentElement.classList.add('theme-slate');
+		}
 	</script> 
 	<style>
 		/* Dark Mode: Bright syntax colors */
@@ -83,8 +91,9 @@
 					<a href="#examples" class="hover:text-brand transition">Fluent Examples</a>
 					<a href="https://central.sonatype.com/namespace/com.ensemblu" target="_blank" class="hover:text-brand transition">Maven Central</a>
 					<a href="https://www.javadoc.io/doc/com.ensemblu" target="_blank" class="hover:text-brand transition">Javadocs</a>
+					<a href="services.html" class="hover:text-brand transition">Services</a>
 					<!-- Theme Switcher Option -->
-					<button onclick="document.documentElement.classList.toggle('theme-slate')" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition whitespace-nowrap" title="Toggle Theme Option">🎨 Theme</button>
+					<button onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition whitespace-nowrap" title="Toggle Theme Option">🎨 Theme</button>
 					<a href="https://github.com/ensemblu" target="_blank" class="bg-brand text-darkbase px-4 py-2 rounded font-semibold hover:bg-sky-300 transition whitespace-nowrap">GitHub</a>
 				</nav>
         </div>
@@ -492,7 +501,9 @@ withHistory.read(client -&gt; warp.strike().shot(<span class="text-green-300">"S
 
     <!-- Footer -->
     <footer class="border-t border-bordercol bg-surface/30 py-10 sm:py-12 px-4 text-center text-sm text-slate-400">
-        <p class="mb-2">Every module above is live and pullable today — no sales process, just <span class="text-brand font-mono">com.ensemblu</span> on Maven Central.</p>
+        <p class="mb-2">Every module is open, live, and pullable today  — just <span class="text-brand font-mono">com.ensemblu</span> on Maven Central.</p>
+        <p class="mb-2">The services on this page are for teams who want that same architecture built directly into their own systems.</p>
+		<p class="mb-2">Need a custom integration or an architecture audit? <a href="services.html" class="text-brand hover:underline">See Enterprise Services &rarr;</a></p>
         <p class="text-xs text-slate-500">© 2026 Ofek Malka • Founder, Ensemblu</p>
     </footer>
 
