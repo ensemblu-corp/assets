@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchemaGuard | Validate Untrusted Data, One Line, Zero Bloat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkbase: '#0f172a',
+                        surface: '#1e293b',
+                        bordercol: '#334155',
+                        brand: '#38bdf8',
+                        accentgreen: '#4ade80',
+                        slatebase: '#f8fafc',
+                        slatesurface: '#ffffff',
+                        slateborder: '#e2e8f0',
+                    }
+                }
+            }
+        }
+        function setTheme(theme) {
+            if (theme === 'slate') {
+                document.documentElement.classList.add('theme-slate');
+                localStorage.setItem('theme', 'slate');
+            } else {
+                document.documentElement.classList.remove('theme-slate');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        function toggleTheme() {
+            const isSlate = document.documentElement.classList.contains('theme-slate');
+            setTheme(isSlate ? 'dark' : 'slate');
+        }
+        if (localStorage.getItem('theme') === 'slate') {
+            document.documentElement.classList.add('theme-slate');
+        }
+    </script>
+    <style>
+        .text-green-300 { color: #4ade80 !important; }
+        .text-orange-400 { color: #fb923c !important; }
+        .text-purple-400 { color: #c084fc !important; }
+        .text-slate-500 { color: #64748b !important; }
+        .text-rose-400 { color: #fb7185 !important; }
+        .text-emerald-400 { color: #34d399 !important; }
+
+        .theme-slate .text-green-300 { color: #22c55e !important; }
+        .theme-slate .text-orange-400 { color: #ea580c !important; }
+        .theme-slate .text-purple-400 { color: #a855f7 !important; }
+        .theme-slate .text-slate-500 { color: #475569 !important; }
+
+        .theme-slate body { background-color: #f8fafc !important; color: #0f172a !important; }
+        .theme-slate header,
+        .theme-slate footer,
+        .theme-slate .bg-surface,
+        .theme-slate .bg-surface\/30,
+        .theme-slate .bg-surface\/50 { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
+        .theme-slate .border-bordercol { border-color: #e2e8f0 !important; }
+        .theme-slate .bg-slate-950, .theme-slate .bg-slate-900 { background-color: #f1f5f9 !important; color: #1e293b !important; border-color: #cbd5e1 !important; }
+        .theme-slate .text-slate-400, .theme-slate .text-slate-300 { color: #475569 !important; }
+        .theme-slate .text-white { color: #0f172a !important; }
+        .theme-slate .text-brand,
+        .theme-slate [class*="text-sky-"],
+        .theme-slate [class*="text-blue-"] { color: #0284c7 !important; }
+
+        html { overflow-x: clip; }
+        img, svg, pre, code { max-width: 100%; }
+    </style>
+</head>
+<body class="bg-darkbase text-slate-100 font-sans antialiased selection:bg-brand selection:text-darkbase">
+
+    <header class="border-b border-bordercol bg-surface/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span class="font-bold tracking-wider text-lg sm:text-xl text-brand">ENSEMBLU</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">SchemaGuard</span>
+            </div>
+            <nav class="flex items-center gap-4 text-sm font-medium">
+                <a href="index.html" class="hover:text-brand transition">Home</a>
+                <button onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition" title="Toggle Theme">🎨 Theme</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-4 sm:px-6 py-14 sm:py-20 space-y-14">
+
+        <!-- Hero -->
+        <section class="text-center space-y-4">
+            <span class="text-xs font-mono uppercase tracking-widest text-slate-400">Project Axiom</span>
+            <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+                <span class="text-brand">SchemaGuard</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-400 max-w-xl mx-auto">
+                You give it data and a schema. It tells you, in one word, whether the data is safe to use.
+            </p>
+        </section>
+
+        <!-- What it does -->
+        <section class="bg-surface border border-bordercol rounded-2xl p-6 sm:p-10 text-center space-y-4">
+            <p class="text-lg sm:text-xl leading-relaxed">
+                Every piece of data coming into your system — an API request, a config file, an upload — either matches the shape you expect, or it doesn't.
+            </p>
+            <p class="text-lg sm:text-xl leading-relaxed text-white font-semibold">
+                SchemaGuard checks that, and hands you back exactly one of two things:
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+                <div class="bg-slate-950 border border-emerald-500/30 rounded-xl px-6 py-4 flex-1">
+                    <div class="text-emerald-400 font-bold text-lg mb-1">✓ Valid</div>
+                    <div class="text-sm text-slate-400">The data is safe to use, exactly as-is.</div>
+                </div>
+                <div class="bg-slate-950 border border-rose-500/30 rounded-xl px-6 py-4 flex-1">
+                    <div class="text-rose-400 font-bold text-lg mb-1">✗ Invalid</div>
+                    <div class="text-sm text-slate-400">A plain-English reason why, and exactly where.</div>
+                </div>
+            </div>
+            <p class="text-sm text-slate-500 pt-2">No crashes. No stack traces. No half-processed data leaking through.</p>
+        </section>
+
+        <!-- Before / After -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-white text-center">What it replaces</h2>
+            <div class="grid sm:grid-cols-2 gap-4">
+                <div class="bg-surface border border-bordercol rounded-xl p-5">
+                    <div class="text-xs font-mono uppercase tracking-wide text-rose-400 mb-2">The usual way</div>
+                    <ul class="text-sm text-slate-300 space-y-2 list-disc list-inside">
+                        <li>Annotate a class, hope the framework wires it correctly</li>
+                        <li>Reflection scans your objects at runtime</li>
+                        <li>Bad data throws an exception, sometimes deep in unrelated code</li>
+                        <li>Debugging means chasing a stack trace back to the real cause</li>
+                    </ul>
+                </div>
+                <div class="bg-surface border border-brand/30 rounded-xl p-5">
+                    <div class="text-xs font-mono uppercase tracking-wide text-brand mb-2">With SchemaGuard</div>
+                    <ul class="text-sm text-slate-300 space-y-2 list-disc list-inside">
+                        <li>Write the schema once, as a plain file</li>
+                        <li>No annotations, no reflection, no hidden scanning</li>
+                        <li>Bad data never throws — you get a clear answer back</li>
+                        <li>The error tells you exactly what's wrong and where</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to use it -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-white text-center">How you actually use it</h2>
+            <p class="text-slate-400 text-center text-sm max-w-lg mx-auto">Three lines. That's the entire interaction — everything else is internal.</p>
+            <div class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                <div class="bg-slate-900 px-4 sm:px-6 py-3 border-b border-bordercol text-xs font-mono text-slate-400">Checking a payload against a schema</div>
+                <pre class="p-4 sm:p-6 text-xs sm:text-sm font-mono overflow-x-auto text-slate-300"><code>result = SchemaGuard.checkContent(incomingData)
+    .basedOnSchemaInPath(<span class="text-green-300">"user-profile"</span>)
+    .withAxiomParser();</code></pre>
+            </div>
+            <div class="grid sm:grid-cols-3 gap-3 text-sm">
+                <div class="bg-slate-950 border border-bordercol rounded-lg p-4">
+                    <div class="text-brand font-mono text-xs mb-1">1</div>
+                    <p class="text-slate-300">Hand it the raw data you received.</p>
+                </div>
+                <div class="bg-slate-950 border border-bordercol rounded-lg p-4">
+                    <div class="text-brand font-mono text-xs mb-1">2</div>
+                    <p class="text-slate-300">Tell it which schema file to check against, by name.</p>
+                </div>
+                <div class="bg-slate-950 border border-bordercol rounded-lg p-4">
+                    <div class="text-brand font-mono text-xs mb-1">3</div>
+                    <p class="text-slate-300">Get back a clear yes/no — never a crash.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real-world usage: plain JSON -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-white text-center">In practice: validating real JSON</h2>
+            <p class="text-slate-400 text-center text-sm max-w-xl mx-auto">Most incoming data isn't in Axiom's own format — it's plain JSON from an API request, a webhook, a queue message. SchemaGuard doesn't care. Plug in any parser you like, and it validates the result the exact same way.</p>
+            <div class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                <div class="bg-slate-900 px-4 sm:px-6 py-3 border-b border-bordercol text-xs font-mono text-slate-400">Validating an incoming JSON payload against a named schema file</div>
+                <pre class="p-4 sm:p-6 text-xs sm:text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-keyword">final var</span> data = SchemaGuard
+        .checkContent(substance)
+        .basedOnSchemaInPath(<span class="text-green-300">"schemas/account_query_schema"</span>)
+        .withParser(toJson())
+        .getOrThrow();
+
+<span class="text-keyword">private static</span> Function&lt;String, PersistentMap&lt;String, Object&gt;&gt; toJson() {
+    <span class="text-keyword">return</span> s -&gt; JsonParser.take(s).openBuffer().ensureRootIsObject().parseObject();
+}</code></pre>
+            </div>
+            <p class="text-sm text-slate-500 text-center">Same call shape either way — <code class="text-brand">.withAxiomParser()</code> for Axiom's own format, <code class="text-brand">.withParser(...)</code> for anything else. The validation logic underneath doesn't change; only how the raw text gets turned into data does.</p>
+        </section>
+
+        <!-- The .axiom schema file -->
+        <section class="space-y-4">
+            <h2 class="text-xl font-bold text-white text-center">Writing a schema: the <span class="text-brand">.axiom</span> file</h2>
+            <p class="text-slate-400 text-center text-sm max-w-xl mx-auto">A schema is a plain file, not code. Write it once, drop it in <code class="text-brand">schemas/</code>, reference it by name — nothing to compile or annotate.</p>
+
+            <div class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
+                <div class="bg-slate-900 px-4 sm:px-6 py-3 border-b border-bordercol text-xs font-mono text-slate-400">schemas/account_query_schema.axiom</div>
+                <pre class="p-4 sm:p-6 text-xs sm:text-sm font-mono overflow-x-auto text-slate-300"><code>{
+  strict: <span class="text-orange-400">true</span>
+  required: [<span class="text-green-300">"account_id"</span>, <span class="text-green-300">"email"</span>]
+
+  properties: {
+    account_id: {
+      type: <span class="text-green-300">"string"</span>
+      pattern: <span class="text-green-300">"^[A-Z0-9]{8,12}$"</span>
+    }
+    email: {
+      type: <span class="text-green-300">"string"</span>
+      pattern: <span class="text-green-300">"^[^@]+@[^@]+\\.[^@]+$"</span>
+    }
+    age: {
+      type: <span class="text-green-300">"integer"</span>
+      min: <span class="text-orange-400">13</span>
+      max: <span class="text-orange-400">120</span>
+    }
+    tags: {
+      minItems: <span class="text-orange-400">1</span>
+      maxItems: <span class="text-orange-400">10</span>
+      record: { type: <span class="text-green-300">"string"</span> }
+    }
+    role: {
+      type: <span class="text-green-300">"string"</span>
+      enum: [<span class="text-green-300">"admin"</span>, <span class="text-green-300">"member"</span>, <span class="text-green-300">"guest"</span>]
+    }
+  }
+}</code></pre>
+            </div>
+
+            <div class="bg-surface border border-bordercol rounded-xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="bg-slate-900 text-xs uppercase tracking-wide text-slate-400">
+                            <tr>
+                                <th class="px-4 sm:px-6 py-3 font-mono">Key</th>
+                                <th class="px-4 sm:px-6 py-3">What you write</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-bordercol text-slate-300">
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">type</td><td class="px-4 sm:px-6 py-3"><code class="text-brand">"string"</code>, <code class="text-brand">"integer"</code>, <code class="text-brand">"double"</code>, <code class="text-brand">"boolean"</code> — <code class="text-brand">"object"</code> and <code class="text-brand">"array"</code> can be left out, they're inferred automatically from <code class="text-brand">properties</code> / <code class="text-brand">record</code></td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">required</td><td class="px-4 sm:px-6 py-3">a list of field names that must be present</td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">strict</td><td class="px-4 sm:px-6 py-3"><code class="text-brand">true</code> to reject any field not listed below</td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">properties</td><td class="px-4 sm:px-6 py-3">the schema for each field of an object</td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">record</td><td class="px-4 sm:px-6 py-3">the schema every item in an array must match</td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">min / max</td><td class="px-4 sm:px-6 py-3">smallest and largest allowed number</td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">minLength / maxLength</td><td class="px-4 sm:px-6 py-3">shortest and longest allowed string</td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">pattern</td><td class="px-4 sm:px-6 py-3">a regular expression the string must match</td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">minItems / maxItems</td><td class="px-4 sm:px-6 py-3">smallest and largest allowed list size</td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">enum</td><td class="px-4 sm:px-6 py-3">the exact list of values allowed</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why it matters, business framing -->
+        <section class="bg-brand/5 border border-brand/20 rounded-2xl p-6 sm:p-10 text-center space-y-3">
+            <h2 class="text-xl sm:text-2xl font-bold text-white">Why this matters at scale</h2>
+            <p class="text-slate-300 leading-relaxed max-w-xl mx-auto">
+                At high transaction volume, the cost of bad data isn't a crash you notice — it's a corrupted record you don't, until it's downstream and expensive to trace back. SchemaGuard rejects malformed data at the door, with zero framework overhead, so the rest of the system only ever sees data it can trust.
+            </p>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-bordercol bg-surface/30 py-10 px-4 text-center text-sm text-slate-400">
+        <p class="mb-2">Part of <span class="text-brand font-mono">com.ensemblu</span> — <a href="index.html" class="text-brand hover:underline">back to Project Axiom</a></p>
+        <p class="text-xs text-slate-500">© 2026 Ofek Malka • Founder, Ensemblu</p>
+    </footer>
+
+</body>
+</html>

@@ -408,8 +408,11 @@ log.run(); <span class="text-slate-500">// nothing happens until you call run()<
 
 <span class="text-slate-500">// Executes validation handshake</span>
 <span class="text-keyword">final var</span> result = SchemaGuard.checkContent(rawJsonString)
-    .basedOnSchemaName(<span class="text-green-300">"user-profile"</span>)
+    .basedOnSchemaInPath(<span class="text-green-300">"schemas/user-profile"</span>)
     .withAxiomParser();</code></pre>
+                    <div class="px-4 sm:px-6 pb-4 sm:pb-5 text-xs">
+                        <a href="schemaguard.html" class="text-brand hover:underline">Full SchemaGuard guide &rarr;</a>
+                    </div>
                 </div>
 
                 <!-- axiom-spec Protocols -->
