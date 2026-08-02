@@ -467,8 +467,8 @@ AxiomProtocol.LONG.getSetter().set(binder, index, myLongValue);
 <span class="text-slate-500">// Bulk-ingest CSV & Delta Sync</span>
 warp.ingest()
     .fromFile(<span class="text-green-300">"users.csv"</span>)
-    .usingFileHeaders().onTableName(<span class="text-green-300">"users"</span>)
-    .ingest();
+    .usingFileHeaders()
+	.onTableName(<span class="text-green-300">"users"</span>);
     
 warp.sync()
     .tableName(<span class="text-green-300">"users"</span>)
