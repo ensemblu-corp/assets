@@ -199,30 +199,30 @@
                 <div class="bg-slate-900 px-4 sm:px-6 py-3 border-b border-bordercol text-xs font-mono text-slate-400">schemas/account_query_schema.axiom</div>
                 <pre class="p-4 sm:p-6 text-xs sm:text-sm font-mono overflow-x-auto text-slate-300"><code>{
   strict: <span class="text-orange-400">true</span>
-  required: [<span class="text-green-300">"account_id"</span>, <span class="text-green-300">"email"</span>]
+  required: [<span class="text-green-300">account_id</span>, <span class="text-green-300">email</span>]
 
   properties: {
     account_id: {
-      type: <span class="text-green-300">"string"</span>
+      type: <span class="text-green-300">string</span>
       pattern: <span class="text-green-300">"^[A-Z0-9]{8,12}$"</span>
     }
     email: {
-      type: <span class="text-green-300">"string"</span>
+      type: <span class="text-green-300">string</span>
       pattern: <span class="text-green-300">"^[^@]+@[^@]+\\.[^@]+$"</span>
     }
     age: {
-      type: <span class="text-green-300">"integer"</span>
+      type: <span class="text-green-300">integer</span>
       min: <span class="text-orange-400">13</span>
       max: <span class="text-orange-400">120</span>
     }
     tags: {
       minItems: <span class="text-orange-400">1</span>
       maxItems: <span class="text-orange-400">10</span>
-      record: { type: <span class="text-green-300">"string"</span> }
+      record: { type: <span class="text-green-300">string</span> }
     }
     role: {
-      type: <span class="text-green-300">"string"</span>
-      enum: [<span class="text-green-300">"admin"</span>, <span class="text-green-300">"member"</span>, <span class="text-green-300">"guest"</span>]
+      type: <span class="text-green-300">string</span>
+      enum: [<span class="text-green-300">admin</span>, <span class="text-green-300">member</span>, <span class="text-green-300">guest</span>]
     }
   }
 }</code></pre>
@@ -238,7 +238,7 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-bordercol text-slate-300">
-                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">type</td><td class="px-4 sm:px-6 py-3"><code class="text-brand">"string"</code>, <code class="text-brand">"integer"</code>, <code class="text-brand">"double"</code>, <code class="text-brand">"boolean"</code> — <code class="text-brand">"object"</code> and <code class="text-brand">"array"</code> can be left out, they're inferred automatically from <code class="text-brand">properties</code> / <code class="text-brand">record</code></td></tr>
+                            <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">type</td><td class="px-4 sm:px-6 py-3"><code class="text-brand">string</code>, <code class="text-brand">integer</code>, <code class="text-brand">double</code>, <code class="text-brand">boolean</code> — <code class="text-brand">object</code> and <code class="text-brand">array</code> can be left out, they're inferred automatically from <code class="text-brand">properties</code> / <code class="text-brand">record</code></td></tr>
                             <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">required</td><td class="px-4 sm:px-6 py-3">a list of field names that must be present</td></tr>
                             <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">strict</td><td class="px-4 sm:px-6 py-3"><code class="text-brand">true</code> to reject any field not listed below</td></tr>
                             <tr><td class="px-4 sm:px-6 py-3 font-mono text-brand">properties</td><td class="px-4 sm:px-6 py-3">the schema for each field of an object</td></tr>
