@@ -101,33 +101,23 @@
                 <p class="text-sm text-slate-400 leading-relaxed">
                     A thorough review of existing legacy codebases (Spring/Hibernate heavy stacks) to evaluate domain-model purity, isolate side-effects, and transition critical paths toward reflection-free immutable data structures.
                 </p>
-                <p class="text-xs text-slate-500 mt-3">Typically a 1–2 week fixed-scope audit, delivered as a written report.</p>
+                <p class="text-xs text-slate-500 mt-3">Typically 1–2 weeks, delivered as a written report; final scope and timeline confirmed after an initial codebase walkthrough.</p>
             </div>
 
-            <!-- Service 2 -->
+            <!-- Service 2 (merged: Integration + Pipelines) -->
             <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
                 <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">INTEGRATION</div>
-                <h3 class="text-xl font-bold mb-2">Custom Axiom Module Integration</h3>
+                <h3 class="text-xl font-bold mb-2">Axiom Integration &amp; Reactive Pipelines</h3>
                 <p class="text-sm text-slate-400 leading-relaxed">
-                    Direct engineering partnership to plug <span class="font-mono text-xs text-brand">axiom-warp-jdbc</span>, <span class="font-mono text-xs text-brand">axiom-warp-reactive</span>, and custom parsers directly into performance-critical services without framework bloat.
+                    Direct engineering partnership to plug <span class="font-mono text-xs text-brand">axiom-warp-jdbc</span>, <span class="font-mono text-xs text-brand">axiom-warp-reactive</span>, and custom parsers into performance-critical services without framework bloat. For teams pushing high-throughput async workloads, this extends into full pipeline architecture — zero-copy, backpressure-controlled streaming on Vert.x 5 primitives with forensic black-box trace recorders.
                 </p>
-                <p class="text-xs text-slate-500 mt-3">Typically a 2–6 week fixed-scope engagement.</p>
+                <p class="text-xs text-slate-500 mt-3">Typically 2–6 weeks for module integration, or an ongoing retainer for full pipeline design; final scope confirmed after an initial codebase walkthrough.</p>
             </div>
 
-            <!-- Service 3 -->
-            <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
-                <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">PIPELINES</div>
-                <h3 class="text-xl font-bold mb-2">High-Throughput Reactive Pipelines</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">
-                    Design and implementation of zero-copy, backpressure-controlled asynchronous streaming pipelines leveraging Vert.x 5 primitives and forensic black-box trace recorders.
-                </p>
-                <p class="text-xs text-slate-500 mt-3">Ongoing retainer or fixed-scope build, depending on system complexity.</p>
-            </div>
-
-            <!-- Service 4 -->
-            <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
+            <!-- Service 3 (formerly Service 4: Support) -->
+            <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition sm:col-span-2">
                 <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">SUPPORT</div>
-                <h3 class="text-xl font-bold mb-2">Private Distribution & Support Agreements</h3>
+                <h3 class="text-xl font-bold mb-2">Private Distribution &amp; Support Agreements</h3>
                 <p class="text-sm text-slate-400 leading-relaxed">
                     For teams that can't pull from public Maven Central — regulated or air-gapped environments — I set up private artifact hosting for Axiom modules, plus a direct support agreement covering priority bug fixes and scoped protocol extensions.
                 </p>
