@@ -97,7 +97,10 @@
 					
 					<!-- Theme Switcher Option -->
 					<button onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition whitespace-nowrap" title="Toggle Theme Option">🎨 Theme</button>
-					<a href="https://github.com/sponsors/ensemblu" target="_blank" class="text-pink-400 hover:text-pink-300 transition whitespace-nowrap">Sponsor</a>
+					<a href="https://github.com/sponsors/ensemblu" target="_blank" class="flex items-center gap-1.5 text-xs sm:text-sm px-3 py-1.5 rounded-lg border border-pink-400/30 text-pink-400 hover:text-pink-300 hover:border-pink-400/60 hover:bg-pink-400/5 transition whitespace-nowrap">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5 sm:w-4 sm:h-4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+						Sponsor Us
+					</a>
 					<a href="https://github.com/ensemblu" target="_blank" class="bg-brand text-darkbase px-4 py-2 rounded font-semibold hover:bg-sky-300 transition whitespace-nowrap">GitHub</a>
 				</nav>
         </div>
@@ -505,6 +508,25 @@ withHistory.read(client -&gt; warp.strike().shot(<span class="text-green-300">"S
 
         </main>
     </div>
+
+    <!-- Support / Sponsor Section -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
+        <div class="bg-surface border border-bordercol rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+			<div>
+				<h3 class="text-lg sm:text-xl font-bold text-white mb-2 font-mono">Support Ensemblu</h3>
+				<p class="text-sm text-slate-400 max-w-2xl">
+					Ensemblu is sovereign, zero-dependency Java infrastructure — no reflection, no framework bloat, no hidden magic.
+				</p>
+				<p class="text-sm text-slate-400 max-w-2xl mt-1">
+					Sponsor to fund independent development and help grow a cleaner Java ecosystem.
+				</p>
+			</div>
+            <a href="https://github.com/sponsors/ensemblu" target="_blank" class="shrink-0 flex items-center gap-2 px-5 py-3 rounded-lg border border-pink-400/40 text-pink-400 font-mono font-semibold hover:bg-pink-400/10 hover:border-pink-400/70 transition whitespace-nowrap">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                Sponsor Us on GitHub
+            </a>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="border-t border-bordercol bg-surface/30 py-10 sm:py-12 px-4 text-center text-sm text-slate-400">
