@@ -1,110 +1,130 @@
 # Axiom Type Bridging: When You Must Cast, and When You Must Not
 
-*A working reference for the JSON → Java → `AxiomProtocol` → Postgres pipeline, covering `axiom-spec`, `axiom-warp-jdbc`, and `axiom-warp-reactive`.*
+*A working reference for the JSON → Java → `AxiomProtocol` → Postgres pipeline across `axiom-spec`, `axiom-warp-jdbc`, and `axiom-warp-reactive` (Axiom **2.0.0**).*
 
 ---
 
 ## 1. The core mechanism, in one paragraph
 
-JSON has 5 types. Postgres has 40+. Axiom does not try to close that gap in Java. It defines **7 carriers** in `AxiomProtocol` (`STRING`, `INTEGER`, `LONG`, `DOUBLE`, `BOOLEAN`, `TIMESTAMP`, and the catch-all `OPAQUE`). `SqlParser.forge()` turns your `:java.name` placeholders into bare `?` (or `$1, $2...` via `Dialect` in the reactive engine), leaving every other character in your SQL template — including any `::cast` you wrote — completely untouched. The binder (`JdbcBinder` / `ReactiveBinder`) sends the Java value across the wire with a generic type tag. **The real type resolution happens on the Postgres side, at bind time, against the actual destination column or the explicit `::cast` you wrote.** Java never tries to model Postgres's type catalog — it delegates that job to Postgres itself.
+JSON has 5 types. Postgres has 40+. Axiom does **not** try to close that gap in Java. It defines **seven carriers** in `AxiomProtocol` (`STRING`, `INTEGER`, `LONG`, `DOUBLE`, `BOOLEAN`, `TIMESTAMP`, and the catch-all `OPAQUE`).
+
+`SqlParser.forge()` turns your `:java.name` placeholders into bare `?` (or `$1, $2…` via `Dialect` on the reactive engine), leaving every other character in the SQL template — including any `::cast` you wrote — **completely untouched**. The binder (`JdbcBinder` / `ReactiveBinder`) sends the Java value with a generic type tag. **Real type resolution happens on the Postgres side**, at bind time, against the destination column or the explicit `::cast` you wrote. Java never models Postgres’s type catalog — it delegates that job to Postgres itself.
 
 ---
 
-## 2. Why this works at all: Postgres's coercion graph
+## 2. Why this works: Postgres’s coercion graph
 
-Postgres doesn't require the parameter's declared type to exactly match the column's type. If the two types belong to the same **implicit/assignment-cast family**, Postgres coerces automatically and no cast is needed. If they don't, Postgres will reject the bind (or silently produce the wrong value) unless you force it with `::type`.
+Postgres does not require the parameter’s declared type to exactly match the column. If the two types belong to the same **implicit / assignment-cast family**, Postgres coerces automatically. If they don’t, you get an error (or worse, a silent wrong value) unless you force it with `::type`.
 
 ### Families that coerce for free (no `::cast` needed)
 
-| Carrier | Covers these Postgres types "for free" | Why |
-|---|---|---|
-| `STRING` | `varchar(n)`, `text`, `char(n)`/`bpchar`, `name`, domains over any of these | All mutually interchangeable via built-in casts. Length/padding rules (`varchar(50)` overflow, `char(10)` padding) are enforced by Postgres at assignment — not by Java. |
-| `INTEGER` / `LONG` / `DOUBLE` | `int2`, `int4`, `int8`, `numeric`, `real`, `double precision` | See §2a — it's a strict hierarchy, not a flat family. |
-| `TIMESTAMP` | `date`, `timestamp`, `timestamptz` | Postgres's temporal coercion graph connects all three without a cast error — **but see §4, this one has a real caveat.** |
-| `BOOLEAN` | `bool` | Family of one — Postgres has no sibling boolean-ish type, so there's nothing to "cover for free," it's just a direct match. |
+| Carrier | Covers these Postgres types “for free” | Why |
+|--------|----------------------------------------|-----|
+| `STRING` | `varchar(n)`, `text`, `char(n)` / `bpchar`, `name`, domains over these | Built-in casts both ways. Length/padding rules are enforced by Postgres at assignment. |
+| `INTEGER` / `LONG` / `DOUBLE` | `int2`, `int4`, `int8`, `numeric`, `real`, `double precision` | Strict hierarchy — see §2a. |
+| `TIMESTAMP` | `date`, `timestamp`, `timestamptz` | Connected in Postgres’s temporal graph — **but see §4 for the real caveat**. |
+| `BOOLEAN` | `bool` | Family of one. |
 
-**Rule of thumb:** if the DB column's type is a plain member of one of these families, **do not write a `::cast`.** It's unnecessary noise — Postgres already resolves it, and the `AxiomProtocol` carrier already routes correctly.
+**Rule of thumb:** if the column is a plain member of one of these families, **do not write a `::cast`**. It’s noise — the carrier already routes correctly.
 
-### 2a. The numeric family is a hierarchy, not a flat family — and it has one real precision caveat
+### 2a. The numeric family is a hierarchy
 
-Unlike the string family (fully interchangeable both directions, no information loss), the numeric family is a **strict linear chain**, confirmed against Postgres's own cast catalog design:
-
-```
+```text
 int2 → int4 → int8 → numeric → real → double precision
 ```
 
-- **Widening (moving right)** is an **implicit** cast — safe everywhere, including bare expressions (e.g. `WHERE` comparisons).
-- **Narrowing (moving left)** is an **assignment-only** cast — it applies automatically when binding into an `INSERT`/`UPDATE` column target (which is what Axiom's binders do), but would need an explicit cast in a bare expression. Practically: binding a `LONG` into an `int4` column, or a `DOUBLE` into a `numeric` column, works with no `::cast` — but it's an assignment-context free ride, not a symmetric equivalence.
-- Range errors on narrowing (`smallint out of range`, etc.) are thrown by Postgres at bind time, not caught by Java — same as before.
+- **Widening (moving right)** is an **implicit** cast — safe in expressions and binds.
+- **Narrowing (moving left)** is **assignment-only** — fine for `INSERT`/`UPDATE` targets (what Axiom’s binders do), but would need an explicit cast in a bare expression.
+- Range errors (`smallint out of range`, etc.) are thrown by Postgres at bind time.
 
-**Real caveat — `real`/`double precision` vs `numeric`:** `real`/`double precision` are approximate binary floating-point; `numeric` is exact decimal. The cast between them is legal and throws no SQL error, but it crosses a genuine representation boundary. A `double` carrying accumulated binary floating-point rounding error gets written into an exact-decimal `numeric` column artifacts and all — Postgres's cast catalog has no way to catch that, because nothing about it is actually illegal. If a column needs exact decimal semantics (money, precise quantities), be deliberate about using `BigDecimal` on the Java side and verify the value going in, rather than trusting the `DOUBLE` carrier by default.
+**Precision caveat — `real` / `double precision` vs `numeric`:**  
+binary floating-point vs exact decimal. The cast is legal and silent. A `double` carrying accumulated rounding error can land in a `numeric` column with those artifacts intact. For money or precise quantities, prefer exact decimal on the Java side and verify the value going in — do not trust the `DOUBLE` carrier by default.
 
 ---
 
 ## 3. Where you MUST cast: everything routed through `OPAQUE`
 
-`OPAQUE` binds as a plain string (`bindString` → `setString`/`addString`). Postgres does **not** offer free implicit/assignment coercion from a bare string into these targets in the general case. If you skip the cast, you'll get errors like `column "x" is of type jsonb but expression is of type character varying`, or worse — no error, wrong result.
+`OPAQUE` binds as a plain string (`bindString` → `setString` / `addString`). Postgres does **not** freely coerce a bare string into these targets. Skip the cast and you get errors like `column "x" is of type jsonb but expression is of type character varying` — or no error and the wrong result.
 
 **Always write an explicit `::type` next to the placeholder for:**
 
-- `jsonb` / `json` → `:java.payload::jsonb`
-- `uuid` → `:java.id::uuid`
-- enums (any custom enum type) → `:java.status::order_status`
-- arrays → `:java.tags::text[]`, `:java.ids::int[]`
-- `interval` — **not** covered by the `TIMESTAMP` carrier's coercion family, despite being temporal-ish → `:java.duration::interval`
-- `numeric(p,s)` with a specific precision/scale you want enforced deliberately at the boundary, if you want the error surfaced clearly rather than relying on implicit narrowing
-- PostGIS / custom domain types / any extension type
-- Anything else that isn't a plain member of the five families in §2
+| Target | Template fragment |
+|--------|-------------------|
+| `jsonb` / `json` | `:java.payload::jsonb` |
+| `uuid` | `:java.id::uuid` |
+| Custom enum | `:java.status::order_status` |
+| Arrays | `:java.tags::text[]`, `:java.ids::int[]` |
+| `interval` | `:java.duration::interval` (not covered by `TIMESTAMP`) |
+| `numeric(p,s)` when you want a deliberate boundary error | `:java.amount::numeric(12,2)` |
+| PostGIS / domains / extension types | `:java.geom::geometry`, etc. |
 
 **Template pattern:**
+
 ```sql
-INSERT INTO events(id, payload, tags, status)
-VALUES (:java.id::uuid, :java.payload::jsonb, :java.tags::text[], :java.status::order_status)
+INSERT INTO events (id, payload, tags, status)
+VALUES (
+  :java.id::uuid,
+  :java.payload::jsonb,
+  :java.tags::text[],
+  :java.status::order_status
+)
 ```
 
-### Null values through `OPAQUE`
-- **JDBC path:** `JdbcBinder.bindNull()` already handles this correctly — `OPAQUE` nulls bind as `Types.OTHER`, not `VARCHAR`, so Postgres can infer the type instead of rejecting a mismatched null. You don't need to do anything extra here.
-- **Reactive path:** `ReactiveBinder.bindNull()` sends every null as untyped (`tuple.addValue(null)`) regardless of protocol — also fine, just via a different mechanism (Vert.x sends an untyped null on the wire by default).
+### Nulls through `OPAQUE`
+
+- **JDBC:** `JdbcBinder.bindNull()` uses `Types.OTHER` for `OPAQUE` nulls so Postgres can infer the type (not `VARCHAR`).
+- **Reactive:** `ReactiveBinder.bindNull()` sends an untyped null (`tuple.addValue(null)`). Both paths are safe for nulls; you do not need extra ceremony.
 
 ---
 
-## 4. The one carrier that isn't as clean as it looks: `TIMESTAMP`
+## 4. The carrier that isn’t as clean as it looks: `TIMESTAMP`
 
-`date` / `timestamp` / `timestamptz` don't throw cast errors against each other — but "no error" isn't the same as "correct":
+`date` / `timestamp` / `timestamptz` do not throw cast errors against each other — but “no error” ≠ “correct”:
 
-- **`timestamptz` — safe, no caveat.** It stores an absolute instant. Both `JdbcBinder` (`java.sql.Timestamp`, built from epoch millis) and `ReactiveBinder` (`Instant`) represent the same unambiguous point in time. No timezone has to be *guessed* on write. Treat `TIMESTAMP` as fully safe here.
-- **`timestamp` (naive, no time zone) — not actually safe.** Writing an absolute instant into a naive column requires picking a timezone to render the wall-clock digits. `JdbcBinder`'s `setTimestamp()` (no explicit `Calendar`) falls back to the **JVM's default timezone**, silently. This is a real, currently-existing divergence between the JDBC and reactive engines and a genuine footgun.
+| Column type | Safety |
+|-------------|--------|
+| **`timestamptz`** | Safe. Absolute instant. JDBC (`java.sql.Timestamp` from epoch millis) and reactive (`Instant`) agree. |
+| **`timestamp` (naive)** | **Not safe by default.** Writing an absolute instant into a naive column requires a timezone for wall-clock digits. `JdbcBinder`’s `setTimestamp()` with no `Calendar` uses the **JVM default timezone**, silently. Real divergence between JDBC and reactive engines. |
 
 **Guidance:**
-- If your schema only uses `timestamptz` (the standard Postgres recommendation), you're fully covered — no cast, no special handling needed.
-- If any column is a naive `timestamp`, **do not trust the default binder behavior.** Either avoid naive `timestamp` columns entirely, or explicitly control the timezone used at the JDBC layer (e.g. `setTimestamp(i, ts, Calendar.getInstance(TimeZone.getTimeZone("UTC")))`) rather than relying on `AxiomBinder`'s current implementation as-is.
+
+- Prefer **`timestamptz`** only — no cast, no special handling.
+- If you must use naive `timestamp`, do **not** trust the default binder. Control timezone explicitly at the JDBC layer (e.g. `setTimestamp(i, ts, Calendar.getInstance(TimeZone.getTimeZone("UTC")))`), or avoid naive columns entirely.
 
 ---
 
 ## 5. Quick reference
 
 | Situation | Cast needed? |
-|---|---|
-| Target column is `text`/`varchar`/`char`/`name` | ❌ No |
-| Target column is `int2`/`int4`/`int8`/`numeric`/`real`/`double precision` | ❌ No cast needed (assignment-cast covers it) — but see §2a if the value is crossing the `real`/`double precision` ↔ `numeric` boundary and needs exact decimal precision |
-| Target column is `bool` | ❌ No |
-| Target column is `timestamptz` | ❌ No |
-| Target column is naive `timestamp` | ⚠️ No cast needed syntactically, but verify timezone handling manually — don't trust it blindly |
-| Target column is `jsonb` / `json` | ✅ Yes — `::jsonb` / `::json` |
-| Target column is `uuid` | ✅ Yes — `::uuid` |
-| Target column is a custom enum | ✅ Yes — `::your_enum_type` |
-| Target column is an array type | ✅ Yes — `::type[]` |
-| Target column is `interval` | ✅ Yes — `::interval` |
-| Target column is any other extension/custom/domain type | ✅ Yes |
+|-----------|--------------|
+| `text` / `varchar` / `char` / `name` | ❌ No |
+| `int2` / `int4` / `int8` / `numeric` / `real` / `double precision` | ❌ No (assignment-cast) — but see §2a for `double` ↔ `numeric` precision |
+| `bool` | ❌ No |
+| `timestamptz` | ❌ No |
+| Naive `timestamp` | ⚠️ No cast syntactically — verify timezone handling manually |
+| `jsonb` / `json` | ✅ `:java.x::jsonb` / `::json` |
+| `uuid` | ✅ `:java.x::uuid` |
+| Custom enum | ✅ `:java.x::your_enum` |
+| Array type | ✅ `:java.x::type[]` |
+| `interval` | ✅ `:java.x::interval` |
+| Any other extension / domain / custom type | ✅ Yes |
 
 ---
 
 ## 6. Portability note
 
-This entire design is **Postgres-specific**, not general SQL:
+This design is **Postgres-specific**:
 
-1. `::type` cast syntax doesn't exist in MySQL, SQL Server, or Oracle — they need `CAST(value AS type)` or vendor-specific equivalents.
-2. The "free coercion families" in §2 are Postgres's own cast catalog. Other engines have different (and sometimes more dangerous — e.g. MySQL's non-strict-mode silent truncation) coercion rules.
-3. `Dialect` in `axiom-warp-reactive` currently only has a real implementation for `POSTGRES`; `GENERIC` is a no-op pass-through (`sql -> sql`) with no evidence the coercion assumptions above have been re-validated for any other database.
+1. `::type` is not portable to MySQL, SQL Server, or Oracle (`CAST(value AS type)` or vendor equivalents).
+2. The free coercion families above are Postgres’s cast catalog. Other engines differ (sometimes dangerously — e.g. MySQL non-strict truncation).
+3. `Dialect` in `axiom-warp-reactive` has a real implementation for **`POSTGRES`**; `GENERIC` is a pass-through. Coercion assumptions have **not** been re-validated for other databases.
 
-**If Axiom ever targets a database other than Postgres, every rule in this document needs to be re-derived from that database's own cast catalog — none of it transfers automatically.**
+**If Axiom ever targets another database, every rule in this document must be re-derived from that engine’s cast catalog. None of it transfers automatically.**
+
+---
+
+## Related reading
+
+- [Axiom vs the Java persistence landscape](axiom-vs-java-persistence-landscape.md)
+- Live demo: [axiom-strike-jdbc](https://github.com/ensemblu-corp/axiom-strike-jdbc)
+- Modules: `axiom-spec`, `axiom-warp-jdbc`, `axiom-warp-reactive` (2.0.0)
