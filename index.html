@@ -86,7 +86,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
            <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
 				<span class="font-bold tracking-wider text-lg sm:text-xl text-brand">ENSEMBLU</span>
-				<span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">Project Axiom v1.0.0</span>
+				<span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">Project Axiom v2.0.0</span>
 			</div>
 				<nav class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-medium">
 					<a href="#solves" class="hover:text-brand transition">The 7 Fixes</a>
@@ -94,6 +94,8 @@
 					<a href="https://central.sonatype.com/namespace/com.ensemblu" target="_blank" class="hover:text-brand transition">Maven Central</a>
 					<a href="https://www.javadoc.io/doc/com.ensemblu" target="_blank" class="hover:text-brand transition">Javadocs</a>
 					<a href="services.html" class="hover:text-brand transition">Services</a>
+					<a href="schemaguard.html" class="hover:text-brand transition">SchemaGuard</a>
+					<a href="blogs/axiom-type-bridging-guide.md" class="hover:text-brand transition hidden sm:inline">Type Bridging</a>
 					
 					<!-- Theme Switcher Option -->
 					<button onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition whitespace-nowrap" title="Toggle Theme Option">🎨 Theme</button>
@@ -396,8 +398,8 @@ log.run(); <span class="text-slate-500">// nothing happens until you call run()<
                     </div>
                     <pre class="p-4 sm:p-6 text-xs sm:text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-keyword">import</span> com.ensemblu.axiom.sovereign.parser.AxiomDopParser;
 
-<span class="text-slate-500">// Direct execution</span>
-<span class="text-keyword">final var</span> result = AxiomDopParser.take(inputString).openBuffer().parse();
+<span class="text-slate-500">// Direct execution — byte[] only in 2.0.0</span>
+<span class="text-keyword">final var</span> result = AxiomDopParser.take(rawBytes).openBuffer().parse();
 
 <span class="text-slate-500">// Dop.normalize is the single canonicalization point before comparison/storage.</span></code></pre>
                 </div>
@@ -411,7 +413,7 @@ log.run(); <span class="text-slate-500">// nothing happens until you call run()<
                     <pre class="p-4 sm:p-6 text-xs sm:text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-keyword">import</span> com.ensemblu.axiom.schema.SchemaGuard;
 
 <span class="text-slate-500">// Executes validation handshake</span>
-<span class="text-keyword">final var</span> result = SchemaGuard.checkContent(rawJsonString)
+<span class="text-keyword">final var</span> result = SchemaGuard.checkContent(rawBytes)
     .basedOnSchemaInPath(<span class="text-green-300">"schemas/user-profile"</span>)
     .withAxiomParser();</code></pre>
                     <div class="px-4 sm:px-6 pb-4 sm:pb-5 text-xs">
@@ -430,8 +432,11 @@ log.run(); <span class="text-slate-500">// nothing happens until you call run()<
 IngressBinder.apply(binder, plan, myContractMap, myDataMap);
 
 <span class="text-slate-500">// 2. High-Precision Parsing</span>
-<span class="text-keyword">final var</span> data = JsonParser.take(jsonString).openBuffer().ensureRootIsObject().parseObject();
-<span class="text-keyword">final var</span> row = CsvRowParser.takeLine(<span class="text-green-300">"val1,val2"</span>).basedOnHeaders(<span class="text-green-300">"col1"</span>, <span class="text-green-300">"col2"</span>);
+<span class="text-keyword">final var</span> data = JsonParser.take(jsonBytes).openBuffer().ensureRootIsObject().parseObject();
+<span class="text-keyword">final var</span> row = CsvRowParser.takeLine(<span class="text-green-300">"val1,val2"</span>.getBytes(StandardCharsets.UTF_8)).basedOnHeaders(<span class="text-green-300">"col1"</span>, <span class="text-green-300">"col2"</span>);
+
+<span class="text-slate-500">// 2b. JSON emission (Dop.toJson removed in 2.0.0 — use JsonEmitter)</span>
+<span class="text-keyword">final var</span> json = JsonEmitter.emit(data);
 
 <span class="text-slate-500">// 3. Structural Materialization</span>
 <span class="text-keyword">final var</span> materialized = RowMaterializer.materialize(row);

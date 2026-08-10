@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ensemblu — Enterprise Services & Architecture Assets</title>
+    <title>Ensemblu — Enterprise Services & Architecture</title>
+    <meta name="description" content="Data-oriented architecture audits, Axiom integration, reactive pipelines, and private distribution for teams that need zero-reflection discipline in production.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,14 +17,10 @@
                         bordercol: '#334155',
                         brand: '#38bdf8',
                         accentgreen: '#4ade80',
-                        slatebase: '#f8fafc',
-                        slatesurface: '#ffffff',
-                        slateborder: '#e2e8f0',
                     }
                 }
             }
         }
-        // Simple theme switcher function — kept identical to index.html
         function setTheme(theme) {
             if (theme === 'slate') {
                 document.documentElement.classList.add('theme-slate');
@@ -34,116 +31,105 @@
             }
         }
         function toggleTheme() {
-            const isSlate = document.documentElement.classList.contains('theme-slate');
-            setTheme(isSlate ? 'dark' : 'slate');
+            setTheme(document.documentElement.classList.contains('theme-slate') ? 'dark' : 'slate');
         }
-        // Restore saved theme immediately (before paint) so it's consistent across pages
         if (localStorage.getItem('theme') === 'slate') {
             document.documentElement.classList.add('theme-slate');
         }
     </script>
     <style>
-        /* Option 2 dynamic class overrides — mirrors index.html's theme-slate light mode */
         .theme-slate body { background-color: #f8fafc !important; color: #0f172a !important; }
         .theme-slate header { background-color: rgba(255, 255, 255, 0.8) !important; border-color: #e2e8f0 !important; }
         .theme-slate footer { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
-        .theme-slate .bg-surface,
-        .theme-slate .bg-surface\/30,
-        .theme-slate .bg-surface\/50 { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
+        .theme-slate .bg-surface, .theme-slate .bg-surface\/30, .theme-slate .bg-surface\/50 {
+            background-color: #ffffff !important; border-color: #e2e8f0 !important;
+        }
         .theme-slate .border-bordercol { border-color: #e2e8f0 !important; }
         .theme-slate .bg-slate-950 { background-color: #f1f5f9 !important; color: #1e293b !important; border-color: #cbd5e1 !important; }
         .theme-slate .text-slate-400, .theme-slate .text-slate-300 { color: #475569 !important; }
         .theme-slate .text-white { color: #0f172a !important; }
-        .theme-slate .text-brand,
-        .theme-slate [class*="text-sky-"],
-        .theme-slate [class*="text-blue-"] { color: #0284c7 !important; }
-
+        .theme-slate .text-brand, .theme-slate [class*="text-sky-"], .theme-slate [class*="text-blue-"] { color: #0284c7 !important; }
         html { overflow-x: clip; }
         img, svg, pre, code { max-width: 100%; }
     </style>
 </head>
 <body class="bg-darkbase text-slate-100 font-sans antialiased selection:bg-brand selection:text-darkbase">
 
-    <!-- Header Navigation -->
-    <header class="border-b border-bordercol bg-surface/50 backdrop-blur sticky top-0 z-50 px-6 py-4">
-        <div class="max-w-5xl mx-auto flex items-center justify-between">
-                <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span class="font-bold tracking-wider text-lg sm:text-xl text-brand">ENSEMBLU</span>
-                <span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">Services</span>
-            </div>
-            <div class="flex items-center gap-4">
-                <button onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition whitespace-nowrap" title="Toggle Theme Option">🎨 Theme</button>
-                <a href="index.html" class="text-sm text-slate-400 hover:text-brand transition">&larr; Back to Ecosystem</a>
-            </div>
+<header class="border-b border-bordercol bg-surface/50 backdrop-blur sticky top-0 z-50 px-6 py-4">
+    <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <a href="index.html" class="font-bold tracking-wider text-lg sm:text-xl text-brand">ENSEMBLU</a>
+            <span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">Services</span>
         </div>
-    </header>
+        <div class="flex items-center gap-4">
+            <button onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition whitespace-nowrap" title="Toggle Theme">🎨 Theme</button>
+            <a href="index.html" class="text-sm text-slate-400 hover:text-brand transition">&larr; Ecosystem</a>
+        </div>
+    </div>
+</header>
 
-    <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-6 py-16">
-        
-        <!-- Hero Section -->
-        <div class="mb-16">
-            <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">Enterprise Services & Architecture Assets</h1>
-            <p class="text-lg text-slate-400 leading-relaxed">
-                I build uncompromising, data-oriented Java architecture — the same zero-reflection, zero-dependency discipline behind <span class="font-mono text-brand">com.ensemblu</span> on Maven Central, applied directly to your codebase. Beyond the public packages, I take on advisory and custom integration work for teams that need that same discipline in production.
+<main class="max-w-4xl mx-auto px-6 py-16">
+
+    <div class="mb-16">
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">Enterprise Services &amp; Architecture</h1>
+        <p class="text-lg text-slate-400 leading-relaxed max-w-2xl">
+            Uncompromising, data-oriented Java architecture — the same zero-reflection, zero-dependency discipline behind
+            <span class="font-mono text-brand">com.ensemblu</span> on Maven Central — applied directly to your codebase.
+            Beyond the public packages: advisory and custom integration for teams that need that discipline in production.
+        </p>
+    </div>
+
+    <hr class="border-bordercol mb-16">
+
+    <div class="grid gap-8 sm:grid-cols-2 mb-16">
+
+        <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
+            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">AUDIT</div>
+            <h3 class="text-xl font-bold mb-2">Data-Oriented Architecture Audit</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+                A focused review of legacy Spring/Hibernate stacks: domain-model purity, side-effect isolation, and a concrete path toward reflection-free immutable structures on the highest-risk services.
             </p>
+            <p class="text-xs text-slate-500 mt-3">Typically 1–2 weeks for a defined set of critical paths, delivered as a written report. Broader coverage scoped after an initial walkthrough.</p>
         </div>
 
-        <hr class="border-bordercol mb-16">
-
-        <!-- Services Grid -->
-        <div class="grid gap-8 sm:grid-cols-2 mb-16">
-            
-            <!-- Service 1 -->
-            <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
-                <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">AUDIT</div>
-                <h3 class="text-xl font-bold mb-2">Data-Oriented Architecture Audit</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">
-                    A thorough review of existing legacy codebases (Spring/Hibernate heavy stacks) to evaluate domain-model purity, isolate side-effects, and transition critical paths toward reflection-free immutable data structures.
-                </p>
-                <p class="text-xs text-slate-500 mt-3">A focused review of your highest-risk services or modules — not a full-codebase audit. Typically 1–2 weeks for a defined set of critical paths, delivered as a written report; broader coverage scoped separately after an initial walkthrough.</p>
-            </div>
-
-            <!-- Service 2 (merged: Integration + Pipelines) -->
-            <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
-                <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">INTEGRATION</div>
-                <h3 class="text-xl font-bold mb-2">Axiom Integration &amp; Reactive Pipelines</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">
-                    Direct engineering partnership to plug <span class="font-mono text-xs text-brand">axiom-warp-jdbc</span>, <span class="font-mono text-xs text-brand">axiom-warp-reactive</span>, and custom parsers into performance-critical services without framework bloat. For teams pushing high-throughput async workloads, this extends into full pipeline architecture — zero-copy, backpressure-controlled streaming on Vert.x 5 primitives with forensic black-box trace recorders.
-                </p>
-                <p class="text-xs text-slate-500 mt-3">Typically 2–6 weeks for module integration, or an ongoing retainer for full pipeline design; final scope confirmed after an initial codebase walkthrough.</p>
-            </div>
-
-            <!-- Service 3 (formerly Service 4: Support) -->
-            <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition sm:col-span-2">
-                <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">SUPPORT</div>
-                <h3 class="text-xl font-bold mb-2">Private Distribution &amp; Support Agreements</h3>
-                <p class="text-sm text-slate-400 leading-relaxed">
-                    For teams that can't pull from public Maven Central — regulated or air-gapped environments — I set up private artifact hosting for Axiom modules, plus a direct support agreement covering priority bug fixes and scoped protocol extensions.
-                </p>
-                <p class="text-xs text-slate-500 mt-3">Annual support agreement.</p>
-            </div>
-
-        </div>
-
-        <!-- Call to Action Box -->
-        <div class="p-8 rounded-2xl border border-brand/20 bg-brand/5 text-center">
-            <h3 class="text-2xl font-bold mb-3">Ready to modernize your infrastructure?</h3>
-            <p class="text-slate-400 text-sm max-w-xl mx-auto mb-6">
-                Reach out directly to discuss project requirements, a custom engagement, or technical advisory — you'll be talking to me, not a sales team.
+        <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
+            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">INTEGRATION</div>
+            <h3 class="text-xl font-bold mb-2">Axiom Integration &amp; Reactive Pipelines</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+                Direct engineering partnership to wire <span class="font-mono text-xs text-brand">axiom-warp-jdbc</span>,
+                <span class="font-mono text-xs text-brand">axiom-warp-reactive</span>, SchemaGuard, and custom parsers into performance-critical services — without framework bloat.
+                For high-throughput async work: zero-copy, backpressure-controlled streaming on Vert.x 5 with AHE forensic buffers.
             </p>
-            <a href="mailto:contact@ensemblu.com" class="inline-block px-6 py-3 rounded-xl bg-brand text-darkbase font-bold hover:bg-brand/90 transition text-sm">
-                Initiate Technical Inquiry
-            </a>
+            <p class="text-xs text-slate-500 mt-3">Typically 2–6 weeks for module integration, or a retainer for full pipeline design. Scope confirmed after a codebase walkthrough.</p>
         </div>
 
-    </main>
+        <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition sm:col-span-2">
+            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">SUPPORT</div>
+            <h3 class="text-xl font-bold mb-2">Private Distribution &amp; Support Agreements</h3>
+            <p class="text-sm text-slate-400 leading-relaxed">
+                For regulated or air-gapped environments that cannot pull from public Maven Central: private artifact hosting for Axiom modules, plus a direct support agreement covering priority fixes and scoped protocol extensions.
+            </p>
+            <p class="text-xs text-slate-500 mt-3">Annual support agreement.</p>
+        </div>
 
-    <!-- Footer -->
-    <footer class="border-t border-bordercol bg-surface/30 py-10 px-4 text-center text-sm text-slate-400">
-        <p class="mb-2">Every module is open, live, and pullable today — the services on this page are for teams who want that same architecture built directly into their own systems.</p>
-        <p class="text-xs text-slate-500">© 2026 Ofek Malka • Founder, Ensemblu</p>
-    </footer>
+    </div>
+
+    <div class="p-8 rounded-2xl border border-brand/20 bg-brand/5 text-center">
+        <h3 class="text-2xl font-bold mb-3">Ready to harden the perimeter?</h3>
+        <p class="text-slate-400 text-sm max-w-xl mx-auto mb-6">
+            Reach out to discuss project requirements, a custom engagement, or technical advisory — you’ll talk to the person who builds the stack, not a sales team.
+        </p>
+        <a href="mailto:contact@ensemblu.com" class="inline-block px-6 py-3 rounded-xl bg-brand text-darkbase font-bold hover:bg-brand/90 transition text-sm">
+            Initiate Technical Inquiry
+        </a>
+    </div>
+
+</main>
+
+<footer class="border-t border-bordercol bg-surface/30 py-10 px-4 text-center text-sm text-slate-400">
+    <p class="mb-2">Every module is open and pullable today — these services are for teams who want that same architecture built into their own systems.</p>
+    <p class="text-xs text-slate-500">© 2026 Ofek Malka · Founder, Ensemblu · Limited Commercial License</p>
+</footer>
 
 </body>
 </html>
