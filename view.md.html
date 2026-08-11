@@ -1,24 +1,84 @@
-<!-- view.md.html — host at ensemblu-corp.github.io/assets/view.md.html -->
 <!DOCTYPE html>
-<html>
-<head><meta charset="utf-8"><title>Opening in StackEdit…</title></head>
-<body>
-<script src="https://unpkg.com/stackedit-js@1.0.7/docs/lib/stackedit.min.js"></script>
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const file = params.get('file'); // e.g. blogs/axiom-persistence-hard-truths.md
-  const rawUrl = `https://raw.githubusercontent.com/ensemblu-corp/assets/main/${file}`;
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ensemblu · Article</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css" />
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+  <style>
+    body { background: #0f172a; color: #e2e8f0; }
+    .prose { max-width: 48rem; margin: 0 auto; line-height: 1.7; }
+    .prose h1 { font-size: 1.875rem; font-weight: 800; margin: 1.5rem 0 0.75rem; color: #f8fafc; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; margin: 1.75rem 0 0.5rem; color: #f1f5f9; border-bottom: 1px solid #334155; padding-bottom: 0.35rem; }
+    .prose h3 { font-size: 1.15rem; font-weight: 600; margin: 1.25rem 0 0.4rem; color: #e2e8f0; }
+    .prose p, .prose li { color: #cbd5e1; margin: 0.6rem 0; }
+    .prose a { color: #38bdf8; text-decoration: underline; }
+    .prose code { background: #1e293b; color: #7dd3fc; padding: 0.1rem 0.35rem; border-radius: 0.25rem; font-size: 0.9em; }
+    .prose pre { background: #020617; border: 1px solid #334155; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
+    .prose pre code { background: transparent; padding: 0; color: #e2e8f0; }
+    .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; margin: 1rem 0; }
+    .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+    .prose th, .prose td { border: 1px solid #334155; padding: 0.5rem 0.75rem; text-align: left; }
+    .prose th { background: #1e293b; color: #f8fafc; }
+    .prose hr { border: none; border-top: 1px solid #334155; margin: 2rem 0; }
+    .prose ul, .prose ol { padding-left: 1.25rem; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <header class="border-b border-slate-700 bg-slate-900/80 backdrop-blur sticky top-0 z-10">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-sm">
+      <a href="index.html" class="font-bold tracking-wider text-sky-400">ENSEMBLU</a>
+      <div class="flex gap-4 text-slate-400">
+        <a href="index.html" class="hover:text-sky-400">Home</a>
+        <a id="raw-link" href="#" target="_blank" class="hover:text-sky-400">Raw on GitHub</a>
+      </div>
+    </div>
+  </header>
 
-  fetch(rawUrl)
-    .then(res => res.text())
-    .then(text => {
-      const stackedit = new Stackedit();
-      stackedit.openFile({ name: file.split('/').pop(), content: { text } });
-      stackedit.on('close', () => window.close());
-    })
-    .catch(() => {
-      document.body.textContent = 'Could not load file: ' + file;
-    });
-</script>
+  <main class="px-4 py-10">
+    <div id="status" class="max-w-3xl mx-auto text-slate-400 text-sm mb-6">Loading…</div>
+    <article id="content" class="prose"></article>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const file = params.get('file'); // e.g. blogs/axiom-persistence-hard-truths.md
+
+    if (!file || file.includes('..')) {
+      document.getElementById('status').textContent = 'Missing or invalid ?file= parameter.';
+    } else {
+      const rawUrl = 'https://raw.githubusercontent.com/ensemblu-corp/assets/main/' + file;
+      document.getElementById('raw-link').href =
+        'https://github.com/ensemblu-corp/assets/blob/main/' + file;
+
+      fetch(rawUrl)
+        .then(function (res) {
+          if (!res.ok) throw new Error(res.status + ' ' + res.statusText);
+          return res.text();
+        })
+        .then(function (text) {
+          marked.setOptions({
+            highlight: function (code, lang) {
+              if (lang && hljs.getLanguage(lang)) {
+                return hljs.highlight(code, { language: lang }).value;
+              }
+              return hljs.highlightAuto(code).value;
+            },
+            breaks: false,
+            gfm: true
+          });
+          document.getElementById('content').innerHTML = marked.parse(text);
+          document.getElementById('status').textContent = file;
+          document.title = file.split('/').pop().replace(/\.md$/, '') + ' · Ensemblu';
+        })
+        .catch(function (err) {
+          document.getElementById('status').textContent =
+            'Could not load: ' + file + ' — ' + err.message;
+        });
+    }
+  </script>
 </body>
 </html>
