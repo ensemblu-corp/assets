@@ -18,13 +18,14 @@
     .prose a { color: #38bdf8; text-decoration: underline; }
     .prose code { background: #1e293b; color: #7dd3fc; padding: 0.1rem 0.35rem; border-radius: 0.25rem; font-size: 0.9em; }
     .prose pre { background: #020617; border: 1px solid #334155; border-radius: 0.5rem; padding: 1rem; overflow-x: auto; margin: 1rem 0; }
-    .prose pre code { background: transparent; padding: 0; color: #e2e8f0; }
+    .prose pre code { background: transparent; padding: 0; color: #e2e8f0; display: block; }
     .prose blockquote { border-left: 3px solid #38bdf8; padding-left: 1rem; color: #94a3b8; margin: 1rem 0; }
     .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
     .prose th, .prose td { border: 1px solid #334155; padding: 0.5rem 0.75rem; text-align: left; }
     .prose th { background: #1e293b; color: #f8fafc; }
     .prose hr { border: none; border-top: 1px solid #334155; margin: 2rem 0; }
     .prose ul, .prose ol { padding-left: 1.25rem; }
+    .prose img { max-width: 100%; height: auto; }
   </style>
 </head>
 <body class="min-h-screen">
@@ -33,7 +34,7 @@
       <a href="index.html" class="font-bold tracking-wider text-sky-400">ENSEMBLU</a>
       <div class="flex gap-4 text-slate-400">
         <a href="index.html" class="hover:text-sky-400">Home</a>
-        <a id="raw-link" href="#" target="_blank" class="hover:text-sky-400">Raw on GitHub</a>
+        <a id="raw-link" href="#" target="_blank" rel="noopener" class="hover:text-sky-400">Raw on GitHub</a>
       </div>
     </div>
   </header>
@@ -44,15 +45,21 @@
   </main>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const file = params.get('file'); // e.g. blogs/axiom-persistence-hard-truths.md
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var file = params.get('file');
+      var statusEl = document.getElementById('status');
+      var contentEl = document.getElementById('content');
+      var rawLink = document.getElementById('raw-link');
 
-    if (!file || file.includes('..')) {
-      document.getElementById('status').textContent = 'Missing or invalid ?file= parameter.';
-    } else {
-      const rawUrl = 'https://raw.githubusercontent.com/ensemblu-corp/assets/main/' + file;
-      document.getElementById('raw-link').href =
-        'https://github.com/ensemblu-corp/assets/blob/main/' + file;
+      // Safety: only allow paths under blogs/ or root md files — no path traversal
+      if (!file || file.indexOf('..') !== -1 || file.charAt(0) === '/' || file.indexOf('://') !== -1) {
+        statusEl.textContent = 'Missing or invalid ?file= parameter.';
+        return;
+      }
+
+      var rawUrl = 'https://raw.githubusercontent.com/ensemblu-corp/assets/main/' + file;
+      rawLink.href = 'https://github.com/ensemblu-corp/assets/blob/main/' + file;
 
       fetch(rawUrl)
         .then(function (res) {
@@ -60,25 +67,30 @@
           return res.text();
         })
         .then(function (text) {
-          marked.setOptions({
-            highlight: function (code, lang) {
-              if (lang && hljs.getLanguage(lang)) {
-                return hljs.highlight(code, { language: lang }).value;
-              }
-              return hljs.highlightAuto(code).value;
-            },
-            breaks: false,
-            gfm: true
-          });
-          document.getElementById('content').innerHTML = marked.parse(text);
-          document.getElementById('status').textContent = file;
-          document.title = file.split('/').pop().replace(/\.md$/, '') + ' · Ensemblu';
+          // marked v9+ : no highlight option — render first, then highlight blocks
+          if (typeof marked.parse !== 'function') {
+            throw new Error('marked failed to load');
+          }
+
+          marked.setOptions({ gfm: true, breaks: false });
+          contentEl.innerHTML = marked.parse(text);
+
+          // Syntax highlight after DOM insert
+          if (typeof hljs !== 'undefined') {
+            contentEl.querySelectorAll('pre code').forEach(function (block) {
+              hljs.highlightElement(block);
+            });
+          }
+
+          statusEl.textContent = file;
+          var name = file.split('/').pop().replace(/\.md$/i, '');
+          document.title = name + ' · Ensemblu';
         })
         .catch(function (err) {
-          document.getElementById('status').textContent =
-            'Could not load: ' + file + ' — ' + err.message;
+          statusEl.textContent = 'Could not load: ' + file + ' — ' + err.message;
+          contentEl.innerHTML = '';
         });
-    }
+    })();
   </script>
 </body>
 </html>
