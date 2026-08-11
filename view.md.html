@@ -1,0 +1,24 @@
+<!-- view.md.html — host at ensemblu-corp.github.io/assets/view.md.html -->
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Opening in StackEdit…</title></head>
+<body>
+<script src="https://unpkg.com/stackedit-js@1.0.7/docs/lib/stackedit.min.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const file = params.get('file'); // e.g. blogs/axiom-persistence-hard-truths.md
+  const rawUrl = `https://raw.githubusercontent.com/ensemblu-corp/assets/main/${file}`;
+
+  fetch(rawUrl)
+    .then(res => res.text())
+    .then(text => {
+      const stackedit = new Stackedit();
+      stackedit.openFile({ name: file.split('/').pop(), content: { text } });
+      stackedit.on('close', () => window.close());
+    })
+    .catch(() => {
+      document.body.textContent = 'Could not load file: ' + file;
+    });
+</script>
+</body>
+</html>
