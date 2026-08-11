@@ -177,11 +177,15 @@
                 <p class="text-slate-300">Get a <code class="text-brand">Result</code> — never a structural crash.</p>
             </div>
         </div>
-        <p class="text-sm text-slate-500 text-center">
-            <strong class="text-white">Breaking in 2.0.0:</strong> <code class="text-brand">checkContent(String)</code> is gone.
-            Use <code class="text-brand">checkContent(byte[])</code> or <code class="text-brand">checkContent(PersistentMap)</code>.
-            <code class="text-brand">withParser</code> is now <code class="text-brand">Function&lt;byte[], PersistentMap&lt;String, Object&gt;&gt;</code>.
-        </p>
+        <div class="bg-slate-950/80 border border-bordercol rounded-xl p-5 space-y-3 text-sm">
+            <div class="font-mono text-xs uppercase tracking-wide text-rose-400 font-semibold">
+                ⚠️ Breaking Changes in 2.0.0
+            </div>
+            <ul class="space-y-2 text-slate-300 list-disc list-inside">
+                <li><code class="text-brand">checkContent(String)</code> is gone. Use <code class="text-brand">checkContent(byte[])</code> or <code class="text-brand">checkContent(PersistentMap)</code>.</li>
+                <li><code class="text-brand">withParser</code> is now <code class="text-brand">Function&lt;byte[], PersistentMap&lt;String, Object&gt;&gt;</code>.</li>
+            </ul>
+         </div>
     </section>
 
     <section class="space-y-4">
@@ -202,7 +206,7 @@
       type: <span class="text-green-300">integer</span>
       min: <span class="text-orange-400">1</span>
       max: <span class="text-orange-400">1000</span>
-      description: <span class="text-green-300">"Maximum records per fetch."</span>
+      description: <span class="text-green-300">Maximum records per fetch.</span>
     }
   }
 }</code></pre>
