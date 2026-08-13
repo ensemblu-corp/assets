@@ -105,5 +105,5 @@ If those constraints feel extreme, the statements above are why they exist.
 
 - [Axiom Type Bridging Guide](axiom-type-bridging-guide.md) — when `::cast` is required  
 - [Axiom vs the Java Persistence Landscape](axiom-vs-java-persistence-landscape.md) — tool-by-tool matrix  
-- [Axiom 1.0.0 → 2.0.0 Changelog](axiom-2.0.0-changelog.md) — byte-native parsers, removed `Dop.toJson`, dual-engine contract  
+- [Axiom 1.0.0 → 2.0.0 Changelog](changelog-1.0.0-to-2.0.0.md) — byte-native parsers, removed `Dop.toJson`, dual-engine contract  
 - Live demo: [axiom-strike-jdbc](https://github.com/ensemblu-corp/axiom-strike-jdbc)
