@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ensemblu — Enterprise Services & Architecture</title>
-    <meta name="description" content="Data-oriented architecture audits, Axiom integration, reactive pipelines, and private distribution for teams that need zero-reflection discipline in production.">
+    <title>Ensemblu — Sovereign Infrastructure & Enterprise Deployment</title>
+    <meta name="description" content="Private-access v3 infrastructure, custom off-heap database drivers, and sovereign enterprise architecture.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -49,6 +49,7 @@
         .theme-slate .text-slate-400, .theme-slate .text-slate-300 { color: #475569 !important; }
         .theme-slate .text-white { color: #0f172a !important; }
         .theme-slate .text-brand, .theme-slate [class*="text-sky-"], .theme-slate [class*="text-blue-"] { color: #0284c7 !important; }
+        .theme-slate #no-support-text { color: #0284c7 !important; }
         html { overflow-x: clip; }
         img, svg, pre, code { max-width: 100%; }
     </style>
@@ -59,7 +60,7 @@
     <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
         <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
             <a href="index.html" class="font-bold tracking-wider text-lg sm:text-xl text-brand">ENSEMBLU</a>
-            <span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">Services</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">Enterprise</span>
         </div>
         <div class="flex items-center gap-4">
             <button onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition whitespace-nowrap" title="Toggle Theme">🎨 Theme</button>
@@ -71,11 +72,11 @@
 <main class="max-w-4xl mx-auto px-6 py-16">
 
     <div class="mb-16">
-        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">Enterprise Services &amp; Architecture</h1>
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">Sovereign Infrastructure &amp; Private Deployment</h1>
         <p class="text-lg text-slate-400 leading-relaxed max-w-2xl">
-            Uncompromising, data-oriented Java architecture — the same zero-reflection, zero-dependency discipline behind
-            <span class="font-mono text-brand">com.ensemblu</span> on Maven Central — applied directly to your codebase.
-            Beyond the public packages: advisory and custom integration for teams that need that discipline in production.
+            Uncompromising, data-oriented Java architecture built on zero-reflection, zero-dependency principles. 
+            <strong class="text-slate-100 font-semibold" id="no-support-text">We do not offer open-source consulting, legacy refactoring, or v2 commercial support.</strong> 
+            Ensemblu provides exclusive, private-access v3 engine deployments and custom sovereign infrastructure for organizations operating at extreme scale.
         </p>
     </div>
 
@@ -84,51 +85,40 @@
     <div class="grid gap-8 sm:grid-cols-2 mb-16">
 
         <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
-            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">AUDIT</div>
-            <h3 class="text-xl font-bold mb-2">Data-Oriented Architecture Audit</h3>
+            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">SOVEREIGN</div>
+            <h3 class="text-xl font-bold mb-2">Private v3 Engine Deployment</h3>
             <p class="text-sm text-slate-400 leading-relaxed">
-                A focused review of legacy Spring/Hibernate stacks: domain-model purity, side-effect isolation, and a concrete path toward reflection-free immutable structures on the highest-risk services.
+                Complete, air-gapped or dedicated server deployment of the private v3 high-performance engine. Designed for institutions that require total hardware control, zero cloud tax, and absolute isolation from public repositories.
             </p>
-            <p class="text-xs text-slate-500 mt-3">Typically 1–2 weeks for a defined set of critical paths, delivered as a written report. Broader coverage scoped after an initial walkthrough.</p>
+            <p class="text-xs text-slate-500 mt-3">Available exclusively via annual enterprise licensing agreements.</p>
         </div>
 
         <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
-            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">INTEGRATION</div>
-            <h3 class="text-xl font-bold mb-2">Axiom Integration &amp; Reactive Pipelines</h3>
+            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">ENGINEERING</div>
+            <h3 class="text-xl font-bold mb-2">Custom Protocol Drivers &amp; Pipelines</h3>
             <p class="text-sm text-slate-400 leading-relaxed">
-                Direct engineering partnership to wire <span class="font-mono text-xs text-brand">axiom-warp-jdbc</span>,
-                <span class="font-mono text-xs text-brand">axiom-warp-reactive</span>, SchemaGuard, and custom parsers into performance-critical services — without framework bloat.
-                For high-throughput async work: zero-copy, backpressure-controlled streaming on Vert.x 5 with AHE forensic buffers.
+                Bespoke development of high-speed, off-heap wire protocol handlers (such as Vertica and Oracle) and data-oriented processing pipelines tailored to your proprietary infrastructure requirements.
             </p>
-            <p class="text-xs text-slate-500 mt-3">Typically 2–6 weeks for module integration, or a retainer for full pipeline design. Scope confirmed after a codebase walkthrough.</p>
-        </div>
-
-        <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition sm:col-span-2">
-            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">SUPPORT</div>
-            <h3 class="text-xl font-bold mb-2">Private Distribution &amp; Support Agreements</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">
-                For regulated or air-gapped environments that cannot pull from public Maven Central: private artifact hosting for Axiom modules, plus a direct support agreement covering priority fixes and scoped protocol extensions.
-            </p>
-            <p class="text-xs text-slate-500 mt-3">Annual support agreement.</p>
+            <p class="text-xs text-slate-500 mt-3">Scoped directly through direct architectural partnership.</p>
         </div>
 
     </div>
 
     <div class="p-8 rounded-2xl border border-brand/20 bg-brand/5 text-center">
-        <h3 class="text-2xl font-bold mb-3">Ready to harden the perimeter?</h3>
+        <h3 class="text-2xl font-bold mb-3">Secure Your Infrastructure</h3>
         <p class="text-slate-400 text-sm max-w-xl mx-auto mb-6">
-            Reach out to discuss project requirements, a custom engagement, or technical advisory — you’ll talk to the person who builds the stack, not a sales team.
+            Public artifacts are restricted to evaluation-only use. For private v3 access, custom drivers, and enterprise licensing terms, reach out directly to the core architect.
         </p>
         <a href="mailto:contact@ensemblu.com" class="inline-block px-6 py-3 rounded-xl bg-brand text-darkbase font-bold hover:bg-brand/90 transition text-sm">
-            Initiate Technical Inquiry
+            Initiate Enterprise Inquiry
         </a>
     </div>
 
 </main>
 
 <footer class="border-t border-bordercol bg-surface/30 py-10 px-4 text-center text-sm text-slate-400">
-    <p class="mb-2">Every module is open and pullable today — these services are for teams who want that same architecture built into their own systems.</p>
-    <p class="text-xs text-slate-500">© 2026 Ofek Malka · Founder, Ensemblu · Limited Commercial License</p>
+    <p class="mb-2">Public v2 repositories are strictly non-commercial evaluation assets. Sovereign v3 power is private.</p>
+    <p class="text-xs text-slate-500">© Ensemblu Corp. All rights reserved.</p>
 </footer>
 
 </body>
