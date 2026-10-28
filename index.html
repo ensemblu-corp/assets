@@ -773,7 +773,7 @@ footer { border-top: 1px solid var(--line); padding: 72px 0 40px; margin-top: 12
         <svg class="theme-ico-moon"><use href="#i-moon"/></svg><svg class="theme-ico-sun"><use href="#i-sun"/></svg>
       </button>
       <a class="icon-btn sponsor-btn" href="https://github.com/sponsors/ensemblu" target="_blank" rel="noopener" aria-label="Sponsor Ensemblu on GitHub" title="Sponsor"><svg><use href="#i-heart"/></svg></a>
-      <a class="btn btn-primary btn-sm gh-btn" href="https://github.com/ensemblu-corp" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>GitHub</a>
+      <a class="btn btn-primary btn-sm gh-btn" href="https://github.com/ensemblu/ensemblu/blob/main/README.md" target="_blank" rel="noopener"><svg><use href="#i-gh"/></svg>GitHub</a>
       <button class="icon-btn menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg><use href="#i-menu"/></svg></button>
     </div>
   </div>
@@ -1060,7 +1060,7 @@ footer { border-top: 1px solid var(--line); padding: 72px 0 40px; margin-top: 12
       <button class="filter" aria-pressed="false" data-filter="new">New in 3.0<span class="c">6</span></button>
     </div>
     <div class="mods" id="mods"></div>
-    <noscript><p class="muted">Module cards need JavaScript. Browse every module on <a href="https://github.com/ensemblu-corp" style="color:var(--brand)">GitHub</a>.</p></noscript>
+    <noscript><p class="muted">Module cards need JavaScript. Browse every module on <a href="https://github.com/ensemblu/ensemblu/blob/main/README.md" style="color:var(--brand)">GitHub</a>.</p></noscript>
   </div>
 </section>
 
@@ -1407,7 +1407,7 @@ footer { border-top: 1px solid var(--line); padding: 72px 0 40px; margin-top: 12
         <li><a href="#quickstart">Quickstart</a></li><li><a href="#migrate">Migrate from 2.x</a></li><li><a href="schemaguard.html">SchemaGuard</a></li><li><a href="https://www.javadoc.io/doc/com.ensemblu" target="_blank" rel="noopener">Javadocs</a></li><li><a href="https://github.com/ensemblu-corp/assets/tree/main/blogs" target="_blank" rel="noopener">All articles</a></li>
       </ul></div>
       <div><h4>Distribution</h4><ul>
-        <li><a href="https://central.sonatype.com/namespace/com.ensemblu" target="_blank" rel="noopener">Maven Central</a></li><li><a href="https://github.com/ensemblu-corp" target="_blank" rel="noopener">GitHub</a></li><li><a href="https://raw.githubusercontent.com/ensemblu-corp/axiom/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+        <li><a href="https://central.sonatype.com/namespace/com.ensemblu" target="_blank" rel="noopener">Maven Central</a></li><li><a href="https://github.com/ensemblu/ensemblu/blob/main/README.md" target="_blank" rel="noopener">GitHub</a></li><li><a href="https://raw.githubusercontent.com/ensemblu-corp/axiom/main/LICENSE" target="_blank" rel="noopener">License</a></li>
       </ul></div>
       <div><h4>Company</h4><ul>
         <li><a href="services.html">Enterprise services</a></li><li><a href="mailto:contact@ensemblu.com">contact@ensemblu.com</a></li><li><a href="https://github.com/sponsors/ensemblu" target="_blank" rel="noopener">Sponsor</a></li>
@@ -2236,7 +2236,7 @@ var POSTS = [
   POSTS.forEach(function (p) { IDX.push({ g: 'Articles', t: p.t, k: 'blog', ico: 'i-book', go: function () { location.href = p.href || BLOG + p.f; } }); });
   IDX.push({ g: 'External', t: 'Maven Central — com.ensemblu', k: 'central', ico: 'i-ext', go: function () { window.open('https://central.sonatype.com/namespace/com.ensemblu', '_blank', 'noopener'); } });
   IDX.push({ g: 'External', t: 'Javadocs', k: 'javadoc.io', ico: 'i-ext', go: function () { window.open('https://www.javadoc.io/doc/com.ensemblu', '_blank', 'noopener'); } });
-  IDX.push({ g: 'External', t: 'GitHub — ensemblu-corp', k: 'source', ico: 'i-gh', go: function () { window.open('https://github.com/ensemblu-corp', '_blank', 'noopener'); } });
+  IDX.push({ g: 'External', t: 'GitHub — Ensemblu', k: 'source', ico: 'i-gh', go: function () { window.open('https://github.com/ensemblu/ensemblu/blob/main/README.md', '_blank', 'noopener'); } });
   IDX.push({ g: 'Actions', t: 'Toggle light / dark theme', k: 'theme', ico: 'i-sun', go: function () { $('#theme-btn').click(); } });
   IDX.push({ g: 'Actions', t: 'Copy Maven dependency for the PostgreSQL driver', k: 'install', ico: 'i-copy', go: function () { copyText(INSTALL.maven.code); } });
 
