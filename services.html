@@ -1,125 +1,1050 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ensemblu — Sovereign Infrastructure & Enterprise Deployment</title>
-    <meta name="description" content="Private-access v3 infrastructure, custom off-heap database drivers, and sovereign enterprise architecture.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        darkbase: '#0f172a',
-                        surface: '#1e293b',
-                        bordercol: '#334155',
-                        brand: '#38bdf8',
-                        accentgreen: '#4ade80',
-                    }
-                }
-            }
-        }
-        function setTheme(theme) {
-            if (theme === 'slate') {
-                document.documentElement.classList.add('theme-slate');
-                localStorage.setItem('theme', 'slate');
-            } else {
-                document.documentElement.classList.remove('theme-slate');
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-        function toggleTheme() {
-            setTheme(document.documentElement.classList.contains('theme-slate') ? 'dark' : 'slate');
-        }
-        if (localStorage.getItem('theme') === 'slate') {
-            document.documentElement.classList.add('theme-slate');
-        }
-    </script>
-    <style>
-        .theme-slate body { background-color: #f8fafc !important; color: #0f172a !important; }
-        .theme-slate header { background-color: rgba(255, 255, 255, 0.8) !important; border-color: #e2e8f0 !important; }
-        .theme-slate footer { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
-        .theme-slate .bg-surface, .theme-slate .bg-surface\/30, .theme-slate .bg-surface\/50 {
-            background-color: #ffffff !important; border-color: #e2e8f0 !important;
-        }
-        .theme-slate .border-bordercol { border-color: #e2e8f0 !important; }
-        .theme-slate .bg-slate-950 { background-color: #f1f5f9 !important; color: #1e293b !important; border-color: #cbd5e1 !important; }
-        .theme-slate .text-slate-400, .theme-slate .text-slate-300 { color: #475569 !important; }
-        .theme-slate .text-white { color: #0f172a !important; }
-        .theme-slate .text-brand, .theme-slate [class*="text-sky-"], .theme-slate [class*="text-blue-"] { color: #0284c7 !important; }
-        .theme-slate #no-support-text { color: #0284c7 !important; }
-        html { overflow-x: clip; }
-        img, svg, pre, code { max-width: 100%; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Licensing &amp; Services — Axiom 3.0 | Ensemblu</title>
+<meta name="description" content="Axiom 3.0 is free to evaluate and runs in production under an annual commercial license. Ensemblu also offers private deployments, custom native drivers, architecture audits and migration to Axiom 3.">
+<meta name="keywords" content="Axiom, Ensemblu, Java 26, Project Panama, Foreign Function and Memory API, PostgreSQL driver, libpq, zero reflection, data-oriented programming, persistent data structures, HAMT, SchemaGuard">
+<meta name="author" content="Ofek Malka, Ensemblu Corp">
+<meta name="theme-color" content="#05070d">
+<link rel="canonical" href="https://ensemblu.com/services.html">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Axiom 3.0 — Enterprise licensing &amp; services">
+<meta property="og:description" content="Evaluate freely. Ship with a contract. Private deployments, custom native drivers and architecture audits from the core architect.">
+<meta property="og:image" content="https://raw.githubusercontent.com/ensemblu-corp/assets/main/images/github-cover.png">
+<meta property="og:url" content="https://ensemblu.com/services.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Axiom 3.0 — Enterprise licensing &amp; services">
+<meta name="twitter:description" content="Evaluate freely. Ship with a contract. Private deployments, custom native drivers and architecture audits from the core architect.">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/ensemblu-corp/assets/main/images/github-cover.png">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2305070d'/%3E%3Cpath d='M18 14h32l-6 7H25v8h20l-6 7H25v7h25l-6 7H18l-4-4V18z' fill='%2322b8ff'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Ensemblu Corp",
+  "url": "https://ensemblu.com",
+  "email": "contact@ensemblu.com",
+  "logo": "https://raw.githubusercontent.com/ensemblu-corp/assets/main/images/logo-icon.png"
+}
+</script>
+
+<script>
+  /* Apply the saved theme before first paint (no flash). Storage can be unavailable — never let that break the page. */
+  (function () {
+    try {
+      var saved = localStorage.getItem('axiom-theme') || localStorage.getItem('theme');
+      if (saved === 'light' || saved === 'slate') document.documentElement.setAttribute('data-theme', 'light');
+    } catch (e) {}
+  })();
+</script>
+
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<style>
+/* ==========================================================================
+   DESIGN TOKENS
+   ========================================================================== */
+:root {
+  --bg: #05070d;
+  --bg-2: #080c16;
+  --bg-3: #0c1220;
+  --surface: rgba(148, 163, 184, 0.045);
+  --surface-2: rgba(148, 163, 184, 0.075);
+  --surface-solid: #0b111d;
+  --line: rgba(148, 163, 184, 0.12);
+  --line-2: rgba(148, 163, 184, 0.2);
+  --text: #e8eef8;
+  --text-2: #b4c2d6;
+  --muted: #7d8ca3;
+  --brand: #22b8ff;
+  --brand-rgb: 34, 184, 255;
+  --brand-2: #8b7bff;
+  --brand-2-rgb: 139, 123, 255;
+  --brand-ink: #03131d;
+  --ok: #34d399;
+  --warn: #fbbf24;
+  --err: #fb7185;
+  --pink: #f472b6;
+  --code-bg: #070b14;
+  --code-line: rgba(148, 163, 184, 0.1);
+  --tk-kw: #c792ea;
+  --tk-type: #7dd3fc;
+  --tk-str: #a5e07a;
+  --tk-num: #f9a66c;
+  --tk-com: #5c6b82;
+  --tk-fn: #82aaff;
+  --tk-ann: #f472b6;
+  --tk-tag: #7dd3fc;
+  --tk-attr: #f9a66c;
+  --shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.8), 0 0 0 1px var(--line);
+  --glow: 0 0 0 1px rgba(var(--brand-rgb), .35), 0 10px 40px -10px rgba(var(--brand-rgb), .45);
+  --radius: 18px;
+  --radius-sm: 12px;
+  --maxw: 1240px;
+  --nav-h: 64px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  color-scheme: dark;
+}
+[data-theme="light"] {
+  --bg: #f6f8fc;
+  --bg-2: #eef2f8;
+  --bg-3: #e6ecf5;
+  --surface: rgba(15, 23, 42, 0.03);
+  --surface-2: rgba(15, 23, 42, 0.055);
+  --surface-solid: #ffffff;
+  --line: rgba(15, 23, 42, 0.1);
+  --line-2: rgba(15, 23, 42, 0.18);
+  --text: #0b1220;
+  --text-2: #334155;
+  --muted: #5b6b82;
+  --brand: #0284c7;
+  --brand-rgb: 2, 132, 199;
+  --brand-2: #6d4aff;
+  --brand-2-rgb: 109, 74, 255;
+  --brand-ink: #ffffff;
+  --ok: #059669;
+  --warn: #b45309;
+  --err: #e11d48;
+  --code-bg: #0b1220;
+  --shadow: 0 30px 70px -35px rgba(15, 23, 42, .35), 0 0 0 1px var(--line);
+  color-scheme: light;
+}
+
+/* ==========================================================================
+   BASE
+   ========================================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); -webkit-text-size-adjust: 100%; overflow-x: clip; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+::selection { background: rgba(var(--brand-rgb), .35); color: var(--text); }
+a { color: inherit; text-decoration: none; }
+img, svg { display: block; max-width: 100%; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+code, pre, kbd, .mono { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+.skip { position: fixed; left: 16px; top: -60px; z-index: 200; background: var(--brand); color: var(--brand-ink); padding: 10px 16px; border-radius: 10px; font-weight: 700; transition: top .2s; }
+.skip:focus { top: 12px; }
+
+.wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+@media (max-width: 640px) { .wrap { padding: 0 16px; } }
+
+section { position: relative; }
+.section { padding: 120px 0; }
+@media (max-width: 760px) { .section { padding: 80px 0; } }
+
+/* Ambient page background */
+.page-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; background:
+  radial-gradient(1200px 600px at 85% -10%, rgba(var(--brand-rgb), .10), transparent 60%),
+  radial-gradient(900px 500px at -10% 20%, rgba(var(--brand-2-rgb), .08), transparent 60%),
+  var(--bg); }
+.page-grid { position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%); }
+[data-theme="light"] .page-grid { opacity: .7; }
+
+/* Typography */
+.eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 600 12px/1 'JetBrains Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--brand); }
+.eyebrow::before { content: ""; width: 22px; height: 1px; background: currentColor; opacity: .7; }
+.h-xl { font-size: clamp(40px, 5vw, 74px); line-height: .98; letter-spacing: -.045em; font-weight: 900; margin: 0; }
+.h-lg { font-size: clamp(34px, 4.6vw, 60px); line-height: 1.04; letter-spacing: -.035em; font-weight: 800; margin: 14px 0 0; }
+.h-md { font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; letter-spacing: -.02em; font-weight: 700; margin: 0; }
+.lead { font-size: clamp(17px, 1.6vw, 20px); color: var(--text-2); max-width: 720px; margin: 20px 0 0; }
+.muted { color: var(--muted); }
+.grad { background: linear-gradient(100deg, var(--brand) 0%, #6ee7ff 35%, var(--brand-2) 80%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+[data-theme="light"] .grad { background: linear-gradient(100deg, #0369a1 0%, #0284c7 40%, #6d28d9 90%); -webkit-background-clip: text; background-clip: text; }
+.section-head { max-width: 820px; margin-bottom: 56px; }
+.section-head.center { text-align: center; margin-left: auto; margin-right: auto; }
+.section-head.center .lead { margin-left: auto; margin-right: auto; }
+.inline-code { font-family: 'JetBrains Mono', monospace; font-size: .86em; padding: .12em .42em; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); color: var(--text); white-space: nowrap; }
+
+/* Buttons */
+.btn { --h: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; height: var(--h); padding: 0 22px; border-radius: 999px; font-weight: 650; font-size: 15px; letter-spacing: -.01em; transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s, border-color .25s, color .25s; white-space: nowrap; }
+.btn svg { width: 18px; height: 18px; }
+.btn-primary { background: var(--brand); color: var(--brand-ink); box-shadow: 0 8px 30px -8px rgba(var(--brand-rgb), .7), inset 0 1px 0 rgba(255,255,255,.35); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 40px -10px rgba(var(--brand-rgb), .9), inset 0 1px 0 rgba(255,255,255,.35); }
+.btn-ghost { border: 1px solid var(--line-2); background: var(--surface); color: var(--text); backdrop-filter: blur(8px); }
+.btn-ghost:hover { border-color: rgba(var(--brand-rgb), .6); transform: translateY(-2px); }
+.btn-sm { --h: 38px; padding: 0 16px; font-size: 14px; }
+
+.chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface); font-size: 13px; color: var(--text-2); }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 0 4px rgba(52, 211, 153, .15); flex: none; }
+.tag { display: inline-flex; align-items: center; font: 600 11px/1 'JetBrains Mono', monospace; letter-spacing: .04em; padding: 5px 8px; border-radius: 6px; background: rgba(var(--brand-rgb), .1); color: var(--brand); border: 1px solid rgba(var(--brand-rgb), .22); white-space: nowrap; }
+.tag.violet { background: rgba(var(--brand-2-rgb), .1); color: var(--brand-2); border-color: rgba(var(--brand-2-rgb), .25); }
+.tag.green { background: rgba(52, 211, 153, .1); color: var(--ok); border-color: rgba(52, 211, 153, .25); }
+.tag.amber { background: rgba(251, 191, 36, .1); color: var(--warn); border-color: rgba(251, 191, 36, .25); }
+.tag.rose { background: rgba(251, 113, 133, .1); color: var(--err); border-color: rgba(251, 113, 133, .25); }
+
+.card > .tag { align-self: flex-start; }
+.card { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); transition: border-color .3s, transform .3s var(--ease), background .3s; }
+.card:hover { border-color: var(--line-2); }
+
+/* Spotlight hover (mouse-tracked glow) */
+.spot { position: relative; overflow: hidden; }
+.spot::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .35s; border-radius: inherit;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--brand-rgb), .12), transparent 45%); }
+.spot:hover::after { opacity: 1; }
+
+/* Reveal on scroll */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s var(--ease), transform .9s var(--ease); }
+.reveal.in { opacity: 1; transform: none; }
+.reveal[data-d="1"] { transition-delay: .08s; } .reveal[data-d="2"] { transition-delay: .16s; } .reveal[data-d="3"] { transition-delay: .24s; } .reveal[data-d="4"] { transition-delay: .32s; } .reveal[data-d="5"] { transition-delay: .4s; }
+
+/* ==========================================================================
+   NAV
+   ========================================================================== */
+.progress { position: fixed; left: 0; top: 0; height: 2px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); z-index: 120; background: linear-gradient(90deg, var(--brand), var(--brand-2)); }
+.nav { position: sticky; top: 0; z-index: 100; height: var(--nav-h); border-bottom: 1px solid transparent; transition: background .3s, border-color .3s, backdrop-filter .3s; }
+.nav.scrolled { background: color-mix(in srgb, var(--bg) 72%, transparent); border-color: var(--line); backdrop-filter: saturate(160%) blur(16px); -webkit-backdrop-filter: saturate(160%) blur(16px); }
+.nav .wrap { height: 100%; display: flex; align-items: center; gap: 20px; }
+.brand { display: flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: .14em; font-size: 15px; }
+.brand-mark { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(var(--brand-rgb), .25), rgba(var(--brand-2-rgb), .15)); border: 1px solid rgba(var(--brand-rgb), .35); box-shadow: 0 0 24px -6px rgba(var(--brand-rgb), .6); }
+.brand-mark svg { width: 18px; height: 18px; }
+.brand b { color: var(--brand); font-weight: 800; }
+.ver { font: 600 11px/1 'JetBrains Mono', monospace; letter-spacing: .02em; padding: 5px 8px; border-radius: 999px; color: var(--brand); background: rgba(var(--brand-rgb), .1); border: 1px solid rgba(var(--brand-rgb), .3); }
+.nav-links { display: flex; align-items: center; gap: 2px; margin-left: 12px; }
+.nav-links a { white-space: nowrap; padding: 8px 11px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--text-2); transition: color .2s, background .2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--surface-2); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.icon-btn { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--text-2); transition: color .2s, border-color .2s, background .2s; }
+.icon-btn:hover { color: var(--text); border-color: var(--line-2); }
+.icon-btn svg { width: 18px; height: 18px; }
+.kbd-btn { white-space: nowrap; display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 10px 0 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 13px; transition: border-color .2s, color .2s; }
+.kbd-btn:hover { border-color: var(--line-2); color: var(--text-2); }
+.kbd-btn svg { width: 15px; height: 15px; }
+kbd { font-size: 11px; padding: 3px 6px; border-radius: 6px; border: 1px solid var(--line-2); background: var(--surface-2); color: var(--text-2); }
+.theme-ico-sun { display: none; } [data-theme="light"] .theme-ico-sun { display: block; } [data-theme="light"] .theme-ico-moon { display: none; }
+.sponsor-btn { color: var(--pink); border-color: rgba(244,114,182,.3); }
+.sponsor-btn:hover { color: var(--pink); border-color: rgba(244,114,182,.6); background: rgba(244,114,182,.08); }
+.menu-btn { display: none; }
+@media (max-width: 1480px) { .kbd-btn span.lbl { display: none; } }
+@media (max-width: 1180px) { .nav-links { display: none; } .menu-btn { display: grid; } }
+@media (max-width: 520px) { .kbd-btn { display: none; } .nav .gh-btn { display: none; } .ver { display: none; } }
+
+.mobile-menu { position: fixed; inset: var(--nav-h) 0 auto 0; z-index: 99; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid var(--line); padding: 12px 16px 20px; display: none; }
+.mobile-menu.open { display: block; animation: drop .3s var(--ease); }
+.mobile-menu a { display: block; padding: 12px 8px; border-bottom: 1px solid var(--line); font-weight: 600; color: var(--text-2); }
+@keyframes drop { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+/* ==========================================================================
+   HERO
+   ========================================================================== */
+.hero { padding: 56px 0 40px; overflow: hidden; }
+#circuit { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; opacity: .9; }
+.hero-grid > *, .arch > *, .life > *, .drv-panel > *, .lab > *, .mig > *, .cmp > *, .bento > *, .mods > *, .posts > *, .qs > *, .lic > *, .fails > * { min-width: 0; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); gap: 56px; align-items: center; min-height: calc(100vh - var(--nav-h) - 120px); }
+@media (max-width: 1060px) { .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 48px; min-height: 0; } }
+.announce { display: inline-flex; align-items: center; gap: 10px; padding: 6px 8px 6px 6px; border-radius: 999px; border: 1px solid rgba(var(--brand-rgb), .3); background: rgba(var(--brand-rgb), .07); font-size: 13.5px; color: var(--text-2); transition: border-color .25s, background .25s; margin-bottom: 28px; max-width: 100%; }
+.announce:hover { border-color: rgba(var(--brand-rgb), .6); background: rgba(var(--brand-rgb), .12); }
+.announce .pill { font: 700 11px/1 'JetBrains Mono', monospace; padding: 6px 9px; border-radius: 999px; background: var(--brand); color: var(--brand-ink); letter-spacing: .04em; flex: none; }
+.announce .txt { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.announce svg { width: 14px; height: 14px; flex: none; transition: transform .25s; }
+.announce:hover svg { transform: translateX(3px); }
+.hero h1 .line { display: block; }
+@media (min-width: 1061px) { .hero h1 .line { white-space: nowrap; } }
+.hero h1 .strike-word { position: relative; color: var(--muted); margin-left: .08em; }
+.hero h1 .strike-word::after { content: ""; position: absolute; left: -2%; right: -2%; top: 55%; height: .065em; background: var(--err); transform-origin: 0 50%; transform: scaleX(0); animation: strike 1s .9s var(--ease) forwards; border-radius: 4px; }
+@keyframes strike { to { transform: scaleX(1); } }
+.hero .lead { font-size: clamp(17px, 1.55vw, 20px); }
+.hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+.install { margin-top: 30px; max-width: 560px; border-radius: 14px; border: 1px solid rgba(148,163,184,.16); background: var(--code-bg); overflow: hidden; color: #cdd7e6; }
+.install-tabs { display: flex; gap: 2px; padding: 6px; border-bottom: 1px solid rgba(148,163,184,.12); }
+.install-tabs button { padding: 6px 12px; border-radius: 8px; font: 500 12.5px/1.2 'JetBrains Mono', monospace; color: #6b7a92; }
+.install-tabs button[aria-selected="true"] { color: #e6edf7; background: rgba(148,163,184,.12); }
+.install-body { position: relative; }
+.install-body pre { margin: 0; padding: 14px 52px 14px 16px; font-size: 13px; line-height: 1.6; overflow-x: auto; color: #cdd7e6; background: transparent; }
+.install .copy, .coord .copy { background: rgba(148,163,184,.08); border-color: rgba(148,163,184,.16); color: #7d8ca3; }
+.copy { position: absolute; top: 8px; right: 8px; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 9px; border: 1px solid var(--line); background: var(--surface-2); color: var(--muted); transition: color .2s, border-color .2s, background .2s; z-index: 2; }
+.copy:hover { color: var(--text); border-color: var(--line-2); }
+.copy svg { width: 15px; height: 15px; }
+.copy.done { color: var(--ok); border-color: rgba(52,211,153,.4); }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 26px; font-size: 13.5px; color: var(--muted); }
+.hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+.hero-meta svg { width: 16px; height: 16px; color: var(--ok); }
+
+/* Terminal / code window */
+.window { border-radius: 18px; background: var(--code-bg); border: 1px solid rgba(148,163,184,.16); box-shadow: 0 50px 120px -40px rgba(0,0,0,.9), 0 0 0 1px rgba(var(--brand-rgb), .08), 0 0 80px -30px rgba(var(--brand-rgb), .45); overflow: hidden; color: #cdd7e6; }
+[data-theme="light"] .window { box-shadow: 0 50px 100px -40px rgba(15,23,42,.45), 0 0 0 1px rgba(15,23,42,.08); }
+.win-bar { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-bottom: 1px solid rgba(148,163,184,.12); background: rgba(255,255,255,.02); }
+.lights { display: flex; gap: 7px; flex: none; } .lights i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; } .lights i:nth-child(2) { background: #febc2e; } .lights i:nth-child(3) { background: #28c840; }
+.win-tabs { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; min-width: 0; } .win-tabs::-webkit-scrollbar { display: none; }
+.win-tabs button { padding: 6px 10px; border-radius: 8px; font: 500 12px/1.2 'JetBrains Mono', monospace; color: #6b7a92; white-space: nowrap; transition: color .2s, background .2s; }
+.win-tabs button[aria-selected="true"] { color: #e6edf7; background: rgba(148,163,184,.1); }
+.win-body { position: relative; height: 410px; overflow: hidden; }
+.win-body pre { margin: 0; padding: 18px 20px; font-size: 13px; line-height: 1.72; white-space: pre; overflow: hidden; height: 100%; }
+.caret { display: inline-block; width: 8px; height: 1.15em; vertical-align: -2px; background: var(--brand); margin-left: 1px; animation: blink 1s steps(1) infinite; box-shadow: 0 0 10px rgba(var(--brand-rgb), .8); }
+@keyframes blink { 50% { opacity: 0; } }
+.win-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; border-top: 1px solid rgba(148,163,184,.12); font: 500 11.5px/1.3 'JetBrains Mono', monospace; color: #6b7a92; background: rgba(255,255,255,.015); }
+.win-foot .ok { color: #34d399; display: inline-flex; align-items: center; gap: 8px; }
+.win-foot .ok i { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 10px #34d399; }
+.hero-visual { position: relative; }
+.hero-visual .float { position: absolute; z-index: 2; padding: 10px 14px; border-radius: 12px; background: color-mix(in srgb, var(--surface-solid) 85%, transparent); border: 1px solid var(--line-2); backdrop-filter: blur(12px); font-size: 12.5px; box-shadow: 0 20px 50px -20px rgba(0,0,0,.6); display: flex; align-items: center; gap: 10px; animation: bob 6s ease-in-out infinite; }
+.hero-visual .float b { font-family: 'JetBrains Mono', monospace; color: var(--text); font-weight: 600; }
+.hero-visual .float small { display: block; color: var(--muted); font-size: 11px; }
+.hero-visual .f1 { right: 26px; top: -46px; }
+.hero-visual .f2 { right: -22px; bottom: 74px; animation-delay: -3s; }
+.hero-visual .float .ico { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; background: rgba(var(--brand-rgb), .12); color: var(--brand); }
+.hero-visual .float .ico.v { background: rgba(var(--brand-2-rgb), .14); color: var(--brand-2); }
+.hero-visual .float svg { width: 16px; height: 16px; }
+@keyframes bob { 50% { transform: translateY(-10px); } }
+@media (max-width: 1060px) { .hero-visual .f1 { right: 8px; top: -40px; } .hero-visual .f2 { right: 8px; bottom: -18px; } }
+@media (max-width: 560px) { .hero-visual .float { display: none; } .win-body { height: 360px; } .win-body pre { font-size: 11.5px; padding: 14px; } }
+
+/* Logo ticker: databases */
+.dbs { margin-top: 64px; padding-top: 30px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 22px 40px; flex-wrap: wrap; justify-content: space-between; }
+.dbs .lbl { font: 600 11.5px/1.4 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.dbs ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 14px 34px; align-items: center; }
+.dbs li { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; letter-spacing: -.01em; color: var(--text-2); opacity: .85; transition: opacity .2s, color .2s; }
+.dbs li:hover { opacity: 1; color: var(--text); }
+.dbs li svg { width: 22px; height: 22px; color: var(--brand); }
+.dbs li small { font: 500 11px/1 'JetBrains Mono', monospace; color: var(--muted); }
+
+/* ==========================================================================
+   STATS
+   ========================================================================== */
+.stats { display: grid; grid-template-columns: repeat(6, 1fr); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+.stat { padding: 30px 22px; border-right: 1px solid var(--line); }
+.stat:last-child { border-right: 0; }
+.stat .n { font-size: clamp(34px, 3.6vw, 48px); font-weight: 850; letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.stat .n .u { font-size: .5em; color: var(--brand); margin-left: 2px; letter-spacing: 0; }
+.stat .l { margin-top: 10px; font-size: 13.5px; color: var(--muted); line-height: 1.4; }
+@media (max-width: 1000px) { .stats { grid-template-columns: repeat(3, 1fr); } .stat:nth-child(3) { border-right: 0; } .stat:nth-child(-n+3) { border-bottom: 1px solid var(--line); } }
+@media (max-width: 560px) { .stats { grid-template-columns: repeat(2, 1fr); } .stat { border-right: 1px solid var(--line) !important; border-bottom: 1px solid var(--line); } .stat:nth-child(2n) { border-right: 0 !important; } .stat:nth-last-child(-n+2) { border-bottom: 0; } }
+
+/* ==========================================================================
+   BENTO (what's new)
+   ========================================================================== */
+.bento { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.bento .card { padding: 30px; display: flex; flex-direction: column; min-height: 250px; }
+.b-span-4 { grid-column: span 4; } .b-span-3 { grid-column: span 3; } .b-span-2 { grid-column: span 2; }
+@media (max-width: 1000px) { .b-span-4, .b-span-3, .b-span-2 { grid-column: span 6; } }
+.bento h3 { font-size: 22px; letter-spacing: -.02em; margin: 18px 0 10px; line-height: 1.2; }
+.bento p { color: var(--text-2); margin: 0; font-size: 15px; }
+.b-ico { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: rgba(var(--brand-rgb), .1); border: 1px solid rgba(var(--brand-rgb), .25); color: var(--brand); }
+.b-ico svg { width: 22px; height: 22px; }
+.b-ico.v { background: rgba(var(--brand-2-rgb), .1); border-color: rgba(var(--brand-2-rgb), .3); color: var(--brand-2); }
+.b-ico.g { background: rgba(52,211,153,.1); border-color: rgba(52,211,153,.3); color: var(--ok); }
+.b-ico.a { background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.3); color: var(--warn); }
+.b-ico.r { background: rgba(251,113,133,.1); border-color: rgba(251,113,133,.3); color: var(--err); }
+.b-foot { margin-top: auto; padding-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
+.mini-code { margin-top: 20px; padding: 14px 16px; border-radius: 12px; background: var(--code-bg); border: 1px solid rgba(148,163,184,.14); font-size: 12.5px; line-height: 1.7; color: #cdd7e6; overflow-x: auto; white-space: pre; }
+.flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 22px; font: 500 12px/1 'JetBrains Mono', monospace; }
+.flow span { padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line-2); background: var(--surface-2); }
+.flow span.hl { border-color: rgba(var(--brand-rgb), .5); color: var(--brand); background: rgba(var(--brand-rgb), .08); }
+.flow i { color: var(--muted); font-style: normal; }
+.flow s { text-decoration-color: var(--err); text-decoration-thickness: 2px; color: var(--muted); }
+
+/* ==========================================================================
+   ARCHITECTURE
+   ========================================================================== */
+.arch { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; align-items: stretch; }
+@media (max-width: 1000px) { .arch { grid-template-columns: 1fr; } }
+.arch-stage { position: relative; padding: 28px; border-radius: var(--radius); border: 1px solid var(--line); background:
+  radial-gradient(600px 300px at 50% 0%, rgba(var(--brand-rgb), .06), transparent 70%), var(--surface); overflow: hidden; }
+.arch-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+.arch-svg path { fill: none; stroke: var(--line-2); stroke-width: 1.5; transition: stroke .3s, opacity .3s; }
+.arch-svg path.on { stroke: var(--brand); stroke-width: 2; filter: drop-shadow(0 0 6px rgba(var(--brand-rgb), .7)); }
+.arch-svg path.dim { opacity: .25; }
+.arch-svg circle { fill: var(--brand); filter: drop-shadow(0 0 6px rgba(var(--brand-rgb), .9)); }
+.layer { position: relative; z-index: 1; display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-items: center; padding: 14px 0; }
+.layer + .layer { border-top: 1px dashed var(--line); }
+.layer-name { font: 600 11px/1.4 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.layer-name b { display: block; color: var(--text-2); font-size: 12px; letter-spacing: .06em; margin-top: 4px; font-weight: 600; text-transform: none; font-family: Inter, sans-serif; }
+.layer-nodes { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+@media (max-width: 640px) { .layer { grid-template-columns: 1fr; gap: 8px; } .layer-nodes { justify-content: flex-start; } }
+.node { position: relative; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface-solid); font: 600 13px/1.2 'JetBrains Mono', monospace; color: var(--text); transition: border-color .25s, box-shadow .25s, transform .25s var(--ease), opacity .25s; text-align: left; }
+.node small { display: block; font: 500 11px/1.3 Inter, sans-serif; color: var(--muted); margin-top: 4px; }
+.node:hover, .node.sel { border-color: rgba(var(--brand-rgb), .7); box-shadow: var(--glow); transform: translateY(-2px); }
+.node.dim { opacity: .35; }
+.node.new::before { content: "NEW"; position: absolute; top: -8px; right: -6px; font: 700 9px/1 'JetBrains Mono', monospace; padding: 4px 6px; border-radius: 6px; background: var(--brand-2); color: #fff; letter-spacing: .06em; }
+.node.drv { font-size: 11.5px; padding: 8px 10px; }
+.node.drv small { font-size: 10.5px; }
+.arch-panel { padding: 28px; display: flex; flex-direction: column; }
+.arch-panel h3 { font: 700 22px/1.2 'JetBrains Mono', monospace; letter-spacing: -.02em; margin: 14px 0 6px; word-break: break-word; }
+.arch-panel .desc { color: var(--text-2); font-size: 15px; margin: 10px 0 0; }
+.kv { margin: 22px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; font-size: 13.5px; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: var(--text); word-break: break-word; }
+.coord { margin-top: 22px; position: relative; }
+.coord pre { margin: 0; padding: 14px 48px 14px 14px; border-radius: 12px; background: var(--code-bg); border: 1px solid rgba(148,163,184,.14); font-size: 12px; line-height: 1.6; overflow-x: auto; color: #cdd7e6; }
+.arch-hint { margin-top: 18px; font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
+.arch-hint svg { width: 16px; height: 16px; }
+
+/* ==========================================================================
+   LIFECYCLE (scrollytelling)
+   ========================================================================== */
+.life { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; }
+@media (max-width: 1000px) { .life { grid-template-columns: 1fr; } .life-sticky { position: relative !important; top: 0 !important; } }
+.life-steps { display: flex; flex-direction: column; gap: 16px; }
+.step { padding: 26px 26px 26px 72px; position: relative; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); transition: border-color .35s, background .35s, opacity .35s; opacity: .55; cursor: pointer; }
+.step.active { opacity: 1; border-color: rgba(var(--brand-rgb), .5); background: linear-gradient(180deg, rgba(var(--brand-rgb), .07), var(--surface)); }
+.step .num { position: absolute; left: 22px; top: 24px; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--line-2); font: 700 13px/1 'JetBrains Mono', monospace; color: var(--muted); transition: all .35s; }
+.step.active .num { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); box-shadow: 0 0 24px -4px rgba(var(--brand-rgb), .8); }
+.step h4 { margin: 0 0 6px; font-size: 18px; letter-spacing: -.01em; }
+.step p { margin: 0; color: var(--text-2); font-size: 14.5px; }
+.step .tag { margin-top: 12px; }
+.life-sticky { position: sticky; top: calc(var(--nav-h) + 24px); align-self: start; }
+.life-sticky .win-body { height: auto; min-height: 380px; }
+.life-sticky .win-body pre { height: auto; white-space: pre; overflow-x: auto; font-size: 12px; line-height: 1.62; padding: 14px 18px; }
+.code-line { display: block; padding: 0 6px; margin: 0 -6px; border-radius: 4px; transition: background .3s, opacity .3s; }
+.code-line.hl { background: rgba(var(--brand-rgb), .12); box-shadow: inset 2px 0 0 var(--brand); }
+.code-line.lo { opacity: .38; }
+.pipe { display: flex; gap: 6px; flex-wrap: wrap; padding: 14px 16px; border-bottom: 1px solid rgba(148,163,184,.12); }
+.pipe span { font: 600 10.5px/1 'JetBrains Mono', monospace; padding: 7px 9px; border-radius: 7px; color: #6b7a92; border: 1px solid rgba(148,163,184,.14); transition: all .3s; }
+.pipe span.on { color: #03131d; background: #22b8ff; border-color: #22b8ff; box-shadow: 0 0 18px -4px rgba(34,184,255,.9); }
+.pipe span.done { color: #22b8ff; border-color: rgba(34,184,255,.45); }
+
+/* ==========================================================================
+   MODULES
+   ========================================================================== */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+.filter { padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: 14px; font-weight: 600; color: var(--text-2); transition: all .2s; }
+.filter:hover { border-color: var(--line-2); color: var(--text); }
+.filter[aria-pressed="true"] { background: var(--text); color: var(--bg); border-color: var(--text); }
+.filter .c { font: 600 11px/1 'JetBrains Mono', monospace; margin-left: 6px; opacity: .6; }
+.mods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 1000px) { .mods { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .mods { grid-template-columns: 1fr; } }
+.mod { padding: 26px; display: flex; flex-direction: column; gap: 14px; }
+.mod.hide { display: none; }
+.mod-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.mod h3 { margin: 0; font: 700 17px/1.3 'JetBrains Mono', monospace; letter-spacing: -.01em; word-break: break-word; }
+.mod p { margin: 0; color: var(--text-2); font-size: 14.5px; }
+.mod ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.mod li { font: 500 11.5px/1 'JetBrains Mono', monospace; padding: 6px 8px; border-radius: 6px; background: var(--surface-2); color: var(--text-2); border: 1px solid var(--line); }
+.mod-foot { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; color: var(--muted); }
+.mod-foot a { color: var(--brand); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.mod-foot a svg { width: 14px; height: 14px; transition: transform .2s; }
+.mod-foot a:hover svg { transform: translate(2px, -2px); }
+.dep-line { font: 500 12px/1.5 'JetBrains Mono', monospace; color: var(--muted); }
+.dep-line b { color: var(--text-2); font-weight: 500; }
+.copy-coord { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 8px 8px 12px; border-radius: 10px; background: var(--code-bg); border: 1px solid rgba(148,163,184,.14); font: 500 12px/1.3 'JetBrains Mono', monospace; color: #cdd7e6; }
+.copy-coord span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.copy-coord .copy { position: static; width: 30px; height: 30px; flex: none; background: rgba(148,163,184,.08); border-color: rgba(148,163,184,.16); color: #7d8ca3; }
+
+/* ==========================================================================
+   DRIVERS
+   ========================================================================== */
+.drv-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.drv-tab { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); font-weight: 650; font-size: 14.5px; color: var(--text-2); transition: all .25s; }
+.drv-tab:hover { color: var(--text); border-color: var(--line-2); }
+.drv-tab[aria-selected="true"] { color: var(--text); border-color: rgba(var(--brand-rgb), .6); background: rgba(var(--brand-rgb), .08); box-shadow: 0 0 0 1px rgba(var(--brand-rgb), .25) inset; }
+.drv-tab svg { width: 18px; height: 18px; color: var(--brand); }
+.drv-panel { display: grid; grid-template-columns: .8fr 1.2fr; gap: 16px; }
+@media (max-width: 1000px) { .drv-panel { grid-template-columns: 1fr; } }
+.drv-facts { padding: 28px; }
+.drv-facts h3 { margin: 0; font-size: 26px; letter-spacing: -.02em; }
+.drv-facts .art { margin-top: 6px; font: 500 13px/1.4 'JetBrains Mono', monospace; color: var(--brand); }
+.facts { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.facts li { display: grid; grid-template-columns: 132px 1fr; gap: 12px; font-size: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.facts li:last-child { border-bottom: 0; padding-bottom: 0; }
+.facts li span:first-child { color: var(--muted); font-size: 13px; }
+.facts li span:last-child { color: var(--text); }
+@media (max-width: 480px) { .facts li { grid-template-columns: 1fr; gap: 4px; } }
+.drv-code .win-body { height: auto; }
+.drv-code .win-body pre { height: auto; overflow-x: auto; }
+.code-tabs { display: flex; gap: 4px; }
+
+.matrix-wrap { margin-top: 28px; overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); }
+table.matrix { width: 100%; border-collapse: collapse; min-width: 920px; font-size: 13.5px; }
+.matrix th, .matrix td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.matrix thead th { font: 600 11px/1.3 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); position: sticky; top: 0; }
+.matrix tbody tr:last-child td { border-bottom: 0; }
+.matrix tbody tr { transition: background .2s; }
+.matrix tbody tr:hover { background: var(--surface-2); }
+.matrix td:first-child { font-weight: 700; white-space: nowrap; }
+.matrix code { font-size: 12px; color: var(--text); }
+
+/* ==========================================================================
+   CODE LAB
+   ========================================================================== */
+.lab { display: grid; grid-template-columns: 290px 1fr; gap: 16px; min-height: 560px; }
+@media (max-width: 1000px) { .lab { grid-template-columns: 1fr; } }
+.lab-nav { padding: 12px; display: flex; flex-direction: column; gap: 4px; max-height: 640px; overflow-y: auto; }
+@media (max-width: 1000px) { .lab-nav { flex-direction: row; overflow-x: auto; max-height: none; scrollbar-width: none; } .lab-nav::-webkit-scrollbar { display: none; } .lab-group { display: none; } }
+.lab-group { font: 600 10.5px/1 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 14px 10px 8px; }
+.lab-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border-radius: 10px; text-align: left; font-size: 14px; font-weight: 550; color: var(--text-2); transition: background .2s, color .2s; white-space: nowrap; }
+.lab-item:hover { background: var(--surface-2); color: var(--text); }
+.lab-item[aria-selected="true"] { background: rgba(var(--brand-rgb), .1); color: var(--text); box-shadow: inset 2px 0 0 var(--brand); }
+.lab-item small { font: 500 10.5px/1 'JetBrains Mono', monospace; color: var(--muted); }
+.lab-main { display: flex; flex-direction: column; min-width: 0; }
+.lab-main .window { flex: 1; display: flex; flex-direction: column; }
+.lab-main .win-body { height: auto; flex: 1; }
+.lab-main .win-body pre { height: auto; overflow-x: auto; }
+.lab-title { font: 600 12.5px/1.3 'JetBrains Mono', monospace; color: #9fb0c8; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lab-explain { padding: 16px 20px; border-top: 1px solid rgba(148,163,184,.12); font-size: 14px; color: #9fb0c8; line-height: 1.6; background: rgba(255,255,255,.015); }
+.lab-explain b { color: #e6edf7; font-weight: 600; }
+.win-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 8px; border: 1px solid rgba(148,163,184,.16); font: 500 12px/1 'JetBrains Mono', monospace; color: #9fb0c8; transition: all .2s; flex: none; }
+.win-btn:hover { color: #fff; border-color: rgba(148,163,184,.35); }
+.win-btn.done { color: #34d399; border-color: rgba(52,211,153,.4); }
+.win-btn svg { width: 13px; height: 13px; }
+
+/* Token colours (code is always on a dark surface) */
+.t-kw { color: var(--tk-kw); } .t-type { color: var(--tk-type); } .t-str { color: var(--tk-str); } .t-num { color: var(--tk-num); }
+.t-com { color: var(--tk-com); font-style: italic; } .t-fn { color: var(--tk-fn); } .t-ann { color: var(--tk-ann); }
+.t-tag { color: var(--tk-tag); } .t-attr { color: var(--tk-attr); } .t-op { color: #89ddff; } .t-key { color: #7dd3fc; }
+.t-add { color: #34d399; } .t-del { color: #fb7185; }
+
+/* ==========================================================================
+   FAILURES (7)
+   ========================================================================== */
+.fails { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .fails { grid-template-columns: 1fr; } }
+.fail { padding: 0; overflow: hidden; }
+.fail-head { width: 100%; display: flex; align-items: flex-start; gap: 18px; padding: 26px; text-align: left; }
+.fail-num { font: 700 13px/1 'JetBrains Mono', monospace; color: var(--brand); padding-top: 6px; flex: none; }
+.fail-head h3 { margin: 0; font-size: 20px; letter-spacing: -.02em; line-height: 1.25; }
+.fail-head p { margin: 8px 0 0; color: var(--text-2); font-size: 14.5px; }
+.fail-head .chev { margin-left: auto; width: 32px; height: 32px; flex: none; border-radius: 9px; border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted); transition: transform .3s var(--ease), color .2s, border-color .2s; }
+.fail-head .chev svg { width: 16px; height: 16px; }
+.fail.open .chev { transform: rotate(45deg); color: var(--brand); border-color: rgba(var(--brand-rgb), .5); }
+.fail-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s var(--ease); }
+.fail.open .fail-body { grid-template-rows: 1fr; }
+.fail-body > div { overflow: hidden; }
+.vs { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border-top: 1px solid var(--line); }
+@media (max-width: 560px) { .vs { grid-template-columns: 1fr; } }
+.vs > div { padding: 20px 26px 24px; font-size: 14px; color: var(--text-2); }
+.vs > div + div { border-left: 1px solid var(--line); }
+@media (max-width: 560px) { .vs > div + div { border-left: 0; border-top: 1px solid var(--line); } }
+.vs h5 { margin: 0 0 8px; font: 700 11px/1.2 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.vs .bad h5 { color: var(--err); } .vs .good h5 { color: var(--ok); }
+.vs .solved { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ==========================================================================
+   COMPARE
+   ========================================================================== */
+.cmp { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .cmp { grid-template-columns: 1fr; } }
+.cmp .card { padding: 30px; }
+.cmp h3 { margin: 0 0 6px; font-size: 20px; letter-spacing: -.02em; }
+.tree { margin-top: 18px; font: 500 13px/1.85 'JetBrains Mono', monospace; color: var(--text-2); white-space: pre; overflow-x: auto; }
+.tree .x { color: var(--err); } .tree .k { color: var(--ok); } .tree .d { color: var(--muted); }
+.cmp-total { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-size: 14px; color: var(--muted); }
+.cmp-total b { font-size: 28px; letter-spacing: -.03em; color: var(--text); }
+.cmp .card.good { border-color: rgba(var(--brand-rgb), .35); background: linear-gradient(180deg, rgba(var(--brand-rgb), .06), var(--surface)); }
+
+.vtable-wrap { margin-top: 16px; overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); }
+table.vtable { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 760px; }
+.vtable th, .vtable td { padding: 15px 18px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.vtable thead th { font: 600 11px/1.3 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); }
+.vtable thead th:last-child { color: var(--brand); }
+.vtable tbody tr:last-child td { border-bottom: 0; }
+.vtable td:first-child { color: var(--muted); font-weight: 600; white-space: nowrap; }
+.vtable td:nth-child(2) { color: var(--text-2); }
+.vtable td:last-child { color: var(--text); }
+.vtable code { font-size: 12.5px; }
+
+/* ==========================================================================
+   MIGRATION
+   ========================================================================== */
+.mig { display: grid; grid-template-columns: 300px 1fr; gap: 16px; }
+@media (max-width: 1000px) { .mig { grid-template-columns: 1fr; } }
+.mig-list { padding: 10px; display: flex; flex-direction: column; gap: 4px; }
+@media (max-width: 1000px) { .mig-list { flex-direction: row; overflow-x: auto; scrollbar-width: none; } .mig-list::-webkit-scrollbar { display: none; } }
+.mig-item { display: flex; gap: 12px; align-items: center; text-align: left; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 600; color: var(--text-2); transition: all .2s; white-space: nowrap; }
+.mig-item i { font: 700 11px/1 'JetBrains Mono', monospace; color: var(--muted); font-style: normal; width: 24px; height: 24px; display: grid; place-items: center; border-radius: 7px; border: 1px solid var(--line-2); flex: none; }
+.mig-item:hover { background: var(--surface-2); color: var(--text); }
+.mig-item[aria-selected="true"] { background: rgba(var(--brand-rgb), .1); color: var(--text); }
+.mig-item[aria-selected="true"] i { background: var(--brand); color: var(--brand-ink); border-color: var(--brand); }
+.diff { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+@media (max-width: 760px) { .diff { grid-template-columns: 1fr; } }
+.diff > div { min-width: 0; }
+.diff > div + div { border-left: 1px solid rgba(148,163,184,.12); }
+@media (max-width: 760px) { .diff > div + div { border-left: 0; border-top: 1px solid rgba(148,163,184,.12); } }
+.diff-h { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font: 600 11.5px/1 'JetBrains Mono', monospace; letter-spacing: .06em; border-bottom: 1px solid rgba(148,163,184,.12); }
+.diff-h.old { color: #fb7185; background: rgba(251,113,133,.06); } .diff-h.new { color: #34d399; background: rgba(52,211,153,.06); }
+.diff pre { margin: 0; padding: 16px; font-size: 12.5px; line-height: 1.7; overflow-x: auto; color: #cdd7e6; }
+.mig-note { padding: 16px 20px; border-top: 1px solid rgba(148,163,184,.12); font-size: 14px; color: #9fb0c8; background: rgba(255,255,255,.015); }
+.mig-note b { color: #e6edf7; }
+
+/* ==========================================================================
+   QUICKSTART
+   ========================================================================== */
+.qs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: qs; }
+@media (max-width: 1100px) { .qs { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .qs { grid-template-columns: 1fr; } }
+.qs .card { padding: 24px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.qs .card::before { counter-increment: qs; content: "0" counter(qs); font: 700 12px/1 'JetBrains Mono', monospace; color: var(--brand); }
+.qs h3 { margin: 0; font-size: 17px; letter-spacing: -.01em; }
+.qs p { margin: 0; font-size: 14px; color: var(--text-2); }
+.qs pre { margin: auto 0 0; padding: 14px; border-radius: 12px; background: var(--code-bg); border: 1px solid rgba(148,163,184,.14); font-size: 11.5px; line-height: 1.65; overflow-x: auto; color: #cdd7e6; }
+.callout { margin-top: 16px; padding: 18px 22px; border-radius: 14px; border: 1px solid rgba(251,191,36,.3); background: rgba(251,191,36,.06); display: flex; gap: 14px; align-items: flex-start; font-size: 14.5px; color: var(--text-2); }
+.callout svg { width: 20px; height: 20px; color: var(--warn); flex: none; margin-top: 2px; }
+.callout b { color: var(--text); }
+
+/* ==========================================================================
+   BLOG
+   ========================================================================== */
+.posts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 1000px) { .posts { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px) { .posts { grid-template-columns: 1fr; } }
+.post { padding: 26px; display: flex; flex-direction: column; gap: 12px; min-height: 250px; }
+.post.feat { grid-column: span 2; background: linear-gradient(135deg, rgba(var(--brand-rgb), .1), rgba(var(--brand-2-rgb), .06) 60%, var(--surface)); border-color: rgba(var(--brand-rgb), .3); }
+@media (max-width: 640px) { .post.feat { grid-column: span 1; } }
+.post .meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12.5px; color: var(--muted); }
+.post h3 { margin: 0; font-size: 20px; letter-spacing: -.02em; line-height: 1.3; }
+.post.feat h3 { font-size: clamp(22px, 2.4vw, 30px); }
+.post p { margin: 0; color: var(--text-2); font-size: 14.5px; }
+.post .more { margin-top: auto; display: inline-flex; align-items: center; gap: 8px; font-weight: 650; font-size: 14px; color: var(--brand); }
+.post .more svg { width: 15px; height: 15px; transition: transform .25s var(--ease); }
+.post:hover .more svg { transform: translateX(4px); }
+.post:hover { transform: translateY(-3px); }
+
+/* ==========================================================================
+   LICENSE / PRICING
+   ========================================================================== */
+.lic { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 1000px) { .lic { grid-template-columns: 1fr; } }
+.lic .card { padding: 30px; display: flex; flex-direction: column; gap: 16px; }
+.lic .card.hot { border-color: rgba(var(--brand-rgb), .45); background: linear-gradient(180deg, rgba(var(--brand-rgb), .08), var(--surface)); box-shadow: 0 30px 80px -40px rgba(var(--brand-rgb), .6); }
+.lic h3 { margin: 0; font-size: 22px; letter-spacing: -.02em; }
+.lic .price { font-size: 34px; font-weight: 850; letter-spacing: -.035em; line-height: 1; }
+.lic .price small { font-size: 14px; color: var(--muted); font-weight: 500; letter-spacing: 0; margin-left: 4px; }
+.lic ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 14.5px; color: var(--text-2); }
+.lic li { display: flex; gap: 10px; align-items: flex-start; }
+.lic li svg { width: 18px; height: 18px; flex: none; color: var(--ok); margin-top: 2px; }
+.lic li.no svg { color: var(--muted); }
+.lic .btn { margin-top: auto; }
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+.faq { max-width: 880px; margin: 0 auto; display: grid; gap: 10px; }
+.faq details { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); transition: border-color .25s, background .25s; }
+.faq details[open] { border-color: var(--line-2); background: var(--surface-2); }
+.faq summary { list-style: none; cursor: pointer; padding: 20px 22px; font-weight: 650; font-size: 16px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary svg { width: 18px; height: 18px; flex: none; color: var(--muted); transition: transform .3s var(--ease); }
+.faq details[open] summary svg { transform: rotate(45deg); color: var(--brand); }
+.faq .ans { padding: 0 22px 20px; color: var(--text-2); font-size: 15px; }
+.faq .ans p { margin: 0 0 10px; } .faq .ans p:last-child { margin: 0; }
+
+/* ==========================================================================
+   CTA + FOOTER
+   ========================================================================== */
+.cta { position: relative; overflow: hidden; border-radius: 28px; padding: 80px 40px; text-align: center; border: 1px solid rgba(var(--brand-rgb), .3);
+  background: radial-gradient(700px 300px at 50% 0%, rgba(var(--brand-rgb), .22), transparent 70%), radial-gradient(500px 300px at 90% 100%, rgba(var(--brand-2-rgb), .18), transparent 70%), var(--bg-2); }
+.cta::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 40px 40px; mask-image: radial-gradient(ellipse at center, #000 20%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at center, #000 20%, transparent 70%); pointer-events: none; }
+.cta > * { position: relative; }
+.cta .hero-cta { justify-content: center; }
+@media (max-width: 640px) { .cta { padding: 56px 20px; border-radius: 22px; } }
+footer { border-top: 1px solid var(--line); padding: 72px 0 40px; margin-top: 120px; }
+.foot { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: 32px; }
+@media (max-width: 900px) { .foot { grid-template-columns: repeat(2, 1fr); } .foot > div:first-child { grid-column: span 2; } }
+.foot h4 { margin: 0 0 14px; font: 600 11.5px/1 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 14.5px; }
+.foot a { color: var(--text-2); transition: color .2s; } .foot a:hover { color: var(--brand); }
+.foot p { color: var(--muted); font-size: 14px; max-width: 340px; }
+.foot-bottom { margin-top: 56px; padding-top: 26px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; font-size: 13px; color: var(--muted); }
+
+/* ==========================================================================
+   COMMAND PALETTE
+   ========================================================================== */
+.cmdk-back { position: fixed; inset: 0; z-index: 300; background: rgba(2, 6, 14, .6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); display: none; align-items: flex-start; justify-content: center; padding: 12vh 16px 16px; }
+.cmdk-back.open { display: flex; animation: fade .2s; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+.cmdk { width: 100%; max-width: 640px; border-radius: 18px; background: var(--surface-solid); border: 1px solid var(--line-2); box-shadow: 0 40px 120px -20px rgba(0,0,0,.8); overflow: hidden; animation: pop .25s var(--ease); }
+@keyframes pop { from { opacity: 0; transform: translateY(-10px) scale(.98); } to { opacity: 1; transform: none; } }
+.cmdk-in { display: flex; align-items: center; gap: 12px; padding: 0 18px; border-bottom: 1px solid var(--line); }
+.cmdk-in svg { width: 18px; height: 18px; color: var(--muted); flex: none; }
+.cmdk-in input { flex: 1; height: 58px; background: none; border: 0; outline: 0; color: var(--text); font: 500 16px Inter, sans-serif; min-width: 0; }
+.cmdk-in input::placeholder { color: var(--muted); }
+.cmdk-list { max-height: 52vh; overflow-y: auto; padding: 8px; }
+.cmdk-grp { font: 600 10.5px/1 'JetBrains Mono', monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 12px 10px 6px; }
+.cmdk-it { width: 100%; display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 10px; text-align: left; font-size: 14.5px; color: var(--text-2); }
+.cmdk-it .k { margin-left: auto; font: 500 11px/1 'JetBrains Mono', monospace; color: var(--muted); }
+.cmdk-it svg { width: 16px; height: 16px; color: var(--muted); flex: none; }
+.cmdk-it.sel { background: rgba(var(--brand-rgb), .12); color: var(--text); }
+.cmdk-it.sel svg { color: var(--brand); }
+.cmdk-empty { padding: 28px; text-align: center; color: var(--muted); font-size: 14px; }
+.cmdk-foot { display: flex; gap: 16px; padding: 10px 16px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+
+.toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); opacity: 0; z-index: 400; padding: 12px 18px; border-radius: 12px; background: var(--surface-solid); border: 1px solid var(--line-2); box-shadow: 0 20px 50px -10px rgba(0,0,0,.6); font-size: 14px; display: flex; align-items: center; gap: 10px; transition: all .3s var(--ease); pointer-events: none; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast svg { width: 16px; height: 16px; color: var(--ok); }
+
+.to-top { position: fixed; right: 22px; bottom: 22px; z-index: 90; width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; border: 1px solid var(--line-2); background: color-mix(in srgb, var(--surface-solid) 85%, transparent); backdrop-filter: blur(10px); color: var(--text-2); opacity: 0; transform: translateY(12px); transition: all .3s var(--ease); pointer-events: none; }
+.to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+.to-top:hover { color: var(--brand); border-color: rgba(var(--brand-rgb), .5); }
+.to-top svg { width: 18px; height: 18px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+@media print {
+  .nav, .progress, .to-top, #circuit, .page-bg, .page-grid, .cmdk-back, .hero-visual .float { display: none !important; }
+  body { background: #fff; color: #000; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
+
+/* ---------- services page ---------- */
+.svc-hero { padding: 72px 0 24px; }
+.svc-hero .h-xl { margin-top: 4px; }
+.svc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .svc-grid { grid-template-columns: minmax(0, 1fr); } }
+.svc { padding: 30px; display: flex; flex-direction: column; }
+.svc > .tag { align-self: flex-start; }
+.svc h3 { font-size: 22px; letter-spacing: -.02em; margin: 12px 0 10px; line-height: 1.25; }
+.svc p { margin: 0; color: var(--text-2); font-size: 15px; }
+.svc-list { list-style: none; margin: 20px 0 0; padding: 18px 0 0; border-top: 1px solid var(--line); display: grid; gap: 10px; font-size: 14.5px; color: var(--text-2); }
+.svc-list li { display: flex; gap: 10px; align-items: flex-start; }
+.svc-list svg { width: 18px; height: 18px; flex: none; color: var(--ok); margin-top: 2px; }
+.qs .card::before { content: "0" counter(qs); }
+.vtable td:nth-child(2), .vtable td:nth-child(3) { font-weight: 600; }
+</style>
 </head>
-<body class="bg-darkbase text-slate-100 font-sans antialiased selection:bg-brand selection:text-darkbase">
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
+<div class="page-bg" aria-hidden="true"></div>
+<div class="page-grid" aria-hidden="true"></div>
 
-<header class="border-b border-bordercol bg-surface/50 backdrop-blur sticky top-0 z-50 px-6 py-4">
-    <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <a href="index.html" class="font-bold tracking-wider text-lg sm:text-xl text-brand">ENSEMBLU</a>
-            <span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">Enterprise</span>
-        </div>
-        <div class="flex items-center gap-4">
-            <button onclick="toggleTheme()" class="text-xs px-2.5 py-1 rounded border border-bordercol hover:border-brand transition whitespace-nowrap" title="Toggle Theme">🎨 Theme</button>
-            <a href="index.html" class="text-sm text-slate-400 hover:text-brand transition">&larr; Ecosystem</a>
-        </div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-gh" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.6.2 2.8.1 3.1.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12C23.5 5.7 18.3.5 12 .5z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="m12 2 10 5-10 5L2 7l10-5z"/><path d="m2 12 10 5 10-5M2 17l10 5 10-5"/></symbol>
+    <symbol id="i-scope" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></symbol>
+    <symbol id="i-logo" viewBox="0 0 24 24" fill="currentColor"><path d="M6 3h14l-2.6 3H9.4v4.2h8.4L15.2 13H9.4v4.4H20L17.4 21H6l-2-2V5z"/></symbol>
+  </defs>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap">
+    <a href="index.html" class="brand" aria-label="Ensemblu Axiom home">
+      <span class="brand-mark"><svg style="color:var(--brand)"><use href="#i-logo"/></svg></span>
+      <span>ENSEM<b>BLU</b></span>
+      <span class="ver">enterprise</span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="index.html#whats-new">What's new</a>
+      <a href="index.html#modules">Modules</a>
+      <a href="index.html#drivers">Drivers</a>
+      <a href="#licensing">Licensing</a>
+      <a href="#services">Services</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" id="theme-btn" aria-label="Toggle light / dark theme" title="Toggle theme">
+        <svg class="theme-ico-moon"><use href="#i-moon"/></svg><svg class="theme-ico-sun"><use href="#i-sun"/></svg>
+      </button>
+      <a class="icon-btn sponsor-btn" href="https://github.com/sponsors/ensemblu" target="_blank" rel="noopener" aria-label="Sponsor Ensemblu on GitHub" title="Sponsor"><svg><use href="#i-heart"/></svg></a>
+      <a class="btn btn-primary btn-sm gh-btn" href="mailto:contact@ensemblu.com?subject=Axiom%203%20enterprise%20inquiry"><svg><use href="#i-mail"/></svg>Contact</a>
+      <button class="icon-btn menu-btn" id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu"><svg><use href="#i-menu"/></svg></button>
     </div>
+  </div>
 </header>
+<div class="mobile-menu" id="mobile-menu">
+  <a href="index.html">← Axiom 3.0 homepage</a>
+  <a href="#licensing">Licensing</a>
+  <a href="#services">Services</a>
+  <a href="#process">How engagements work</a>
+  <a href="#faq">FAQ</a>
+  <a href="mailto:contact@ensemblu.com?subject=Axiom%203%20enterprise%20inquiry">contact@ensemblu.com</a>
+</div>
 
-<main class="max-w-4xl mx-auto px-6 py-16">
+<main id="main">
 
-    <div class="mb-16">
-        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight mb-4">Sovereign Infrastructure &amp; Private Deployment</h1>
-        <p class="text-lg text-slate-400 leading-relaxed max-w-2xl">
-            Uncompromising, data-oriented Java architecture built on zero-reflection, zero-dependency principles. 
-            <strong class="text-slate-100 font-semibold" id="no-support-text">We do not offer open-source consulting, legacy refactoring, or v2 commercial support.</strong> 
-            Ensemblu provides exclusive, private-access v3 engine deployments and custom sovereign infrastructure for organizations operating at extreme scale.
-        </p>
+<!-- HERO -->
+<section class="svc-hero">
+  <div class="wrap">
+    <a class="announce reveal" href="index.html">
+      <span class="pill">AXIOM 3.0</span>
+      <span class="txt">Now public on Maven Central under the Limited Commercial License</span>
+      <svg><use href="#i-arrow"/></svg>
+    </a>
+    <h1 class="h-xl reveal" data-d="1" style="max-width:980px">Run Axiom 3 in production, <span class="grad">on contract.</span></h1>
+    <p class="lead reveal" data-d="2" style="max-width:760px">
+      All ten modules of Axiom 3 are on Maven Central. Anyone can pull them, read every line, and evaluate them for free.
+      When Axiom moves into production, or into anything that earns revenue, you need a <b style="color:var(--text)">commercial license</b>.
+      Ensemblu also takes on the engineering work around it: private deployments, custom native drivers and architecture reviews.
+    </p>
+    <div class="hero-cta reveal" data-d="3">
+      <a class="btn btn-primary" href="mailto:contact@ensemblu.com?subject=Axiom%203%20commercial%20license">Request a commercial license <svg><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-ghost" href="#services"><svg><use href="#i-layers"/></svg>See engineering services</a>
+    </div>
+    <div class="hero-meta reveal" data-d="4">
+      <span><svg><use href="#i-check"/></svg>Free evaluation, no sign-up</span>
+      <span><svg><use href="#i-check"/></svg>One agreement covers all 10 modules</span>
+      <span><svg><use href="#i-check"/></svg>Direct line to the core architect</span>
+    </div>
+  </div>
+</section>
+
+<!-- LICENSING -->
+<section class="section" id="licensing" style="padding-top:72px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Licensing</span>
+      <h2 class="h-lg">Evaluate freely. <span class="grad">Ship with a contract.</span></h2>
+      <p class="lead">There's one license model across the whole 3.0 stack. The line is simple: if Axiom runs in production or supports a business activity, you need a signed agreement.</p>
+    </div>
+    <div class="lic">
+      <div class="card reveal">
+        <span class="tag green">Free</span>
+        <h3>Evaluation &amp; learning</h3>
+        <div class="price">$0</div>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>All 10 modules from Maven Central</li>
+          <li><svg><use href="#i-check"/></svg>Full source and Javadoc JARs</li>
+          <li><svg><use href="#i-check"/></svg>Evaluation, education and testing</li>
+          <li><svg><use href="#i-check"/></svg>Non-commercial development</li>
+          <li class="no"><svg><use href="#i-x"/></svg>Production or revenue-supporting use</li>
+        </ul>
+        <a class="btn btn-ghost" href="index.html#quickstart">Start evaluating</a>
+      </div>
+      <div class="card hot reveal" data-d="1">
+        <span class="tag">Annual</span>
+        <h3>Commercial license</h3>
+        <div class="price">Contract<small>per year</small></div>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Production and commercial use of Axiom 3</li>
+          <li><svg><use href="#i-check"/></svg>Signed Commercial Enterprise License Agreement</li>
+          <li><svg><use href="#i-check"/></svg>Covers every module in the 3.0 stack</li>
+          <li><svg><use href="#i-check"/></svg>Direct line to the core architect</li>
+        </ul>
+        <a class="btn btn-primary" href="mailto:contact@ensemblu.com?subject=Axiom%203%20commercial%20license">Request a license <svg><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="card reveal" data-d="2">
+        <span class="tag violet">Custom</span>
+        <h3>Engineering services</h3>
+        <div class="price">Scoped<small>by engagement</small></div>
+        <ul>
+          <li><svg><use href="#i-check"/></svg>Private or air-gapped deployments</li>
+          <li><svg><use href="#i-check"/></svg>Custom off-heap protocol drivers</li>
+          <li><svg><use href="#i-check"/></svg>Data-oriented pipeline design</li>
+          <li><svg><use href="#i-check"/></svg>Architecture audits</li>
+        </ul>
+        <a class="btn btn-ghost" href="#services">See services</a>
+      </div>
     </div>
 
-    <hr class="border-bordercol mb-16">
-
-    <div class="grid gap-8 sm:grid-cols-2 mb-16">
-
-        <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
-            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">SOVEREIGN</div>
-            <h3 class="text-xl font-bold mb-2">Private v3 Engine Deployment</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">
-                Complete, air-gapped or dedicated server deployment of the private v3 high-performance engine. Designed for institutions that require total hardware control, zero cloud tax, and absolute isolation from public repositories.
-            </p>
-            <p class="text-xs text-slate-500 mt-3">Available exclusively via annual enterprise licensing agreements.</p>
-        </div>
-
-        <div class="p-6 rounded-xl border border-bordercol bg-surface/30 hover:border-brand/50 transition">
-            <div class="w-fit px-2.5 h-6 rounded-md bg-brand/10 border border-brand/20 flex items-center justify-center text-brand font-mono font-bold text-xs mb-4 tracking-wide">ENGINEERING</div>
-            <h3 class="text-xl font-bold mb-2">Custom Protocol Drivers &amp; Pipelines</h3>
-              <p class="text-sm text-slate-400 leading-relaxed">
-                Bespoke development of high-speed, off-heap wire protocol handlers (such as PostgreSQL, Oracle, MySQL, SQLite, and SQL Server) and data-oriented processing pipelines tailored to your proprietary infrastructure requirements.
-              </p>
-            <p class="text-xs text-slate-500 mt-3">Scoped directly through direct architectural partnership.</p>
-        </div>
-
+    <div class="vtable-wrap reveal" style="margin-top:24px">
+      <table class="vtable">
+        <thead><tr><th>Use case</th><th>Free evaluation</th><th>Commercial license</th></tr></thead>
+        <tbody>
+          <tr><td>Reading the source, running the demos</td><td><span style="color:var(--ok)">✓ Yes</span></td><td><span style="color:var(--ok)">✓ Yes</span></td></tr>
+          <tr><td>Prototypes and proofs of concept</td><td><span style="color:var(--ok)">✓ Yes</span></td><td><span style="color:var(--ok)">✓ Yes</span></td></tr>
+          <tr><td>Courses, tutorials, personal learning</td><td><span style="color:var(--ok)">✓ Yes</span></td><td><span style="color:var(--ok)">✓ Yes</span></td></tr>
+          <tr><td>Non-commercial open development</td><td><span style="color:var(--ok)">✓ Yes</span></td><td><span style="color:var(--ok)">✓ Yes</span></td></tr>
+          <tr><td>Production systems</td><td><span style="color:var(--err)">✕ No</span></td><td><span style="color:var(--ok)">✓ Yes</span></td></tr>
+          <tr><td>Anything that generates revenue or supports a business</td><td><span style="color:var(--err)">✕ No</span></td><td><span style="color:var(--ok)">✓ Yes</span></td></tr>
+        </tbody>
+      </table>
     </div>
+  </div>
+</section>
 
-    <div class="p-8 rounded-2xl border border-brand/20 bg-brand/5 text-center">
-        <h3 class="text-2xl font-bold mb-3">Secure Your Infrastructure</h3>
-        <p class="text-slate-400 text-sm max-w-xl mx-auto mb-6">
-            Public artifacts are restricted to evaluation-only use. For private v3 access, custom drivers, and enterprise licensing terms, reach out directly to the core architect.
-        </p>
-        <a href="mailto:contact@ensemblu.com" class="inline-block px-6 py-3 rounded-xl bg-brand text-darkbase font-bold hover:bg-brand/90 transition text-sm">
-            Initiate Enterprise Inquiry
-        </a>
+<!-- SERVICES -->
+<section class="section" id="services" style="padding-top:40px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Engineering services</span>
+      <h2 class="h-lg">Built by the people <span class="grad">who wrote the engine.</span></h2>
+      <p class="lead">Every engagement is scoped directly with the core architect, with no account managers in between. That's the same principle Axiom applies to code.</p>
     </div>
+    <div class="svc-grid">
+      <article class="card spot svc reveal">
+        <div class="b-ico"><svg><use href="#i-lock"/></svg></div>
+        <span class="tag" style="margin-top:18px">Sovereign</span>
+        <h3>Private &amp; air-gapped deployment</h3>
+        <p>Axiom 3 deployed on your own hardware or in an isolated environment, with the native client libraries, JVM flags and build pipeline set up for your infrastructure. Built for institutions that need full hardware control and no dependence on public repositories.</p>
+        <ul class="svc-list">
+          <li><svg><use href="#i-check"/></svg>Offline artifact mirrors and reproducible builds</li>
+          <li><svg><use href="#i-check"/></svg>Native client provisioning per target OS</li>
+          <li><svg><use href="#i-check"/></svg>Hardening of runtime and native-access flags</li>
+        </ul>
+      </article>
+      <article class="card spot svc reveal" data-d="1">
+        <div class="b-ico v"><svg><use href="#i-chip"/></svg></div>
+        <span class="tag violet" style="margin-top:18px">Engineering</span>
+        <h3>Custom native drivers &amp; pipelines</h3>
+        <p>New off-heap protocol drivers built with the same <code class="inline-code">Executioner</code> shape as the five 3.0 drivers, or extensions to PostgreSQL, MySQL, Oracle, SQLite and SQL Server for your own requirements, plus data-oriented processing pipelines around them.</p>
+        <ul class="svc-list">
+          <li><svg><use href="#i-check"/></svg>Additional engines or proprietary protocols</li>
+          <li><svg><use href="#i-check"/></svg>Bulk ingest and contract verification for your schemas</li>
+          <li><svg><use href="#i-check"/></svg>Telemetry wired into your failure paths</li>
+        </ul>
+      </article>
+      <article class="card spot svc reveal">
+        <div class="b-ico g"><svg><use href="#i-scope"/></svg></div>
+        <span class="tag green" style="margin-top:18px">Advisory</span>
+        <h3>Architecture audits</h3>
+        <p>A review of an existing Java persistence or data layer against data-oriented, zero-reflection principles: where the ORM, the pool or the framework is costing you, and what replacing it would take.</p>
+        <ul class="svc-list">
+          <li><svg><use href="#i-check"/></svg>Dependency and reflection surface review</li>
+          <li><svg><use href="#i-check"/></svg>Query, transaction and failure-path analysis</li>
+          <li><svg><use href="#i-check"/></svg>A written, prioritised migration path</li>
+        </ul>
+      </article>
+      <article class="card spot svc reveal" data-d="1">
+        <div class="b-ico a"><svg><use href="#i-layers"/></svg></div>
+        <span class="tag amber" style="margin-top:18px">Migration</span>
+        <h3>Adoption &amp; migration to Axiom 3</h3>
+        <p>Moving a codebase onto Axiom 3, whether from another stack or from Axiom 2.x (<code class="inline-code">axiom-warp-jdbc</code> / <code class="inline-code">axiom-warp-reactive</code>) to the native drivers, <code class="inline-code">MemorySegment</code> parsers and <code class="inline-code">axiom-telemetry</code>.</p>
+        <ul class="svc-list">
+          <li><svg><use href="#i-check"/></svg>Module-by-module migration plan</li>
+          <li><svg><use href="#i-check"/></svg>Schema contracts with <code class="inline-code">SchemaGuard</code></li>
+          <li><svg><use href="#i-check"/></svg>Rollout alongside your existing system</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section" id="process" style="padding-top:40px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">How engagements work</span>
+      <h2 class="h-lg">Four steps, <span class="grad">no sales funnel.</span></h2>
+    </div>
+    <div class="qs">
+      <div class="card reveal"><h3>Write to us</h3><p>Email <a href="mailto:contact@ensemblu.com" style="color:var(--brand)">contact@ensemblu.com</a> with your use case, the modules and databases involved, and your deployment environment.</p></div>
+      <div class="card reveal" data-d="1"><h3>Scope it together</h3><p>A direct conversation with the core architect about what you need: a license, an engagement, or both.</p></div>
+      <div class="card reveal" data-d="2"><h3>Sign the agreement</h3><p>A Commercial Enterprise License Agreement, plus a statement of work for any engineering engagement.</p></div>
+      <div class="card reveal" data-d="3"><h3>Ship it</h3><p>Run Axiom 3 in production under license, with the engineering work delivered against the agreed scope.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" id="faq" style="padding-top:40px">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="h-lg">Licensing questions, answered.</h2>
+    </div>
+    <div class="faq reveal">
+      <details><summary>Is Axiom 3 open source?<svg><use href="#i-plus"/></svg></summary><div class="ans"><p>The source is public, and every module ships with a sources JAR on Maven Central. Axiom is not under an OSI open-source license, though. It's published under the <b>Limited Commercial License</b>: free for evaluation, testing, education and non-commercial development, with a paid annual agreement required for production or commercial use.</p></div></details>
+      <details><summary>What counts as commercial use?<svg><use href="#i-plus"/></svg></summary><div class="ans"><p>Any use in a production environment, or for any purpose that generates revenue or supports a business activity. If you're unsure whether your case qualifies, ask; we'd rather answer up front.</p></div></details>
+      <details><summary>Do I need a license to try it at work?<svg><use href="#i-plus"/></svg></summary><div class="ans"><p>Evaluation and testing are free, including prototypes and proofs of concept. The license is needed once Axiom runs in production or supports a business activity.</p></div></details>
+      <details><summary>Does one license cover all modules?<svg><use href="#i-plus"/></svg></summary><div class="ans"><p>Yes. The commercial agreement covers the Axiom 3 stack: the five core modules and the five native drivers.</p></div></details>
+      <details><summary>What about Axiom 2.x?<svg><use href="#i-plus"/></svg></summary><div class="ans"><p>The 2.0.0 artifacts stay on Maven Central under the same evaluation terms, but commercial agreements and engineering work target Axiom 3. If you're on 2.x, the <a href="index.html#migrate" style="color:var(--brand)">migration guide</a> covers the move to 3.0, and migration help is available as a service.</p></div></details>
+      <details><summary>Can I sponsor the project instead?<svg><use href="#i-plus"/></svg></summary><div class="ans"><p>Sponsorship through <a href="https://github.com/sponsors/ensemblu" target="_blank" rel="noopener" style="color:var(--brand)">GitHub Sponsors</a> funds independent development and is very welcome. It doesn't replace a commercial license for production use.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding: 40px 0 0">
+  <div class="wrap">
+    <div class="cta reveal">
+      <span class="eyebrow" style="justify-content:center">Talk to the architect</span>
+      <h2 class="h-lg" style="max-width:860px;margin-left:auto;margin-right:auto">Ready to take Axiom 3 <span class="grad">to production?</span></h2>
+      <p class="lead" style="margin-left:auto;margin-right:auto">Tell us what you're building, which databases you use, and where it will run. You'll get a direct reply.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="mailto:contact@ensemblu.com?subject=Axiom%203%20enterprise%20inquiry"><svg><use href="#i-mail"/></svg>contact@ensemblu.com</a>
+        <a class="btn btn-ghost" href="index.html"><svg><use href="#i-back"/></svg>Back to Axiom 3.0</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 </main>
 
-<footer class="border-t border-bordercol bg-surface/30 py-10 px-4 text-center text-sm text-slate-400">
-    <p class="mb-2">Public v2 repositories are strictly non-commercial evaluation assets. Sovereign v3 power is private.</p>
-    <p class="text-xs text-slate-500">© Ensemblu Corp. All rights reserved.</p>
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="index.html" class="brand"><span class="brand-mark"><svg style="color:var(--brand)"><use href="#i-logo"/></svg></span><span>ENSEM<b>BLU</b></span></a>
+        <p>Immutable, data-oriented infrastructure for modern Java. No reflection, no dependency bloat, no framework control flow.</p>
+      </div>
+      <div><h4>Axiom 3.0</h4><ul>
+        <li><a href="index.html#whats-new">What's new</a></li><li><a href="index.html#architecture">Architecture</a></li><li><a href="index.html#modules">Modules</a></li><li><a href="index.html#drivers">Native drivers</a></li>
+      </ul></div>
+      <div><h4>Docs</h4><ul>
+        <li><a href="index.html#quickstart">Quickstart</a></li><li><a href="index.html#migrate">Migrate from 2.x</a></li><li><a href="schemaguard.html">SchemaGuard</a></li><li><a href="https://github.com/ensemblu-corp/assets/tree/main/blogs" target="_blank" rel="noopener">All articles</a></li>
+      </ul></div>
+      <div><h4>Distribution</h4><ul>
+        <li><a href="https://central.sonatype.com/namespace/com.ensemblu" target="_blank" rel="noopener">Maven Central</a></li><li><a href="https://github.com/ensemblu/ensemblu/blob/main/README.md" target="_blank" rel="noopener">GitHub</a></li><li><a href="https://raw.githubusercontent.com/ensemblu-corp/axiom/main/LICENSE" target="_blank" rel="noopener">License</a></li>
+      </ul></div>
+      <div><h4>Company</h4><ul>
+        <li><a href="#services">Enterprise services</a></li><li><a href="mailto:contact@ensemblu.com">contact@ensemblu.com</a></li><li><a href="https://github.com/sponsors/ensemblu" target="_blank" rel="noopener">Sponsor</a></li>
+      </ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year">2026</span> Ensemblu Corp. All rights reserved.</span>
+      <span class="mono">Axiom 3.0 · Limited Commercial License · evaluation free, production on contract</span>
+    </div>
+  </div>
 </footer>
 
+<button class="to-top" id="to-top" aria-label="Back to top"><svg><use href="#i-up"/></svg></button>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function store(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  $('#theme-btn').addEventListener('click', function () {
+    var light = document.documentElement.getAttribute('data-theme') !== 'light';
+    document.documentElement.setAttribute('data-theme', light ? 'light' : 'dark');
+    store('axiom-theme', light ? 'light' : 'dark'); store('theme', light ? 'slate' : 'dark');
+  });
+
+  var nav = $('#nav'), prog = $('#progress'), toTop = $('#to-top');
+  function onScroll() {
+    var y = window.scrollY, h = document.documentElement.scrollHeight - window.innerHeight;
+    nav.classList.toggle('scrolled', y > 8); prog.style.transform = 'scaleX(' + (h > 0 ? y / h : 0) + ')'; toTop.classList.toggle('show', y > 900);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  toTop.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); });
+
+  var mb = $('#menu-btn'), mm = $('#mobile-menu');
+  mb.addEventListener('click', function () { var o = mm.classList.toggle('open'); mb.setAttribute('aria-expanded', o); });
+  $$('#mobile-menu a').forEach(function (a) { a.addEventListener('click', function () { mm.classList.remove('open'); mb.setAttribute('aria-expanded', 'false'); }); });
+
+  if ('IntersectionObserver' in window && !reduce) {
+    var o = new IntersectionObserver(function (en) { en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); o.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+    $$('.reveal').forEach(function (el) { o.observe(el); });
+  } else { $$('.reveal').forEach(function (el) { el.classList.add('in'); }); }
+
+  document.addEventListener('pointermove', function (e) {
+    var c = e.target.closest && e.target.closest('.spot'); if (!c) return;
+    var r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  }, { passive: true });
+
+  $('#year').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
