@@ -1,5 +1,9 @@
 # Axiom Type Bridging: When You Must Cast, and When You Must Not
 
+> [!NOTE]
+> **Written for Axiom 2.x.** This guide describes the 2.x `AxiomProtocol` contract (closed carriers + `OPAQUE` + inline `::cast`). In **3.0** the native drivers bind every parameter with an explicit engine type (`.to(v).bind(PostgresType.UUID)`), so most inline casts are no longer needed. PostgreSQL's coercion rules described below still apply to the SQL you write. See the [2.0.0 → 3.0.0 changelog](changelog-2.0.0-to-3.0.0.md) and [Why Axiom 3 Talks to Databases Natively](axiom-3-native-drivers.md).
+
+
 *A working reference for the JSON → Java → `AxiomProtocol` → Postgres pipeline across `axiom-spec`, `axiom-warp-jdbc`, and `axiom-warp-reactive` (Axiom **2.0.0**).*
 
 ---

@@ -1,5 +1,9 @@
 # Hard Truths About Java Persistence
 
+> [!NOTE]
+> These statements are version-independent. Where the text mentions `AxiomProtocol` or the reactive path, those are the 2.x mechanisms. In **3.0**, parameters carry explicit engine types and each native driver speaks its database's own dialect. See the [2.0.0 → 3.0.0 changelog](changelog-2.0.0-to-3.0.0.md).
+
+
 *Eight statements every team should confront before the next ORM, repository layer, or “zero-SQL” abstraction ships to production.*
 
 > Ensemblu / Project Axiom · Architecture notes  

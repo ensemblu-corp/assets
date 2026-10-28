@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SchemaGuard | Validate Untrusted Data — One Handshake, Zero Bloat</title>
-    <meta name="description" content="SchemaGuard checks untrusted data against an .axiom schema and returns a clear Result — never a crash. Byte-first, zero reflection, part of Project Axiom 2.0.0.">
+    <meta name="description" content="SchemaGuard checks untrusted data against an .axiom schema and returns a clear Result — never a crash. Off-heap (MemorySegment), zero reflection, part of Project Axiom 3.0.0.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -67,7 +67,7 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-3">
         <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
             <a href="index.html" class="font-bold tracking-wider text-lg sm:text-xl text-brand">ENSEMBLU</a>
-            <span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">SchemaGuard · axiom-language 2.0.0</span>
+            <span class="text-xs px-2 py-0.5 rounded bg-brand/10 text-brand border border-brand/20 whitespace-nowrap">SchemaGuard · axiom-language 3.0.0</span>
         </div>
         <nav class="flex items-center gap-4 text-sm font-medium">
             <a href="index.html" class="hover:text-brand transition">Home</a>
@@ -134,23 +134,24 @@
     </section>
 
     <section class="space-y-4">
-        <h2 class="text-xl font-bold text-white text-center">How you actually use it (2.0.0)</h2>
+        <h2 class="text-xl font-bold text-white text-center">How you actually use it (3.0.0)</h2>
         <p class="text-slate-400 text-center text-sm max-w-lg mx-auto">
-            Content is <strong class="text-white">byte[]</strong> (or an already-parsed map). Three steps. That’s the whole interaction.
+            Content is a <strong class="text-white">MemorySegment</strong> (heap, native or memory-mapped) or an already-parsed map. Three steps. That’s the whole interaction.
         </p>
         <div class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
-            <div class="bg-slate-900 px-4 sm:px-6 py-3 border-b border-bordercol text-xs font-mono text-slate-400">Primary path — raw bytes + built-in AxiomDopParser</div>
-            <pre class="p-4 sm:p-6 text-xs sm:text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-keyword">final var</span> result = SchemaGuard
-        .checkContent(contentBytes)
+            <div class="bg-slate-900 px-4 sm:px-6 py-3 border-b border-bordercol text-xs font-mono text-slate-400">Primary path — MemorySegment + built-in AxiomDopParser</div>
+            <pre class="p-4 sm:p-6 text-xs sm:text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-keyword">final var</span> content = MemorySegment.ofArray(contentBytes); <span class="text-slate-500">// or FileChannel.map(..)</span>
+<span class="text-keyword">final var</span> result = SchemaGuard
+        .checkContent(content)
         .basedOnSchemaInPath(<span class="text-green-300">"user-profile"</span>)
         .withAxiomParser();</code></pre>
         </div>
         <div class="bg-surface border border-bordercol rounded-xl overflow-hidden shadow-xl">
             <div class="bg-slate-900 px-4 sm:px-6 py-3 border-b border-bordercol text-xs font-mono text-slate-400">JSON body (e.g. HTTP request) — plug in JsonParser</div>
             <pre class="p-4 sm:p-6 text-xs sm:text-sm font-mono overflow-x-auto text-slate-300"><code><span class="text-keyword">final var</span> data = SchemaGuard
-        .checkContent(substance)   <span class="text-slate-500">// substance = request body as byte[]</span>
+        .checkContent(body)   <span class="text-slate-500">// body = MemorySegment.ofArray(request bytes)</span>
         .basedOnSchemaInPath(<span class="text-green-300">"schemas/account_query_schema"</span>)
-        .withParser(bytes -&gt; JsonParser.take(bytes)
+        .withParser(seg -&gt; JsonParser.take(seg)
                 .openBuffer()
                 .ensureRootIsObject()
                 .parseObject())
@@ -166,7 +167,7 @@
         <div class="grid sm:grid-cols-3 gap-3 text-sm">
             <div class="bg-slate-950 border border-bordercol rounded-lg p-4">
                 <div class="text-brand font-mono text-xs mb-1">1</div>
-                <p class="text-slate-300">Hand it <code class="text-brand">byte[]</code> or a <code class="text-brand">PersistentMap</code>.</p>
+                <p class="text-slate-300">Hand it a <code class="text-brand">MemorySegment</code> or a <code class="text-brand">PersistentMap</code>.</p>
             </div>
             <div class="bg-slate-950 border border-bordercol rounded-lg p-4">
                 <div class="text-brand font-mono text-xs mb-1">2</div>
@@ -179,11 +180,13 @@
         </div>
         <div class="bg-slate-950/80 border border-bordercol rounded-xl p-5 space-y-3 text-sm">
             <div class="font-mono text-xs uppercase tracking-wide text-rose-400 font-semibold">
-                ⚠️ Breaking Changes in 2.0.0
+                ⚠️ Breaking Changes in 3.0.0
             </div>
             <ul class="space-y-2 text-slate-300 list-disc list-inside">
-                <li><code class="text-brand">checkContent(String)</code> is gone. Use <code class="text-brand">checkContent(byte[])</code> or <code class="text-brand">checkContent(PersistentMap)</code>.</li>
-                <li><code class="text-brand">withParser</code> is now <code class="text-brand">Function&lt;byte[], PersistentMap&lt;String, Object&gt;&gt;</code>.</li>
+                <li><code class="text-brand">checkContent(byte[])</code> is now <code class="text-brand">checkContent(MemorySegment)</code>. Wrap existing arrays with <code class="text-brand">MemorySegment.ofArray(bytes)</code>. <code class="text-brand">checkContent(PersistentMap)</code> is unchanged.</li>
+                <li><code class="text-brand">withParser</code> is now <code class="text-brand">Function&lt;MemorySegment, PersistentMap&lt;String, Object&gt;&gt;</code>.</li>
+                <li>Schemas are memory-mapped into a shared arena and cached. Use <code class="text-brand">SchemaGuard.reload(path)</code> / <code class="text-brand">reloadAll()</code> for hot reload.</li>
+                <li>Full details: <a class="text-brand hover:underline" href="https://github.com/ensemblu-corp/assets/blob/main/blogs/changelog-2.0.0-to-3.0.0.md">2.0.0 → 3.0.0 changelog</a>.</li>
             </ul>
          </div>
     </section>

@@ -1,5 +1,9 @@
 # Understanding Java Persistence: Where Axiom Sits Among Hibernate, jOOQ, Spring Data, MyBatis, Spring JDBC, EclipseLink, JDBI, and Querydsl
 
+> [!NOTE]
+> **Written for Axiom 2.x** (`axiom-warp-jdbc` / `axiom-warp-reactive`). In **3.0** both engines are replaced by native Project Panama drivers for PostgreSQL, MySQL, Oracle, SQLite and SQL Server, with no JDBC, no pool and no Vert.x. The philosophical comparison below still holds, but the mechanics have changed. See [Why Axiom 3 Talks to Databases Natively](axiom-3-native-drivers.md).
+
+
 *A grounded comparison, built on the actual `axiom-spec` / `axiom-warp-jdbc` / `axiom-warp-reactive` source (Axiom **2.0.0**) and the well-documented behavior of the other eight tools.*
 
 > **Ensemblu / Project Axiom:** Immutable data-oriented infrastructure for modern Java. Zero reflection magic, zero dependency bloat, zero framework control flow.
